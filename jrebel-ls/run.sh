@@ -3,7 +3,14 @@
 imageTag="youken9980/jrebel-ls:latest"
 containerName="jrebel-ls"
 
-docker rm $(docker stop "${containerName}")
+function dockerRm() {
+    containerId=$(docker ps -aq --filter name="${containerName}")
+    if [ "${containerId}" != "" ]; then
+        docker rm $(docker stop "${containerId}")
+    fi
+}
+
+dockerRm
 docker run -d -p 8079:8080 \
     -e PORT=8080 \
     --restart always \
