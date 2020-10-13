@@ -30,7 +30,7 @@ function dockerRun() {
     containerId=$(docker ps -aq --filter ancestor="${imageTag}")
     nohup docker logs -f "${containerId}" > "/tmp/${containerId}.log" 2>&1 &
     sleep 3s
-    PID=$(ps aux | grep docker | grep ${containerId} | awk '{print $2}' | sort -nr | head -1)
+    PID=$(ps aux | grep "docker logs" | grep ${containerId} | awk '{print $2}' | sort -nr | head -1)
     tail -f --pid=${PID} /tmp/${containerId}.log | sed '/Jenkins[[:space:]]is[[:space:]]fully[[:space:]]up[[:space:]]and[[:space:]]running/q'
     kill -9 ${PID}
     rm /tmp/${containerId}.log
