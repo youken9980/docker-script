@@ -34,6 +34,7 @@ for i in $(seq ${nodeCount}); do
     containerName="${containerNamePrefix}-${i}"
     port="809${i}"
     docker run -it -d --privileged -p "${port}":80 \
+        -e KEEPALIVED_ROUTER_ID="199" \
         -e KEEPALIVED_VIRTUAL_IP="172.18.0.199" \
         --network=mynet --name="${containerName}" \
         "${imageTag}"
