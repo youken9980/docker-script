@@ -12,28 +12,40 @@ gradleRepository="$(eval readlink -f ${gradleRepository})"
 eval "mkdir -p ${dataHome}"
 
 function dockerRm() {
-    containerId=$(docker ps -aq --filter ancestor="${imageTag}")
+    containerId=$(docker ps -aq --filter $1)
+    runningContainerId=$(docker ps -aq --filter status=running --filter $1)
+    if [ "${runningContainerId}" != "" ]; then
+        docker stop ${runningContainerId}
+    fi
     if [ "${containerId}" != "" ]; then
-        docker rm $(docker stop "${containerId}")
+        docker rm ${containerId}
+    fi
+}
+
+function dockerLogsUntil() {
+    filter="$1"
+    endpoint="$2"
+    containerId=$(docker ps -aq --filter "${filter}")
+    nohup docker logs -f "${containerId}" > "/tmp/${containerId}.log" 2>&1 &
+    sleep 3s
+    PID=$(ps aux | grep "docker" | grep ${containerId} | awk '{print $2}' | sort -nr | head -1)
+    if [ "${PID}" != "" ]; then
+        eval "tail -f --pid=${PID} /tmp/${containerId}.log | sed '/${endpoint}/q'"
+        kill -9 ${PID}
+        rm /tmp/${containerId}.log
     fi
 }
 
 function dockerRun() {
     # 默认情况下，基于JNLP的Jenkins代理通过TCP端口50000与Jenkins主站进行通信。 -p 50000:50000
-    docker run -d -p 8091:8080 \
-        -e JAVA_OPTS=-Duser.timezone=Asia/Shanghai \
+    docker run -d -p 8090:8080 \
+        -e JAVA_OPTS="-Duser.timezone=Asia/Shanghai -Dfile.encoding=UTF8 -Dsun.jnu.encoding=UTF8" \
         -v ${dataHome}:/var/jenkins_home \
         -v ${mavenRepository}:/app/maven-repository \
         -v ${gradleRepository}:/app/gradle-repository \
         --network bridge --name ${containerName} \
         ${imageTag}
-    containerId=$(docker ps -aq --filter ancestor="${imageTag}")
-    nohup docker logs -f "${containerId}" > "/tmp/${containerId}.log" 2>&1 &
-    sleep 3s
-    PID=$(ps aux | grep "docker logs" | grep ${containerId} | awk '{print $2}' | sort -nr | head -1)
-    tail -f --pid=${PID} /tmp/${containerId}.log | sed '/Jenkins[[:space:]]is[[:space:]]fully[[:space:]]up[[:space:]]and[[:space:]]running/q'
-    kill -9 ${PID}
-    rm /tmp/${containerId}.log
+    dockerLogsUntil "ancestor=${imageTag}" "Jenkins[[:space:]]is[[:space:]]fully[[:space:]]up[[:space:]]and[[:space:]]running"
 }
 
 function sedSource() {
@@ -43,10 +55,10 @@ function sedSource() {
     eval "sed -i 's/https:\/\/updates.jenkins.io/https:\/\/mirrors.tuna.tsinghua.edu.cn\/jenkins\/updates/g' ${dataHome}/hudson.model.UpdateCenter.xml"
 }
 
-dockerRm
+dockerRm "ancestor=${imageTag}"
 dockerRun
 sedSource
-dockerRm
+dockerRm "ancestor=${imageTag}"
 dockerRun
 
 # 已安装工具的路径和版本号
