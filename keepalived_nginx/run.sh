@@ -2,6 +2,7 @@
 
 imageTag="youken9980/keepalived-nginx:latest"
 containerNamePrefix="keepalived-nginx"
+network="mynet"
 nodeCount=2
 
 function dockerRm() {
@@ -36,6 +37,6 @@ for i in $(seq ${nodeCount}); do
     docker run -it -d --privileged -p "${port}":80 \
         -e KEEPALIVED_ROUTER_ID="199" \
         -e KEEPALIVED_VIRTUAL_IP="172.18.0.199" \
-        --network=mynet --name="${containerName}" \
+        --network="${network}" --name="${containerName}" \
         "${imageTag}"
 done

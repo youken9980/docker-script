@@ -2,6 +2,7 @@
 
 imageTag="youken9980/jenkins-single:latest"
 containerName="jenkins-single"
+network="mynet"
 dataHome="~/dockerVolume/jenkins/single/data"
 mavenRepository="~/maven-repository"
 gradleRepository="~/gradle-repository"
@@ -43,7 +44,7 @@ function dockerRun() {
         -v ${dataHome}:/var/jenkins_home \
         -v ${mavenRepository}:/app/maven-repository \
         -v ${gradleRepository}:/app/gradle-repository \
-        --network bridge --name ${containerName} \
+        --network="${network}" --name=${containerName} \
         ${imageTag}
     dockerLogsUntil "ancestor=${imageTag}" "Jenkins[[:space:]]is[[:space:]]fully[[:space:]]up[[:space:]]and[[:space:]]running"
 }

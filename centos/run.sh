@@ -1,6 +1,7 @@
 #!/bin/bash
 
 imageTag="youken9980/centos:latest"
+network="mynet"
 
 function dockerRm() {
     containerId=$(docker ps -aq --filter $1)
@@ -14,4 +15,4 @@ function dockerRm() {
 }
 
 dockerRm "ancestor=${imageTag}"
-docker run -it --rm "${imageTag}"
+docker run -it --rm --network="${network}" "${imageTag}"

@@ -2,6 +2,7 @@
 
 imageTag="youken9980/jrebel-ls:latest"
 containerName="jrebel-ls"
+network="mynet"
 
 function dockerRm() {
     containerId=$(docker ps -aq --filter $1)
@@ -33,6 +34,6 @@ docker run -d -p 8079:8080 \
     -e PORT=8080 \
     -e JAVA_OPTS="-Dfile.encoding=UTF8 -Dsun.jnu.encoding=UTF8" \
     --restart always \
-    --name "${containerName}" \
+    --network="${network}" --name="${containerName}" \
     "${imageTag}"
 dockerLogsUntil "name=${containerName}" "{guid}(eg:http"

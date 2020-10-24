@@ -1,6 +1,7 @@
 #!/bin/bash
 
 imageTag="youken9980/openssh-server:alpine"
+network="mynet"
 
 function dockerRm() {
     containerId=$(docker ps -aq --filter $1)
@@ -14,5 +15,5 @@ function dockerRm() {
 }
 
 dockerRm "ancestor=${imageTag}"
-docker run -d -p 22:22 "${imageTag}"
+docker run -d -p 22:22 --network="${network}" "${imageTag}"
 docker exec -it $(docker ps -aq --filter ancestor="${imageTag}") /bin/sh
