@@ -8,7 +8,7 @@ RUN echo "http://mirrors.aliyun.com/alpine/latest-stable/main/" > /etc/apk/repos
     cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo "Asia/Shanghai" > /etc/timezone && \
     \
-    apk add openssh-server && \
+    apk add --no-cache which procps busybox-extras wget openssh-server && \
     ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key && \
     ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key && \
     ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key && \
