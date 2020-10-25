@@ -25,6 +25,7 @@ RUN echo "http://mirrors.aliyun.com/alpine/latest-stable/main/" > /etc/apk/repos
     apk add --no-cache which procps busybox-extras wget openrc keepalived nginx && \
     rm -rf /var/cache/apk/* /tmp/* && \
     mkdir -p /run/openrc && touch /run/openrc/softlevel && \
+    mkdir -p "/lib/modules/$(uname -r)" && \
     sed -i '/error_log/a\pid /etc/nginx/nginx.pid;' /etc/nginx/nginx.conf
 
 EXPOSE 80

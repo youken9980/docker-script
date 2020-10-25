@@ -8,4 +8,4 @@ sed -i "s|{{ KEEPALIVED_PASSWORD }}|$KEEPALIVED_PASSWORD|g" /etc/keepalived/keep
 sed -i "s|{{ KEEPALIVED_VIRTUAL_IP }}|$KEEPALIVED_VIRTUAL_IP|g" /etc/keepalived/keepalived.conf
 
 nginx -c /etc/nginx/nginx.conf
-keepalived -n -l -D -f /etc/keepalived/keepalived.conf --dont-fork --log-console --log-detail --dump-conf
+keepalived -f /etc/keepalived/keepalived.conf --dont-fork --log-console --log-detail --dump-conf
