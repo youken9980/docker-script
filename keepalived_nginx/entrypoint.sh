@@ -1,16 +1,30 @@
 #!/bin/sh
 
-configFilePath="/etc/keepalived/keepalived.conf"
+syslogConfig="/etc/syslog.conf"
+keepalivedLog="/var/log/keepalived.log"
+keepalivedConfig="/etc/keepalived/keepalived.conf"
+nginxConfig="/etc/nginx/nginx.conf"
 
-sed -i "s|{{ KEEPALIVED_INTERFACE }}|$KEEPALIVED_INTERFACE|g" "${configFilePath}"
-sed -i "s|{{ KEEPALIVED_STATE }}|$KEEPALIVED_STATE|g" "${configFilePath}"
-sed -i "s|{{ KEEPALIVED_ROUTER_ID }}|$KEEPALIVED_ROUTER_ID|g" "${configFilePath}"
-sed -i "s|{{ KEEPALIVED_PRIORITY }}|$KEEPALIVED_PRIORITY|g" "${configFilePath}"
-sed -i "s|{{ KEEPALIVED_PASSWORD }}|$KEEPALIVED_PASSWORD|g" "${configFilePath}"
-sed -i "s|{{ KEEPALIVED_VIRTUAL_IP }}|$KEEPALIVED_VIRTUAL_IP|g" "${configFilePath}"
+function rebuid() {
+    path=$1
+    if [ -e "${path}" ]; then
+        rm -rf "${path}"
+    fi
+    mkdir -p "${path}"
+}
 
-rm /run/nginx/nginx.pid
-rm /run/keepalived/*.pid
+rebuid /run/nginx
+rebuid /run/keepalived
 
-nginx -c /etc/nginx/nginx.conf
-keepalived -f "${configFilePath}" --dont-fork --log-console --log-detail --dump-conf
+echo "local0.* ${keepalivedLog}" >> "${syslogConfig}"
+syslogd -f "${syslogConfig}"
+
+nginx -c "${nginxConfig}"
+
+sed -i "s|{{ KEEPALIVED_INTERFACE }}|$KEEPALIVED_INTERFACE|g" "${keepalivedConfig}"
+sed -i "s|{{ KEEPALIVED_STATE }}|$KEEPALIVED_STATE|g" "${keepalivedConfig}"
+sed -i "s|{{ KEEPALIVED_ROUTER_ID }}|$KEEPALIVED_ROUTER_ID|g" "${keepalivedConfig}"
+sed -i "s|{{ KEEPALIVED_PRIORITY }}|$KEEPALIVED_PRIORITY|g" "${keepalivedConfig}"
+sed -i "s|{{ KEEPALIVED_PASSWORD }}|$KEEPALIVED_PASSWORD|g" "${keepalivedConfig}"
+sed -i "s|{{ KEEPALIVED_VIRTUAL_IP }}|$KEEPALIVED_VIRTUAL_IP|g" "${keepalivedConfig}"
+keepalived -f "${keepalivedConfig}" --log-facility=0 --dont-fork --log-console --log-detail --dump-conf

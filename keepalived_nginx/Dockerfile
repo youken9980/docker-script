@@ -17,12 +17,11 @@ ADD keepalived.conf /etc/keepalived/
 RUN echo "http://mirrors.aliyun.com/alpine/latest-stable/main/" > /etc/apk/repositories && \
     echo "http://mirrors.aliyun.com/alpine/latest-stable/community/" >> /etc/apk/repositories && \
     apk update && \
-    apk add tzdata && \
+    apk add --no-cache tzdata && \
     cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo "Asia/Shanghai" > /etc/timezone && \
     apk add --no-cache which procps busybox-extras wget ipvsadm keepalived nginx && \
     rm -rf /var/cache/apk/* /tmp/* && \
-    mkdir -p /run/nginx && \
     sed -i '/error_log/a\pid /run/nginx/nginx.pid;' /etc/nginx/nginx.conf
 
 EXPOSE 80
