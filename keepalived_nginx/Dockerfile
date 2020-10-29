@@ -8,8 +8,6 @@ ENV KEEPALIVED_PRIORITY="150"
 ENV KEEPALIVED_PASSWORD="d0cker"
 ENV KEEPALIVED_VIRTUAL_IP="172.18.0.100"
 
-VOLUME ["/sys/fs/cgroup"]
-
 ADD entrypoint.sh /usr/local/bin/
 ADD check_nginx.sh /usr/local/bin/
 ADD notify.sh /usr/local/bin/
@@ -22,11 +20,10 @@ RUN echo "http://mirrors.aliyun.com/alpine/latest-stable/main/" > /etc/apk/repos
     apk add tzdata && \
     cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo "Asia/Shanghai" > /etc/timezone && \
-    apk add --no-cache which procps busybox-extras wget openrc keepalived nginx && \
+    apk add --no-cache which procps busybox-extras wget ipvsadm keepalived nginx && \
     rm -rf /var/cache/apk/* /tmp/* && \
-    mkdir -p /run/openrc && touch /run/openrc/softlevel && \
-    mkdir -p "/lib/modules/$(uname -r)" && \
-    sed -i '/error_log/a\pid /etc/nginx/nginx.pid;' /etc/nginx/nginx.conf
+    mkdir -p /run/nginx && \
+    sed -i '/error_log/a\pid /run/nginx/nginx.pid;' /etc/nginx/nginx.conf
 
 EXPOSE 80
 

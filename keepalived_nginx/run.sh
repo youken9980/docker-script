@@ -4,6 +4,9 @@ imageTag="youken9980/keepalived-nginx:latest"
 containerNamePrefix="keepalived-nginx"
 network="mynet"
 nodeCount=2
+keepalivedRouterId="199"
+keepalivedVirtualIp="172.18.0.199"
+startPort="8090"
 
 function dockerRm() {
     containerId=$(docker ps -aq --filter $1)
@@ -33,10 +36,9 @@ function dockerLogsUntil() {
 dockerRm "ancestor=${imageTag}"
 for i in $(seq ${nodeCount}); do
     containerName="${containerNamePrefix}-${i}"
-    port="809${i}"
-    docker run -it -d --privileged -p "${port}":80 \
-        -e KEEPALIVED_ROUTER_ID="199" \
-        -e KEEPALIVED_VIRTUAL_IP="172.18.0.199" \
+    docker run -it -d --privileged -p $[$startPort + $i]:80 \
+        -e KEEPALIVED_ROUTER_ID="${keepalivedRouterId}" \
+        -e KEEPALIVED_VIRTUAL_IP="${keepalivedVirtualIp}" \
         --network="${network}" --name="${containerName}" \
         "${imageTag}"
 done
