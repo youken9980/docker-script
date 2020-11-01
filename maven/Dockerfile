@@ -17,4 +17,4 @@ RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak && \
     sed -i '/    <!-- mirror/i\        <url>https://maven.aliyun.com/repository/public</url>' /usr/share/maven/conf/settings.xml && \
     sed -i '/    <!-- mirror/i\    </mirror>' /usr/share/maven/conf/settings.xml && \
     apt-get update && \
-    apt-get install -y git subversion
+    apt-get install -y --no-install-recommends git subversion libxml-xpath-perl
