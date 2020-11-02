@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build -t youken9980/jrebel-ls:latest .
+docker build --no-cache -t youken9980/jrebel-ls:latest .
