@@ -4,7 +4,8 @@ imageTag="youken9980/openssh-server:alpine"
 network="mynet"
 
 function dockerRm() {
-    containerId=$(docker ps -aq --filter $1)
+    filter="$1"
+    containerId=$(docker ps -aq --filter "${filter}")
     runningContainerId=$(docker ps -aq --filter status=running --filter $1)
     if [ "${runningContainerId}" != "" ]; then
         docker stop ${runningContainerId}

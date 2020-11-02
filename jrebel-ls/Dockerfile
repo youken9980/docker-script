@@ -1,8 +1,9 @@
 FROM youken9980/maven:3-openjdk-8-slim as maven
 LABEL maintainer="YangJian <youken9980@163.com>"
 
-RUN PROJ_SRC="/usr/local/src/proj-src" && \
-    git clone --depth=1 https://gitee.com/gsls200808/JrebelLicenseServerforJava.git $PROJ_SRC && \
+RUN GIT_URL="https://gitee.com/gsls200808/JrebelLicenseServerforJava.git" && \
+    PROJ_SRC="/usr/local/src/proj-src" && \
+    git clone --depth=1 $GIT_URL $PROJ_SRC && \
     cd $PROJ_SRC && \
     mvn clean package -Dmaven.test.skip=true -U && \
     PROJ_VERSION="$(xpath -q -e '//project/version/text()' pom.xml)" && \
