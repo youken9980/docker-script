@@ -31,6 +31,7 @@ RUN sed -i "s|# export LS_OPTIONS='--color=auto'|export LS_OPTIONS='--color=auto
     apt-get update && \
     apt-get install --no-install-recommends -y procps && \
     tar -xvf /mycat.tar.gz -C /usr/local/ && rm /mycat.tar.gz && \
+    mkdir -p /usr/local/mycat/logs && \
     \
     touch /usr/local/bin/entrypoint.sh && \
     chmod 755 /usr/local/bin/entrypoint.sh && \
