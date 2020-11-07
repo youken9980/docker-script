@@ -10,8 +10,7 @@ RUN GIT_URL="https://gitee.com/MycatOne/Mycat2.git" && \
     mv mycat2/target/mycat2-$PROJ_VERSION.tar.gz /mycat.tar.gz
 
 
-FROM openjdk:8-jre-slim as mycat2
-COPY --from=maven /mycat.tar.gz /mycat.tar.gz
+FROM openjdk:8-jre-slim as mycat
 
 RUN sed -i "s|# export LS_OPTIONS='--color=auto'|export LS_OPTIONS='--color=auto'|g" /root/.bashrc && \
     sed -i "s|# alias ls='ls \$LS_OPTIONS'|alias ls='ls \$LS_OPTIONS'|g" /root/.bashrc && \
@@ -29,17 +28,20 @@ RUN sed -i "s|# export LS_OPTIONS='--color=auto'|export LS_OPTIONS='--color=auto
     echo "deb http://mirrors.aliyun.com/debian/ buster-backports main non-free contrib" >> /etc/apt/sources.list && \
     echo "deb-src http://mirrors.aliyun.com/debian/ buster-backports main non-free contrib" >> /etc/apt/sources.list && \
     apt-get update && \
-    apt-get install --no-install-recommends -y procps && \
-    tar -xvf /mycat.tar.gz -C /usr/local/ && rm /mycat.tar.gz && \
+    apt-get install --no-install-recommends -y procps inetutils-ping telnet net-tools lsof
+
+COPY --from=maven /mycat.tar.gz /mycat.tar.gz
+RUN tar -xvf /mycat.tar.gz -C /usr/local/ && rm /mycat.tar.gz && \
     mkdir -p /usr/local/mycat/logs && \
     \
     touch /usr/local/bin/entrypoint.sh && \
     chmod 755 /usr/local/bin/entrypoint.sh && \
     echo "#!/bin/bash" >> /usr/local/bin/entrypoint.sh && \
     echo "mycat start" >> /usr/local/bin/entrypoint.sh && \
-    echo "sleep 3s" >> /usr/local/bin/entrypoint.sh && \
+    echo "sleep 1s" >> /usr/local/bin/entrypoint.sh && \
+    \
     echo "tail -f /usr/local/mycat/logs/mycat.log" >> /usr/local/bin/entrypoint.sh
 
 ENV PATH=$PATH:/usr/local/mycat/bin
-EXPOSE 8066 1984
+EXPOSE 8066 9066 1984
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
