@@ -4,7 +4,7 @@ imageTag="youken9980/nginx-with-stream:latest"
 containerNamePrefix="nginx"
 network="mynet"
 nodeCount=2
-startPort="8090"
+startPort="8094"
 publishPort="true"
 
 function dockerRm() {

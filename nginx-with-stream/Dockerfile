@@ -7,7 +7,7 @@ RUN echo "http://mirrors.aliyun.com/alpine/latest-stable/main/" > /etc/apk/repos
     apk add tzdata && \
     cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo "Asia/Shanghai" > /etc/timezone && \
-    apk add which procps busybox-extras which ca-certificates curl && \
+    apk add which procps busybox-extras ca-certificates curl && \
     NGINX_VERSION="1.18.0" && \
     GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 && \
     CONFIG="\

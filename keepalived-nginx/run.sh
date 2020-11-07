@@ -7,6 +7,7 @@ nodeCount=2
 keepalivedRouterId="199"
 keepalivedVirtualIp="172.18.0.199"
 startPort="8090"
+publishPort="true"
 
 function dockerRm() {
     filter="$1"
@@ -34,12 +35,18 @@ function dockerLogsUntil() {
     fi
 }
 
-dockerRm "ancestor=${imageTag}"
+for node in $(eval echo ${nodeList}); do
+    containerName="${containerNamePrefix}-${node}"
+    dockerRm "name=${containerName}"
+done
+
+port="${startPort}"
 for i in $(seq ${nodeCount}); do
     containerName="${containerNamePrefix}-${i}"
-    docker run -it -d --privileged -p $[$startPort + $i]:80 \
+    docker run --privileged -d -p ${port}:80 \
         -e KEEPALIVED_ROUTER_ID="${keepalivedRouterId}" \
         -e KEEPALIVED_VIRTUAL_IP="${keepalivedVirtualIp}" \
         --network="${network}" --name="${containerName}" \
         "${imageTag}"
+    port=$[$port + 1]
 done
