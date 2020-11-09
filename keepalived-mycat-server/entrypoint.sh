@@ -4,9 +4,17 @@ syslogConfig="/etc/rsyslog.conf"
 keepalivedLog="/var/log/keepalived.log"
 keepalivedConfig="/etc/keepalived/keepalived.conf"
 
-if [ -e "/run/keepalived.pid" ]; then
-    rm "/run/keepalived.pid"
-fi
+function rmPid() {
+    file=$1
+    if [ -e "${file}" ]; then
+        rm "${file}"
+    fi
+}
+
+rmPid /run/keepalived.pid
+rmPid /run/rsyslogd.pid
+rmPid /run/vrrp.pid
+rmPid /usr/local/mycat/logs/mycat.pid
 
 echo "local0.* ${keepalivedLog}" >> "${syslogConfig}"
 rsyslogd -f "${syslogConfig}"
