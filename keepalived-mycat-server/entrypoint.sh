@@ -4,6 +4,10 @@ syslogConfig="/etc/rsyslog.conf"
 keepalivedLog="/var/log/keepalived.log"
 keepalivedConfig="/etc/keepalived/keepalived.conf"
 
+if [ -e "/run/keepalived.pid" ]; then
+    rm "/run/keepalived.pid"
+fi
+
 echo "local0.* ${keepalivedLog}" >> "${syslogConfig}"
 rsyslogd -f "${syslogConfig}"
 
