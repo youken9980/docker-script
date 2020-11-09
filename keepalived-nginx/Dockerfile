@@ -9,7 +9,7 @@ ENV KEEPALIVED_PASSWORD="d0cker"
 ENV KEEPALIVED_VIRTUAL_IP="172.18.0.100"
 
 ADD entrypoint.sh /usr/local/bin/
-ADD check_nginx.sh /usr/local/bin/
+ADD check_service.sh /usr/local/bin/
 ADD notify.sh /usr/local/bin/
 ADD keepalived.conf /etc/keepalived/
 
