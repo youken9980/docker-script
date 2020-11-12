@@ -19,8 +19,7 @@ rebuid /run/keepalived
 echo "local0.* ${keepalivedLog}" >> "${syslogConfig}"
 syslogd -f "${syslogConfig}"
 
-nginx -c "${nginxConfig}"
-
+/docker-entrypoint.sh "nginx" "-c" "${nginxConfig}"
 
 counter="$(grep '{{ KEEPALIVED_INTERFACE }}' /etc/keepalived/keepalived.conf | wc -l)"
 if [ "${counter}" != "0" ]; then
@@ -31,4 +30,5 @@ if [ "${counter}" != "0" ]; then
     sed -i "s|{{ KEEPALIVED_PASSWORD }}|$KEEPALIVED_PASSWORD|g" "${keepalivedConfig}"
     sed -i "s|{{ KEEPALIVED_VIRTUAL_IP }}|$KEEPALIVED_VIRTUAL_IP|g" "${keepalivedConfig}"
 fi
-keepalived -f "${keepalivedConfig}" --log-facility=0 --dont-fork --log-console --log-detail --dump-conf
+# --log-console
+keepalived -f "${keepalivedConfig}" --log-facility=0 --dont-fork --log-detail --dump-conf

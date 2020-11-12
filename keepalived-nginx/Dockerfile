@@ -8,11 +8,11 @@ ENV KEEPALIVED_PRIORITY="150"
 ENV KEEPALIVED_PASSWORD="d0cker"
 ENV KEEPALIVED_VIRTUAL_IP="172.18.0.100"
 
-ADD entrypoint.sh /usr/local/bin/
+RUN apk add ipvsadm keepalived
+
 ADD check_service.sh /usr/local/bin/
 ADD notify.sh /usr/local/bin/
 ADD keepalived.conf /etc/keepalived/
-
-RUN apk add ipvsadm keepalived
+ADD entrypoint.sh /usr/local/bin/
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

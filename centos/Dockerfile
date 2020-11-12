@@ -13,6 +13,6 @@ RUN sed -i "/# User specific aliases and functions/a\alias ll='ls -la'" ~/.bashr
     rm -rf /var/cache/yum && \
     yum makecache && \
     yum update -y && \
-    yum install -y nano which tree curl wget telnet net-tools traceroute git subversion
+    yum install -y nano which tree wget telnet net-tools traceroute git subversion
 
 CMD ["/bin/bash"]

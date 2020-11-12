@@ -6,7 +6,7 @@ network="mynet"
 nodeCount=2
 keepalivedRouterId="199"
 keepalivedVirtualIp="172.18.0.199"
-startPort="8090"
+startPort="8082"
 publishPort="true"
 
 function dockerRm() {
@@ -35,8 +35,8 @@ function dockerLogsUntil() {
     fi
 }
 
-for node in $(eval echo ${nodeList}); do
-    containerName="${containerNamePrefix}-${node}"
+for i in $(seq ${nodeCount}); do
+    containerName="${containerNamePrefix}-${i}"
     dockerRm "name=${containerName}"
 done
 

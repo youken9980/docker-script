@@ -4,7 +4,7 @@ imageTag="youken9980/nginx-with-stream:latest"
 containerNamePrefix="nginx"
 network="mynet"
 nodeCount=2
-startPort="8094"
+startPort="8080"
 publishPort="true"
 
 function dockerRm() {
@@ -33,8 +33,8 @@ function dockerLogsUntil() {
     fi
 }
 
-for node in $(eval echo ${nodeList}); do
-    containerName="${containerNamePrefix}-${node}"
+for i in $(seq ${nodeCount}); do
+    containerName="${containerNamePrefix}-${i}"
     dockerRm "name=${containerName}"
 done
 
@@ -46,5 +46,6 @@ for i in $(seq ${nodeCount}); do
         -e KEEPALIVED_VIRTUAL_IP="${keepalivedVirtualIp}" \
         --network="${network}" --name="${containerName}" \
         "${imageTag}"
+    dockerLogsUntil "name=${containerName}" "[[:space:]]ready[[:space:]]for[[:space:]]start[[:space:]]up"
     port=$[$port + 1]
 done
