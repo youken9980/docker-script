@@ -32,9 +32,7 @@ function dockerLogsUntil() {
 
 dockerRm "name=${containerName}"
 docker run -d -p 8079:8080 \
-    -e PORT=8080 \
-    -e JAVA_OPTS="-Dfile.encoding=UTF8 -Dsun.jnu.encoding=UTF8" \
-    --restart always \
+    --cpus 0.5 --memory 32M --memory-swap -1 \
     --network="${network}" --name="${containerName}" \
     "${imageTag}"
 dockerLogsUntil "name=${containerName}" "{guid}(eg:http"

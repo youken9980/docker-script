@@ -12,6 +12,9 @@ RUN GIT_URL="https://gitee.com/gsls200808/JrebelLicenseServerforJava.git" && \
 
 FROM openjdk:8-jre-alpine as jrebel
 
+ENV JAVA_OPTS="-Dfile.encoding=UTF8 -Dsun.jnu.encoding=UTF8"
+ENV PORT 8080
+
 RUN echo "http://mirrors.aliyun.com/alpine/latest-stable/main/" > /etc/apk/repositories && \
     echo "http://mirrors.aliyun.com/alpine/latest-stable/community/" >> /etc/apk/repositories && \
     apk update && \
@@ -19,8 +22,6 @@ RUN echo "http://mirrors.aliyun.com/alpine/latest-stable/main/" > /etc/apk/repos
     export TZ="Asia/Shanghai" && \
     echo "Asia/Shanghai" > /etc/timezone && \
     ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-
-ENV PORT 8080
 
 COPY --from=maven /service.jar /service.jar
 CMD java -jar /service.jar -p $PORT
