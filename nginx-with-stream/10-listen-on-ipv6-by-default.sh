@@ -34,14 +34,14 @@ echo >&3 "$ME: Getting the checksum of /$DEFAULT_CONF_FILE"
 
 case "$ID" in
     "debian")
-        CHECKSUM=$(dpkg-query --show --showformat='${Conffiles}\n' nginx | grep $DEFAULT_CONF_FILE | cut -d' ' -f 3)
+        # CHECKSUM=$(dpkg-query --show --showformat='${Conffiles}\n' nginx | grep $DEFAULT_CONF_FILE | cut -d' ' -f 3)
         # echo "$CHECKSUM  /$DEFAULT_CONF_FILE" | md5sum -c - >/dev/null 2>&1 || {
         #     echo >&3 "$ME: error: /$DEFAULT_CONF_FILE differs from the packaged version"
         #     exit 0
         # }
         ;;
     "alpine")
-        CHECKSUM=$(apk manifest nginx 2>/dev/null| grep $DEFAULT_CONF_FILE | cut -d' ' -f 1 | cut -d ':' -f 2)
+        # CHECKSUM=$(apk manifest nginx 2>/dev/null| grep $DEFAULT_CONF_FILE | cut -d' ' -f 1 | cut -d ':' -f 2)
         # echo "$CHECKSUM  /$DEFAULT_CONF_FILE" | sha1sum -c - >/dev/null 2>&1 || {
         #     echo >&3 "$ME: error: /$DEFAULT_CONF_FILE differs from the packaged version"
         #     exit 0
@@ -54,8 +54,8 @@ case "$ID" in
 esac
 
 # enable ipv6 on default.conf listen sockets
-sed -i -E 's,listen       80;,listen       80;\n    listen  [::]:80;,' /$DEFAULT_CONF_FILE
+# sed -i -E 's,listen       80;,listen       80;\n    listen  [::]:80;,' /$DEFAULT_CONF_FILE
 
-echo >&3 "$ME: Enabled listen on IPv6 in /$DEFAULT_CONF_FILE"
+# echo >&3 "$ME: Enabled listen on IPv6 in /$DEFAULT_CONF_FILE"
 
 exit 0
