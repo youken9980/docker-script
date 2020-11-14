@@ -1,6 +1,6 @@
 #!/bin/bash
 
-imageTag="youken9980/keepalived-nginx:latest"
+imageTag="youken9980/keepalived-nginx:stable-alpine"
 containerNamePrefix="keepalived-nginx"
 network="mynet"
 nodeCount=2
@@ -42,8 +42,13 @@ done
 
 port="${startPort}"
 for i in $(seq ${nodeCount}); do
+    publish=""
+    if [ "${publishPort}" = "first" -a "${port}" = "${startPort}" -o "${publishPort}" = "true" ]; then
+        publish="-p ${port}:80"
+    fi
     containerName="${containerNamePrefix}-${i}"
-    docker run --privileged -d -p ${port}:80 \
+    docker run --privileged -d ${publish} \
+        --cpus 0.1 --memory 32M --memory-swap -1 \
         -e KEEPALIVED_ROUTER_ID="${keepalivedRouterId}" \
         -e KEEPALIVED_VIRTUAL_IP="${keepalivedVirtualIp}" \
         --network="${network}" --name="${containerName}" \

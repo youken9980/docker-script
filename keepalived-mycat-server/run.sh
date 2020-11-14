@@ -5,6 +5,7 @@ containerNamePrefix="keepalived-mycat-server"
 network="mynet"
 nodeCount=2
 startPort="8066"
+publishPort="true"
 keepalivedRouterId="199"
 keepalivedVirtualIp="172.18.0.199"
 
@@ -42,13 +43,15 @@ done
 port="${startPort}"
 for i in $(seq ${nodeCount}); do
     publish=""
-    if [ "${publishPort}" = "true" ]; then
+    if [ "${publishPort}" = "first" -a "${port}" = "${startPort}" -o "${publishPort}" = "true" ]; then
         publish="-p ${port}:8066"
     fi
     containerName="${containerNamePrefix}-${i}"
-    docker run --privileged -it -d ${publish} \
+    docker run --privileged -d ${publish} \
+        --cpus 2 --memory 3072M --memory-swap -1 \
         -e KEEPALIVED_ROUTER_ID="${keepalivedRouterId}" \
         -e KEEPALIVED_VIRTUAL_IP="${keepalivedVirtualIp}" \
         --network="${network}" --name="${containerName}" \
         "${imageTag}"
+    port=$[$port + 1]
 done

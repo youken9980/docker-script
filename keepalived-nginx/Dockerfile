@@ -1,4 +1,4 @@
-FROM youken9980/nginx-with-stream:latest
+FROM youken9980/nginx:stable-alpine
 LABEL maintainer="YangJian <youken9980@163.com>"
 
 ENV KEEPALIVED_INTERFACE="eth0"
