@@ -1,6 +1,6 @@
 #!/bin/bash
 
-imageTag="youken9980/nginx-with-stream:latest"
+imageTag="youken9980/nginx:latest"
 containerNamePrefix="nginx"
 network="mynet"
 nodeCount=2
