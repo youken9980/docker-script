@@ -1,6 +1,6 @@
 #!/bin/bash
 
-imageTag="youken9980/nginx:latest"
+imageTag="youken9980/nginx:stable-alpine"
 containerNamePrefix="nginx"
 network="mynet"
 nodeCount=2
