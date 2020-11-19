@@ -8,7 +8,7 @@ startPort="8090"
 publishPort="true"
 keepalivedRouterId="199"
 keepalivedVirtualIp="172.18.0.199"
-runKeepalived="true"
+runKeepalived="false"
 
 function dockerRm() {
     filter="$1"
