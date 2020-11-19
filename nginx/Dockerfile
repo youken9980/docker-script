@@ -1,12 +1,22 @@
 FROM alpine:latest
 LABEL maintainer="YangJian <youken9980@163.com>"
 
+ENV TZ="Asia/Shanghai"
+ENV RUN_KEEPALIVED="true"
+ENV KEEPALIVED_INTERFACE="eth0"
+ENV KEEPALIVED_STATE="BACKUP"
+ENV KEEPALIVED_ROUTER_ID="100"
+ENV KEEPALIVED_PRIORITY="150"
+ENV KEEPALIVED_PASSWORD="d0cker"
+ENV KEEPALIVED_VIRTUAL_IP="172.18.0.100"
+
 RUN echo "http://mirrors.aliyun.com/alpine/latest-stable/main/" > /etc/apk/repositories && \
     echo "http://mirrors.aliyun.com/alpine/latest-stable/community/" >> /etc/apk/repositories && \
     apk update && \
     apk add tzdata && \
-    cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo "Asia/Shanghai" > /etc/timezone && \
+    ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+    \
     apk add which procps busybox-extras ca-certificates curl && \
     NGINX_VERSION="1.18.0" && \
     GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 && \
@@ -138,17 +148,24 @@ RUN echo "http://mirrors.aliyun.com/alpine/latest-stable/main/" > /etc/apk/repos
     ln -sf /dev/stdout /var/log/nginx/access.log && \
     ln -sf /dev/stderr /var/log/nginx/error.log && \
     \
-    mkdir /docker-entrypoint.d
+    mkdir /docker-entrypoint.d && \
+    \
+    apk add ipvsadm keepalived
+
+EXPOSE 80
+
+STOPSIGNAL SIGTERM
 
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY default.conf /etc/nginx/conf.d/default.conf
 COPY docker-entrypoint.sh /
 COPY 10-listen-on-ipv6-by-default.sh /docker-entrypoint.d/
 COPY 20-envsubst-on-templates.sh /docker-entrypoint.d/
-ENTRYPOINT ["/docker-entrypoint.sh"]
 
-EXPOSE 80
+COPY check_host_port.sh /usr/local/bin/
+COPY check_service.sh /usr/local/bin/
+COPY notify.sh /usr/local/bin/
+COPY keepalived.conf /etc/keepalived/
+COPY entrypoint.sh /usr/local/bin/
 
-STOPSIGNAL SIGTERM
-
-CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

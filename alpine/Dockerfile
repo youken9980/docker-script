@@ -1,15 +1,16 @@
 FROM alpine:latest
 LABEL maintainer="YangJian <youken9980@163.com>"
 
+ENV TZ="Asia/Shanghai"
+
 RUN echo "http://mirrors.aliyun.com/alpine/latest-stable/main/" > /etc/apk/repositories && \
     echo "http://mirrors.aliyun.com/alpine/latest-stable/community/" >> /etc/apk/repositories && \
     apk update && \
-    apk add --no-cache tzdata && \
-    export TZ="Asia/Shanghai" && \
+    apk add tzdata && \
     echo "Asia/Shanghai" > /etc/timezone && \
-    ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-
-RUN apk add --no-cache which procps busybox-extras wget openssh-server && \
+    ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+    \
+    apk add which procps busybox-extras wget openssh-server && \
     ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key && \
     ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key && \
     ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key && \
