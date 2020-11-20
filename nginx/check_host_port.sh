@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 HOST=$1
 PORT=$2
