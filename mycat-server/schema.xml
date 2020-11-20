@@ -20,6 +20,20 @@
 	<dataNode name="jdbc_dn3" 	dataHost="jdbchost" database="db3" />
 	-->
 
+    <!-- balance -->
+    <!-- balance="0"：不开启读写分离机制，所有读操作都发送到当前可用的 writeHost 上，即读请求仅发送到 writeHost 上。 -->
+    <!-- balance="1"：读请求随机分发到当前 writeHost 对应的 readHost 和 standby 的 writeHost 上。即全部的 readHost 与 stand by writeHost 参与 select 语句的负载均衡，简单的说，当双主双从模式(M1 -> S1，M2 -> S2，并且 M1 与 M2 互为主备)，正常情况下 M2、S1、S2 都参与 select 语句的负载均衡。 -->
+    <!-- balance="2"：读请求随机分发到当前 dataHost 内所有的 writeHost 和 readHost 上。即所有读操作都随机的在 writeHost、readhost 上分发。 -->
+    <!-- balance="3"：读请求随机分发到当前 writeHost 对应的 readHost 上。即所有读请求随机的分发到 wiriterHost 对应的 readhost 执行，writerHost 不负担读压力，注意 balance=3 只在 1.4 及其以后版本有，1.3 没有。 -->
+    <!-- writeType -->
+    <!-- writeType="0"：所有写操作发送到配置的第一个 writeHost，第一个挂了切到还生存的第二个 writeHost，重新启动后已切换后的为准，切换记录在配置文件 dnindex.properties 中。推荐取0值，不建议修改。 -->
+    <!-- writeType="1"：所有写操作都随机的发送到配置的 writeHost。 -->
+    <!-- writeType="2"：没实现。 -->
+    <!-- switchType -->
+    <!-- switchType="-1"：不自动切换。 -->
+    <!-- switchType="1"：默认值，自动切换。 heartbeat 心跳语句为：select user() -->
+    <!-- switchType="2"：基于 MySQL 主从同步的状态来决定是否切换。需修改 heartbeat 心跳语句为：show slave status。 -->
+    <!-- switchType="3"：基于 Mysql Galera Cluster（集群多节点复制）的切换机制。需修改 heartbeat 心跳语句为：show status like 'wsrep%'。 -->
 	<dataHost name="localhost1" maxCon="1000" minCon="10" balance="0" writeType="0" dbType="mysql" dbDriver="native" switchType="1" slaveThreshold="100">
 		<heartbeat>select user()</heartbeat>
 		<!-- can have multi write hosts -->
