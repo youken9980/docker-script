@@ -12,11 +12,12 @@ if [ $# -ne 2 ]; then
     exit
 fi
 
-result=`echo -e "\n" | telnet $HOST $PORT 2>/dev/null | grep Connected | wc -l`
-if [ $result -gt 0 ]; then
-      echo "Network $HOST $PORT is Open."
-      exit 0
+counter=`echo -e "\n" | telnet $HOST $PORT 2>/dev/null | grep Connected | wc -l`
+if [ "${counter}" = "0" ]; then
+    echo "Network $HOST $PORT is Closed."
+    ps -C keepalived --no-heading | head -1 | awk '{ print$1 }' | xargs kill -9
+    exit 1
 else
-      echo "Network $HOST $PORT is Closed."
-      exit 1
+    echo "Network $HOST $PORT is Open."
+    exit 0
 fi
