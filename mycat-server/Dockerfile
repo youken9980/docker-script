@@ -33,14 +33,10 @@ RUN sed -i "s|# export LS_OPTIONS='--color=auto'|export LS_OPTIONS='--color=auto
 COPY --from=maven /mycat.tar.gz /mycat.tar.gz
 RUN tar -xvf /mycat.tar.gz -C /usr/local/ && rm /mycat.tar.gz && \
     mkdir -p /usr/local/mycat/logs && \
-    sed -i 's|        <asyncRoot level="info" includeLocation="true">|        <asyncRoot level="debug" includeLocation="true">|g' /usr/local/mycat/conf/log4j2.xml && \
-    touch /usr/local/bin/entrypoint.sh && \
-    chmod 755 /usr/local/bin/entrypoint.sh && \
-    echo "#!/bin/bash" >> /usr/local/bin/entrypoint.sh && \
-    echo "mycat start" >> /usr/local/bin/entrypoint.sh && \
-    echo "sleep 1s" >> /usr/local/bin/entrypoint.sh && \
-    echo "tail -f --pid=\$(ps aux | grep "/usr/local/mycat" | grep "wrapper" | awk '{print \$2}') /usr/local/mycat/logs/wrapper.log | sed '/MyCAT[[:space:]]Server[[:space:]]startup[[:space:]]successfully/q'" >> /usr/local/bin/entrypoint.sh && \
-    echo "tail -f /usr/local/mycat/logs/mycat.log" >> /usr/local/bin/entrypoint.sh
+    sed -i 's|        <asyncRoot level="info" includeLocation="true">|        <asyncRoot level="debug" includeLocation="true">|g' /usr/local/mycat/conf/log4j2.xml
+
+COPY realServerVip.sh /usr/local/bin/
+COPY entrypoint.sh /usr/local/bin/
 
 ENV PATH=$PATH:/usr/local/mycat/bin
 EXPOSE 8066 9066 1984
