@@ -16,15 +16,22 @@ RUN sed -i "s|# export LS_OPTIONS='--color=auto'|export LS_OPTIONS='--color=auto
     echo "deb-src http://mirrors.aliyun.com/debian/ buster-updates main non-free contrib" >> /etc/apt/sources.list && \
     echo "deb http://mirrors.aliyun.com/debian/ buster-backports main non-free contrib" >> /etc/apt/sources.list && \
     echo "deb-src http://mirrors.aliyun.com/debian/ buster-backports main non-free contrib" >> /etc/apt/sources.list && \
-    sed -i '/  <!-- localRepository/i\  <localRepository>/usr/share/maven-repository</localRepository>' /usr/share/maven/conf/settings.xml && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends git subversion libxml-xpath-perl
+
+ARG MAVEN_REPO="/root/.m2"
+ENV MAVEN_REPOSITORY $MAVEN_REPO
+ENV M2_REPO $MAVEN_REPO
+
+RUN mkdir -p $MAVEN_REPO && \
+    chmod 777 $MAVEN_REPO && \
+    chmod 755 /root && \
+    sed -i "/  <!-- localRepository/i\  <localRepository>$MAVEN_REPO</localRepository>" /usr/share/maven/conf/settings.xml && \
     sed -i '/    <!-- mirror/i\    <mirror>' /usr/share/maven/conf/settings.xml && \
     sed -i '/    <!-- mirror/i\        <id>aliyunmaven</id>' /usr/share/maven/conf/settings.xml && \
     sed -i '/    <!-- mirror/i\        <mirrorOf>*</mirrorOf>' /usr/share/maven/conf/settings.xml && \
     sed -i '/    <!-- mirror/i\        <name>阿里云公共仓库</name>' /usr/share/maven/conf/settings.xml && \
     sed -i '/    <!-- mirror/i\        <url>https://maven.aliyun.com/repository/public</url>' /usr/share/maven/conf/settings.xml && \
-    sed -i '/    <!-- mirror/i\    </mirror>' /usr/share/maven/conf/settings.xml && \
-    apt-get update && \
-    apt-get install -y --no-install-recommends git subversion libxml-xpath-perl && \
-    mkdir -p /usr/share/maven-repository
+    sed -i '/    <!-- mirror/i\    </mirror>' /usr/share/maven/conf/settings.xml
 
 WORKDIR /usr/local/src
