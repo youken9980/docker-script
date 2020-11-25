@@ -16,6 +16,7 @@ RUN sed -i "s|# export LS_OPTIONS='--color=auto'|export LS_OPTIONS='--color=auto
     echo "deb-src http://mirrors.aliyun.com/debian/ buster-updates main non-free contrib" >> /etc/apt/sources.list && \
     echo "deb http://mirrors.aliyun.com/debian/ buster-backports main non-free contrib" >> /etc/apt/sources.list && \
     echo "deb-src http://mirrors.aliyun.com/debian/ buster-backports main non-free contrib" >> /etc/apt/sources.list && \
+    sed -i '/  <!-- localRepository/i\  <localRepository>/usr/share/maven-repository</localRepository>' /usr/share/maven/conf/settings.xml && \
     sed -i '/    <!-- mirror/i\    <mirror>' /usr/share/maven/conf/settings.xml && \
     sed -i '/    <!-- mirror/i\        <id>aliyunmaven</id>' /usr/share/maven/conf/settings.xml && \
     sed -i '/    <!-- mirror/i\        <mirrorOf>*</mirrorOf>' /usr/share/maven/conf/settings.xml && \
