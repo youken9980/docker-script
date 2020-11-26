@@ -3,12 +3,13 @@
 imageTag="youken9980/nginx:stable-alpine"
 containerNamePrefix="nginx"
 network="mynet"
-nodeCount=1
-startPort="80"
+nodeCount=2
+startPort="8090"
 publishPort="true"
 keepalivedRouterId="199"
 keepalivedVirtualIp="172.18.0.199"
 runKeepalived="false"
+runWithSSL="false"
 
 function dockerRm() {
     filter="$1"
@@ -35,6 +36,15 @@ function dockerLogsUntil() {
     fi
 }
 
+volumeList=""
+if [ "${runWithSSL}" = "true" ]; then
+    nodeCount=1
+    startPort="80"
+    publishPort="true"
+    publishSSL="--expose 443 -p 443:443"
+    volumeList="-v $(pwd)/default-ssl.conf:/etc/nginx/conf.d/default.conf -v $(pwd)/ssl/server.crt:/etc/nginx/ssl/server.crt -v $(pwd)/ssl/server.key:/etc/nginx/ssl/server.key"
+fi
+
 for i in $(seq ${nodeCount}); do
     containerName="${containerNamePrefix}-${i}"
     dockerRm "name=${containerName}"
@@ -47,14 +57,12 @@ for i in $(seq ${nodeCount}); do
         publish="-p ${port}:80"
     fi
     containerName="${containerNamePrefix}-${i}"
-    docker run --privileged -d --expose 443 -p 443:443 ${publish} \
+    docker run --privileged -d ${publish} \
         --cpus 0.1 --memory 32M --memory-swap -1 \
         -e RUN_KEEPALIVED="${runKeepalived}" \
         -e KEEPALIVED_ROUTER_ID="${keepalivedRouterId}" \
         -e KEEPALIVED_VIRTUAL_IP="${keepalivedVirtualIp}" \
-        -v $(pwd)/default-ssl.conf:/etc/nginx/conf.d/default.conf \
-        -v $(pwd)/ssl/server.crt:/etc/nginx/ssl/server.crt \
-        -v $(pwd)/ssl/server.key:/etc/nginx/ssl/server.key \
+        ${publishSSL} ${volumeList} \
         --network="${network}" --name="${containerName}" \
         "${imageTag}"
     dockerLogsUntil "name=${containerName}" "[[:space:]]ready[[:space:]]for[[:space:]]start[[:space:]]up"
