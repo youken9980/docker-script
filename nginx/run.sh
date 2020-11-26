@@ -36,6 +36,7 @@ function dockerLogsUntil() {
     fi
 }
 
+publishSSL=""
 volumeList=""
 if [ "${runWithSSL}" = "true" ]; then
     nodeCount=1
