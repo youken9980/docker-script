@@ -52,7 +52,7 @@ for i in $(seq ${nodeCount}); do
         -e RUN_KEEPALIVED="${runKeepalived}" \
         -e KEEPALIVED_ROUTER_ID="${keepalivedRouterId}" \
         -e KEEPALIVED_VIRTUAL_IP="${keepalivedVirtualIp}" \
-        -v $(pwd)/default-ssl.conf:/etc/nginx/conf.d/default-ssl.conf \
+        -v $(pwd)/default-ssl.conf:/etc/nginx/conf.d/default.conf \
         -v $(pwd)/ssl/server.crt:/etc/nginx/ssl/server.crt \
         -v $(pwd)/ssl/server.key:/etc/nginx/ssl/server.key \
         --network="${network}" --name="${containerName}" \
