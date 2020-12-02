@@ -9,19 +9,6 @@ RUN echo "http://mirrors.aliyun.com/alpine/latest-stable/main/" > /etc/apk/repos
     apk add tzdata && \
     echo "Asia/Shanghai" > /etc/timezone && \
     ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
-    \
-    apk add which procps busybox-extras wget openssh-server && \
-    ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key && \
-    ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key && \
-    ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key && \
-    sed -i 's|#Port 22|Port 22|g' /etc/ssh/sshd_config && \
-    sed -i 's|#ListenAddress 0.0.0.0|ListenAddress 0.0.0.0|g' /etc/ssh/sshd_config && \
-    sed -i 's|#ListenAddress ::|ListenAddress ::|g' /etc/ssh/sshd_config && \
-    sed -i 's|#PermitRootLogin yes|PermitRootLogin no|g' /etc/ssh/sshd_config && \
-    sed -i 's|#PermitEmptyPasswords no|PermitEmptyPasswords no|g' /etc/ssh/sshd_config && \
-    \
-    echo "root:admin" | chpasswd
-
-EXPOSE 22
-
-CMD ["/usr/sbin/sshd", "-D"]
+    wget -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub && \
+    wget -O /glibc-2.32-r0.apk https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.32-r0/glibc-2.32-r0.apk && \
+    apk add glibc-2.32-r0.apk && rm /glibc-2.32-r0.apk

@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build -t youken9980/openssh-server:alpine .
+docker build -f Dockerfile -t youken9980/alpine:latest .
