@@ -1,6 +1,6 @@
 #!/bin/bash
 
-imageTag="youken9980/nginx:stable-alpine"
+imageTag="youken9980/keepalived-nginx-with-stream:latest"
 containerNamePrefix="nginx"
 network="mynet"
 nodeCount=2
@@ -8,7 +8,7 @@ startPort="8090"
 publishPort="true"
 keepalivedRouterId="199"
 keepalivedVirtualIp="172.18.0.199"
-runKeepalived="false"
+runKeepalived="true"
 runWithSSL="false"
 
 function dockerRm() {
