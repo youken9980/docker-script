@@ -3,7 +3,7 @@
 syslogConfig="/etc/syslog.conf"
 keepalivedLog="/var/log/keepalived.log"
 keepalivedConfig="/etc/keepalived/keepalived.conf"
-keepalivedCmd="keepalived -f ${keepalivedConfig} --log-facility=0 --dont-fork --log-detail --dump-conf"
+keepalivedCmd="keepalived -f ${keepalivedConfig} --log-facility=0 --dont-fork --dump-conf --log-detail --log-console"
 nginxConfig="/etc/nginx/nginx.conf"
 
 function rebuid() {
@@ -33,8 +33,6 @@ if [ "${RUN_KEEPALIVED}" = "true" ]; then
         sed -i "s|{{ KEEPALIVED_VIRTUAL_IP }}|$KEEPALIVED_VIRTUAL_IP|g" "${keepalivedConfig}"
     fi
 
-    # keepalived -f "${keepalivedConfig}" --log-facility=0 --dont-fork --dump-conf --log-detail --log-console
-    keepalivedCmd="${keepalivedCmd} --log-console"
     eval "${keepalivedCmd}"
 else
     /docker-entrypoint.sh "nginx" "-g" "daemon off;"
