@@ -1,7 +1,11 @@
 #!/bin/bash
 
 # virtual server ip
-VIP=172.18.0.211
+VIP=$KEEPALIVED_VIP
+if [ "${VIP}" = "" ]; then
+       VIP="172.18.0.211"
+fi
+
 # /etc/rc.d/init.d/functions
 case "$1" in
 start)

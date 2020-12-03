@@ -7,7 +7,10 @@ RUN GIT_URL="https://gitee.com/MycatOne/Mycat-Server.git" && \
     cd $PROJ_SRC && \
     mvn clean package -Dmaven.test.skip=true -U && \
     PROJ_VERSION="$(xpath -q -e '//project/version/text()' pom.xml)" && \
-    mv target/Mycat-server-$PROJ_VERSION-*-linux.tar.gz /mycat.tar.gz
+    mv target/Mycat-server-$PROJ_VERSION-*-linux.tar.gz /mycat.tar.gz && \
+    tar -xvf /mycat.tar.gz -C / && rm /mycat.tar.gz && \
+    mkdir -p /mycat/logs && \
+    sed -i 's|        <asyncRoot level="info" includeLocation="true">|        <asyncRoot level="debug" includeLocation="true">|g' /mycat/conf/log4j2.xml
 
 
 FROM openjdk:8-jre-slim as mycat
@@ -30,10 +33,7 @@ RUN sed -i "s|# export LS_OPTIONS='--color=auto'|export LS_OPTIONS='--color=auto
     apt-get update && \
     apt-get install --no-install-recommends -y procps inetutils-ping telnet net-tools lsof
 
-COPY --from=maven /mycat.tar.gz /mycat.tar.gz
-RUN tar -xvf /mycat.tar.gz -C /usr/local/ && rm /mycat.tar.gz && \
-    mkdir -p /usr/local/mycat/logs && \
-    sed -i 's|        <asyncRoot level="info" includeLocation="true">|        <asyncRoot level="debug" includeLocation="true">|g' /usr/local/mycat/conf/log4j2.xml
+COPY --from=maven /mycat /usr/local/mycat
 
 COPY realServerVip.sh /usr/local/bin/
 COPY entrypoint.sh /usr/local/bin/

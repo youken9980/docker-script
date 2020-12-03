@@ -31,7 +31,8 @@ function dockerLogsUntil() {
 }
 
 dockerRm "name=${containerName}"
-docker run -d -p 8066:8066 \
+docker run --privileged -d -p 8066:8066 \
+    -e KEEPALIVED_VIP="172.18.0.210" \
     --network="${network}" --name="${containerName}" \
     "${imageTag}"
 # dockerLogsUntil "name=${containerName}" "MyCAT[[:space:]]Server[[:space:]]startup[[:space:]]successfully"
