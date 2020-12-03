@@ -6,8 +6,8 @@ RUN echo "http://mirrors.aliyun.com/alpine/latest-stable/main/" > /etc/apk/repos
     echo "http://mirrors.aliyun.com/alpine/latest-stable/community/" >> /etc/apk/repositories && \
     apk update && \
     apk add tzdata && \
-    cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo "Asia/Shanghai" > /etc/timezone && \
+    ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     \
     apk add docker && \
     adduser jenkins root && \
