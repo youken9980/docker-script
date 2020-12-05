@@ -10,6 +10,17 @@ RUN GIT_URL="https://gitee.com/MycatOne/Mycat-Server.git" && \
     mv target/Mycat-server-$PROJ_VERSION-*-linux.tar.gz /mycat.tar.gz && \
     tar -xvf /mycat.tar.gz -C / && rm /mycat.tar.gz && \
     mkdir -p /mycat/logs && \
+    chmod -R 644 /mycat && \
+    chmod 755 /mycat \
+              /mycat/bin \
+              /mycat/bin/* \
+              /mycat/catlet \
+              /mycat/conf \
+              /mycat/conf/zkconf \
+              /mycat/conf/zkdownload \
+              /mycat/lib \
+              /mycat/logs \
+              && \
     sed -i 's|        <asyncRoot level="info" includeLocation="true">|        <asyncRoot level="debug" includeLocation="true">|g' /mycat/conf/log4j2.xml
 
 
