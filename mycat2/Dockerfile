@@ -1,4 +1,4 @@
-FROM youken9980/maven:3-openjdk-8-slim as maven
+FROM youken9980/maven3-openjdk8:latest as maven
 LABEL maintainer="YangJian <youken9980@163.com>"
 
 RUN GIT_URL="https://gitee.com/MycatOne/Mycat2.git" && \

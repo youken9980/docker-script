@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # virtual server ip
 VIP=$KEEPALIVED_VIP

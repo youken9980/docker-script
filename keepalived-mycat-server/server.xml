@@ -56,7 +56,10 @@
 		<property name="bindIp">0.0.0.0</property>
 		<property name="idleTimeout">300000</property>
 		// 连接空闲检查 5 * 60 * 1000L;
+		// 对后端连接进行空闲、超时检查的时间间隔，默认是 300 秒，单位毫秒
 		<property name="dataNodeIdleCheckPeriod">300000</property>
+		// 对后端所有读、写库发起心跳的间隔时间，默认是 10 秒，单位毫秒
+		<property name="dataNodeHeartbeatPeriod">10000</property>
 		<property name="frontWriteQueueSize">4096</property>
 		<property name="processors">32</property>
 		-->

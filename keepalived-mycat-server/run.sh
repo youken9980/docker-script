@@ -1,13 +1,14 @@
 #!/bin/bash
 
 imageTag="youken9980/keepalived-mycat-server:latest"
-containerNamePrefix="keepalived-mycat-server"
+containerNamePrefix="mycat-server"
 network="mynet"
 nodeCount=2
 startPort="8066"
-publishPort="true"
+publishPort="first"
 keepalivedRouterId="199"
 keepalivedVirtualIp="172.18.0.199"
+runKeepalived="true"
 
 function dockerRm() {
     filter="$1"
@@ -49,9 +50,14 @@ for i in $(seq ${nodeCount}); do
     containerName="${containerNamePrefix}-${i}"
     docker run --privileged -d ${publish} \
         --cpus 2 --memory 3072M --memory-swap -1 \
+        -e RUN_KEEPALIVED="${runKeepalived}" \
         -e KEEPALIVED_ROUTER_ID="${keepalivedRouterId}" \
         -e KEEPALIVED_VIRTUAL_IP="${keepalivedVirtualIp}" \
+        -v ~/dockerScripts/ycg/docker/config/2.mycat-server.xml:/usr/local/mycat/conf/server.xml \
+        -v ~/dockerScripts/ycg/docker/config/2.mycat-schema.xml:/usr/local/mycat/conf/schema.xml \
+        -v ~/dockerScripts/ycg/docker/config/2.mycat-rule.xml:/usr/local/mycat/conf/rule.xml \
         --network="${network}" --name="${containerName}" \
         "${imageTag}"
+    # dockerLogsUntil "name=${containerName}" "MyCAT[[:space:]]Server[[:space:]]startup[[:space:]]successfully"
     port=$[$port + 1]
 done
