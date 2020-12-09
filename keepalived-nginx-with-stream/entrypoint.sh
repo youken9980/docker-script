@@ -23,7 +23,7 @@ if [ "${RUN_KEEPALIVED}" = "true" ]; then
     echo "local0.* ${keepalivedLog}" >> "${syslogConfig}"
     syslogd -f "${syslogConfig}"
 
-    counter="$(grep '{{ KEEPALIVED_INTERFACE }}' /etc/keepalived/keepalived.conf | wc -l)"
+    counter="$(grep '{{ KEEPALIVED_INTERFACE }}' ${keepalivedConfig} | wc -l)"
     if [ "${counter}" != "0" ]; then
         sed -i "s|{{ KEEPALIVED_INTERFACE }}|$KEEPALIVED_INTERFACE|g" "${keepalivedConfig}"
         sed -i "s|{{ KEEPALIVED_STATE }}|$KEEPALIVED_STATE|g" "${keepalivedConfig}"
