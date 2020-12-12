@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 syslogConfig="/etc/syslog.conf"
 keepalivedLog="/var/log/keepalived.log"
 keepalivedConfig="/etc/keepalived/keepalived.conf"
