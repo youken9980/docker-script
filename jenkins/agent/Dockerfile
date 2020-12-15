@@ -43,4 +43,6 @@ RUN echo "http://mirrors.aliyun.com/alpine/latest-stable/main/" > /etc/apk/repos
 USER jenkins
 WORKDIR /home/jenkins
 
+STOPSIGNAL SIGTERM
+
 ENTRYPOINT ["jenkins-agent"]

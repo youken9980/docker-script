@@ -25,3 +25,5 @@ RUN echo "http://mirrors.aliyun.com/alpine/latest-stable/main/" > /etc/apk/repos
 
 COPY --from=maven /service.jar /service.jar
 CMD java -jar /service.jar -p $PORT
+
+STOPSIGNAL SIGTERM

@@ -43,5 +43,9 @@ RUN tar -xvf /mycat.tar.gz -C /usr/local/ && rm /mycat.tar.gz && \
     echo "tail -f /usr/local/mycat/logs/mycat.log" >> /usr/local/bin/entrypoint.sh
 
 ENV PATH=$PATH:/usr/local/mycat/bin
+
 EXPOSE 8066 9066 1984
+
+STOPSIGNAL SIGTERM
+
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

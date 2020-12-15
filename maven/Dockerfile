@@ -35,3 +35,5 @@ RUN mkdir -p $MAVEN_REPO && \
     sed -i '/    <!-- mirror/i\    </mirror>' /usr/share/maven/conf/settings.xml
 
 WORKDIR /usr/local/src
+
+STOPSIGNAL SIGTERM

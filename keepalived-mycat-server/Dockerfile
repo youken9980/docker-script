@@ -44,4 +44,7 @@ COPY entrypoint.sh /usr/local/bin/
 RUN apk add --no-cache which procps busybox-extras wget ipvsadm keepalived
 
 EXPOSE 8066 9066 1984
+
+STOPSIGNAL SIGTERM
+
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

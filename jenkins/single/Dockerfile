@@ -42,3 +42,5 @@ RUN echo "http://mirrors.aliyun.com/alpine/latest-stable/main/" > /etc/apk/repos
 
 USER jenkins
 WORKDIR /var/jenkins_home
+
+STOPSIGNAL SIGTERM

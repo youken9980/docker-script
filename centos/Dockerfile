@@ -17,4 +17,6 @@ RUN sed -i "/# System wide functions and aliases/a\alias ll='ls -la'" /etc/bashr
     yum update -y
 # RUN yum install -y nano which tree wget telnet net-tools traceroute git subversion
 
+STOPSIGNAL SIGTERM
+
 CMD ["/bin/bash"]

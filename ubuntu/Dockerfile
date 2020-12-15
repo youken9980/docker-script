@@ -11,4 +11,6 @@ RUN ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     apt-get update && \
     apt-get install -y nodejs yarn
 
+STOPSIGNAL SIGTERM
+
 CMD ["/bin/bash"]
