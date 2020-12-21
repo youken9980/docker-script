@@ -64,9 +64,9 @@ dockerRm "ancestor=${imageTag}"
 dockerRun
 
 # 已安装工具的路径和版本号
-# /opt/java/openjdk/bin/java jdk-8u262
+# /opt/java/openjdk/bin/java jdk-8u272
 # /usr/bin/git git-2.26.2
-# /app/gradle-6.6.1/bin/gradle
+# /app/gradle-6.7.1/bin/gradle
 # /app/apache-maven-3.6.3/bin/mvn
 # /usr/bin/docker
 
