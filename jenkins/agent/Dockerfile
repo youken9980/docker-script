@@ -40,9 +40,9 @@ RUN echo "http://mirrors.aliyun.com/alpine/latest-stable/main/" > /etc/apk/repos
     sed -i "/    <!-- mirror/i\        <mirrorOf>*</mirrorOf>" $MAVEN_HOME/conf/settings.xml && \
     sed -i "/    <!-- mirror/i\        <name>阿里云公共仓库</name>" $MAVEN_HOME/conf/settings.xml && \
     sed -i "/    <!-- mirror/i\        <url>https://maven.aliyun.com/repository/public</url>" $MAVEN_HOME/conf/settings.xml && \
-    sed -i "/    <!-- mirror/i\    </mirror>" $MAVEN_HOME/conf/settings.xml
-RUN mkdir -p $MAVEN_REPO && chown jenkins:jenkins $MAVEN_REPO && \
-    mkdir -p $GRADLE_REPO && chown jenkins:jenkins $GRADLE_REPO
+    sed -i "/    <!-- mirror/i\    </mirror>" $MAVEN_HOME/conf/settings.xml && \
+    mkdir -p $MAVEN_REPO $GRADLE_REPO && \
+    chown jenkins:jenkins $MAVEN_REPO $GRADLE_REPO
 
 USER jenkins
 WORKDIR /home/jenkins
