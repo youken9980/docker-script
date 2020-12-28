@@ -79,6 +79,10 @@ dockerRun
 # Jenkins initial setup is required. An admin user has been created and a password generated.
 # This may also be found at: /var/jenkins_home/secrets/initialAdminPassword
 
+# 使用低版本插件，新版有bug
+# https://mirrors.tuna.tsinghua.edu.cn/jenkins/plugins/jackson2-api/2.11.3/jackson2-api.hpi
+# https://mirrors.tuna.tsinghua.edu.cn/jenkins/plugins/junit/1.46/junit.hpi
+
 # 已安装工具的路径和版本号
 # 在jenkins-master只配置名称不配置路径，路径在jenkins-agent的工具位置中配置
 # /opt/java/openjdk/bin/java jdk-8u272
@@ -121,5 +125,9 @@ dockerRun
 # 工具位置列表
 # 参照上面「已安装工具的路径和版本号」选择工具并配置路径
 
-# https://mirrors.tuna.tsinghua.edu.cn/jenkins/plugins/jackson2-api/2.11.3/jackson2-api.hpi
-# https://mirrors.tuna.tsinghua.edu.cn/jenkins/plugins/junit/1.46/junit.hpi
+# Maven
+# clean
+# package
+# -P$MAVEN_PROFILE
+# -Dmaven.test.skip=true
+# -U
