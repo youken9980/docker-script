@@ -1,6 +1,5 @@
 #!/bin/bash
 
-configFile="$(pwd)/mycat.yml"
 imageTag="youken9980/mycat2:latest"
 containerName="mycat2"
 network="mynet"
@@ -33,7 +32,8 @@ function dockerLogsUntil() {
 
 dockerRm "name=${containerName}"
 docker run -d -p 8066:8066 \
-    -v "${configFile}":/usr/local/mycat/conf/mycat.yml \
+    --cpus 2 --memory 3072M --memory-swap -1 \
+    -v ~/dockerScripts/mycat2/mycat-single.yml:/usr/local/mycat/conf/mycat.yml \
     --network="${network}" --name="${containerName}" \
     "${imageTag}"
 dockerLogsUntil "name=${containerName}" "[[:space:]]mycat[[:space:]]starts[[:space:]]successful"

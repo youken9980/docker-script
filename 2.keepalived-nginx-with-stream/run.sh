@@ -1,14 +1,15 @@
 #!/bin/bash
 
-imageTag="youken9980/keepalived-mycat-server:latest"
-containerNamePrefix="mycat-server"
+imageTag="youken9980/keepalived-nginx-with-stream:latest"
+containerNamePrefix="nginx"
 network="mynet"
 nodeCount=2
-startPort="8066"
-publishPort="first"
-keepalivedRouterId="199"
-keepalivedVirtualIp="172.18.0.199"
+startPort="8090"
+publishPort="true"
+keepalivedRouterId="209"
+keepalivedVirtualIp="172.18.0.209"
 runKeepalived="true"
+runWithSSL="true"
 
 function dockerRm() {
     filter="$1"
@@ -27,14 +28,23 @@ function dockerLogsUntil() {
     endpoint="$2"
     containerId=$(docker ps -aq --filter "${filter}")
     nohup docker logs -f "${containerId}" > "/tmp/${containerId}.log" 2>&1 &
-    sleep 1s
     PID=$(ps aux | grep "docker" | grep ${containerId} | awk '{print $2}' | sort -nr | head -1)
     if [ "${PID}" != "" ]; then
         eval "tail -f --pid=${PID} /tmp/${containerId}.log | sed '/${endpoint}/q'"
-        kill -9 ${PID}
+        kill ${PID}
         rm /tmp/${containerId}.log
     fi
 }
+
+publishSSL=""
+volumeList=""
+if [ "${runWithSSL}" = "true" ]; then
+    nodeCount=1
+    startPort="80"
+    publishPort="true"
+    publishSSL="--expose 443 -p 443:443"
+    volumeList="-v $(pwd)/default-ssl.conf:/etc/nginx/conf.d/default.conf -v $(pwd)/ssl/server.crt:/etc/nginx/ssl/server.crt -v $(pwd)/ssl/server.key:/etc/nginx/ssl/server.key"
+fi
 
 for i in $(seq ${nodeCount}); do
     containerName="${containerNamePrefix}-${i}"
@@ -45,19 +55,17 @@ port="${startPort}"
 for i in $(seq ${nodeCount}); do
     publish=""
     if [ "${publishPort}" = "first" -a "${port}" = "${startPort}" -o "${publishPort}" = "true" ]; then
-        publish="-p ${port}:8066"
+        publish="-p ${port}:80"
     fi
     containerName="${containerNamePrefix}-${i}"
     docker run --privileged -d ${publish} \
-        --cpus 2 --memory 3072M --memory-swap -1 \
+        --cpus 0.1 --memory 32M --memory-swap -1 \
         -e RUN_KEEPALIVED="${runKeepalived}" \
         -e KEEPALIVED_ROUTER_ID="${keepalivedRouterId}" \
         -e KEEPALIVED_VIRTUAL_IP="${keepalivedVirtualIp}" \
-        -v ~/dockerScripts/ycg/docker/config/2.mycat-server.xml:/usr/local/mycat/conf/server.xml \
-        -v ~/dockerScripts/ycg/docker/config/2.mycat-schema.xml:/usr/local/mycat/conf/schema.xml \
-        -v ~/dockerScripts/ycg/docker/config/2.mycat-rule.xml:/usr/local/mycat/conf/rule.xml \
+        ${publishSSL} ${volumeList} \
         --network="${network}" --name="${containerName}" \
         "${imageTag}"
-    # dockerLogsUntil "name=${containerName}" "MyCAT[[:space:]]Server[[:space:]]startup[[:space:]]successfully"
+    dockerLogsUntil "name=${containerName}" "[[:space:]]ready[[:space:]]for[[:space:]]start[[:space:]]up"
     port=$[$port + 1]
 done

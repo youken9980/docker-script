@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM youken9980/alpine:latest
 LABEL maintainer="YangJian <youken9980@163.com>"
 
 ENV TZ="Asia/Shanghai"
@@ -10,15 +10,7 @@ ENV KEEPALIVED_PRIORITY="150"
 ENV KEEPALIVED_PASSWORD="d0cker"
 ENV KEEPALIVED_VIRTUAL_IP="172.18.0.100"
 
-RUN echo "http://mirrors.aliyun.com/alpine/latest-stable/main/" > /etc/apk/repositories && \
-    echo "http://mirrors.aliyun.com/alpine/latest-stable/community/" >> /etc/apk/repositories && \
-    apk update && \
-    apk add tzdata && \
-    echo "Asia/Shanghai" > /etc/timezone && \
-    ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
-    \
-    apk add which procps busybox-extras ca-certificates curl && \
-    NGINX_VERSION="1.18.0" && \
+RUN NGINX_VERSION="1.18.0" && \
     GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 && \
     CONFIG="\
         --prefix=/etc/nginx \
@@ -150,7 +142,7 @@ RUN echo "http://mirrors.aliyun.com/alpine/latest-stable/main/" > /etc/apk/repos
     \
     mkdir /docker-entrypoint.d && \
     \
-    apk add ipvsadm keepalived
+    apk add --no-cache which procps busybox-extras ipvsadm keepalived
 
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY default.conf /etc/nginx/conf.d/default.conf

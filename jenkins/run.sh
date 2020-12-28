@@ -1,15 +1,13 @@
 #!/bin/bash
 
+set -eu
+
 cleanup="false"
-imageTag="youken9980/jenkins-master:latest"
+imageTag="jenkins/jenkins:lts-alpine"
 containerName="jenkins-master"
 network="mynet"
 dataHome="~/dockerVolume/jenkins/master/data"
 dataHome="$(eval readlink -f ${dataHome})"
-mavenRepository="~/maven-repository"
-mavenRepository="$(eval readlink -f ${mavenRepository})"
-gradleRepository="~/gradle-repository"
-gradleRepository="$(eval readlink -f ${gradleRepository})"
 
 function dockerRm() {
     filter="$1"
@@ -47,13 +45,16 @@ function rebuid() {
 function dockerRun() {
     # 默认情况下，基于JNLP的Jenkins代理通过TCP端口50000与Jenkins主站进行通信。 -p 50000:50000
     docker run -d -p 8090:8080 \
+        --cpus 4 --memory 2048M --memory-swap -1 \
+        -e TZ="Asia/Shanghai" \
         -e JAVA_OPTS="-Duser.timezone=Asia/Shanghai -Dfile.encoding=UTF8 -Dsun.jnu.encoding=UTF8" \
-        -v /var/run/docker.sock:/var/run/docker.sock \
+        -e JENKINS_OPTS="--requestHeaderSize=32768" \
+        -v /var/run/docker.sock:/var/run/docker.sock:rw \
         -v ${dataHome}:/var/jenkins_home \
-        -v ${mavenRepository}:/app/maven-repository \
-        -v ${gradleRepository}:/app/gradle-repository \
         --network="${network}" --name=${containerName} \
         ${imageTag}
+    # /var/run/docker.sock 权限必须是666，jenkins-master的jenkins用户才能运行docker
+    docker exec -u root -it ${containerName} chmod 666 /var/run/docker.sock
     dockerLogsUntil "ancestor=${imageTag}" "Jenkins[[:space:]]is[[:space:]]fully[[:space:]]up[[:space:]]and[[:space:]]running"
 }
 
@@ -64,11 +65,11 @@ function sedSource() {
     eval "sed -i 's/https:\/\/updates.jenkins.io/https:\/\/mirrors.tuna.tsinghua.edu.cn\/jenkins\/updates/g' ${dataHome}/hudson.model.UpdateCenter.xml"
 }
 
-dockerRm "ancestor=${imageTag}"
+dockerRm "name=${containerName}"
 if [ "${cleanup}" = "true" ]; then
     rebuid "${dataHome}"
     dockerRun
-    dockerRm "ancestor=${imageTag}"
+    dockerRm "name=${containerName}"
     sedSource
 fi
 dockerRun
@@ -79,10 +80,46 @@ dockerRun
 # This may also be found at: /var/jenkins_home/secrets/initialAdminPassword
 
 # 已安装工具的路径和版本号
+# 在jenkins-master只配置名称不配置路径，路径在jenkins-agent的工具位置中配置
 # /opt/java/openjdk/bin/java jdk-8u272
 # /usr/bin/git git-2.26.2
-# /app/gradle-6.7.1/bin/gradle
-# /app/apache-maven-3.6.3/bin/mvn
-# /usr/bin/docker
+# /usr/local/gradle/bin/gradle gradle-6.7.1
+# /usr/local/maven/bin/mvn maven-3.6.3
+# /usr/bin/docker docker-19.03.12
 
-# Docker (Host) URL: unix:///var/run/docker.sock
+# Docker (Host) URL:
+# unix:///var/run/docker.sock
+
+# Docker Image
+# jenkins/inbound-agent:alpine
+
+# User
+# jenkins
+
+# Volumes
+# 冒号左边是宿主机路径，不是jenkins-master容器路径，冒号右边是jenkins-agent容器路径。左右都用绝对路径
+# /var/run/docker.sock:/var/run/docker.sock
+# ~/share/gradle-6.7.1/:/usr/local/gradle/
+# ~/share/gradle-repository/:/usr/local/gradle-repository/
+# ~/share/apache-maven-3.6.3/:/usr/local/maven/
+# ~/share/maven-repository:/usr/local/maven-repository/
+
+# Volumes From
+# jenkins-master
+
+# Environment
+# GRADLE_REPO=/usr/local/gradle-repository
+# GRADLE_USER_HOME=${GRADLE_REPO}
+# MAVEN_REPO=/usr/local/maven-repository
+# MAVEN_REPOSITORY=${MAVEN_REPO}
+# M2_REPO=${MAVEN_REPO}
+
+# Remote File System Root
+# /home/jenkins
+
+# Node Properties
+# 工具位置列表
+# 参照上面「已安装工具的路径和版本号」选择工具并配置路径
+
+# https://mirrors.tuna.tsinghua.edu.cn/jenkins/plugins/jackson2-api/2.11.3/jackson2-api.hpi
+# https://mirrors.tuna.tsinghua.edu.cn/jenkins/plugins/junit/1.46/junit.hpi

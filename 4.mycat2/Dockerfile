@@ -1,0 +1,42 @@
+FROM youken9980/build-tools-openjdk8:latest as temp
+LABEL maintainer="YangJian <youken9980@163.com>"
+
+ENV GIT_URL="https://gitee.com/MycatOne/Mycat2.git"
+ENV PROJ_SRC="/proj-src"
+
+RUN git clone --depth=1 ${GIT_URL} ${PROJ_SRC} && \
+    cd ${PROJ_SRC} && \
+    mvn clean package -Dmaven.test.skip=true -U
+RUN PROJ_VERSION="$(xpath -q -e '//project/version/text()' ${PROJ_SRC}/pom.xml)" && \
+    cp ${PROJ_SRC}/mycat2/target/mycat2-$PROJ_VERSION.tar.gz /mycat.tar.gz && \
+    tar -xvf /mycat.tar.gz -C / && \
+    mkdir -p /mycat/logs && \
+    chmod -R 644 /mycat && \
+    chmod 755 /mycat \
+              /mycat/bin \
+              /mycat/bin/* \
+              /mycat/conf \
+              /mycat/conf/sql \
+              /mycat/example \
+              /mycat/example/booster \
+              /mycat/example/readWriteSeparation \
+              /mycat/example/sharding \
+              /mycat/example/shardingRw \
+              /mycat/example/sharingXA \
+              /mycat/lib \
+              /mycat/logs
+
+
+FROM youken9980/openjdk:8-jre-alpine
+
+ENV PATH=$PATH:/usr/local/mycat/bin
+
+COPY --from=temp /mycat /usr/local/mycat
+
+COPY entrypoint.sh /usr/local/bin/
+
+EXPOSE 1984 8066
+
+STOPSIGNAL SIGTERM
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
