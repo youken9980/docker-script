@@ -112,6 +112,8 @@ dockerRun
 # jenkins-master
 
 # Environment
+# TZ="Asia/Shanghai"
+# JAVA_OPTS="-Duser.timezone=Asia/Shanghai -Dfile.encoding=UTF8 -Dsun.jnu.encoding=UTF8"
 # GRADLE_REPO=/usr/local/gradle-repository
 # GRADLE_USER_HOME=${GRADLE_REPO}
 # MAVEN_REPO=/usr/local/maven-repository
