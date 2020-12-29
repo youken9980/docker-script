@@ -44,7 +44,7 @@ function rebuid() {
 
 function dockerRun() {
     # 默认情况下，基于JNLP的Jenkins代理通过TCP端口50000与Jenkins主站进行通信。 -p 50000:50000
-    docker run -d -p 8090:8080 \
+    docker run -d -p 8078:8080 \
         --cpus 4 --memory 2048M --memory-swap -1 \
         -e TZ="Asia/Shanghai" \
         -e JAVA_OPTS="-Duser.timezone=Asia/Shanghai -Dfile.encoding=UTF8 -Dsun.jnu.encoding=UTF8" \
