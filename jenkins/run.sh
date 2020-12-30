@@ -4,7 +4,7 @@ set -eu
 
 cleanup="false"
 imageTag="jenkins/jenkins:lts-alpine"
-containerName="jenkins-master"
+containerName="jenkins"
 network="mynet"
 dataHome="~/dockerVolume/jenkins/data"
 dataHome="$(eval readlink -f ${dataHome})"
@@ -109,7 +109,7 @@ dockerRun
 # ~/share/maven-repository:/usr/local/maven-repository/
 
 # Volumes From
-# jenkins-master
+# jenkins
 
 # Environment
 # TZ="Asia/Shanghai"
