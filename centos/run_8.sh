@@ -1,6 +1,6 @@
 #!/bin/bash
 
-imageTag="youken9980/centos:latest"
+imageTag="youken9980/centos:8"
 network="mynet"
 
 function dockerRm() {
