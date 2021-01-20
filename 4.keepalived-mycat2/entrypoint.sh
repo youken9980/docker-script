@@ -29,7 +29,7 @@ rmPid /usr/local/mycat/logs/mycat.pid
 /usr/local/bin/realServerVip.sh start
 mycat start
 sleep 2s
-tail -n +1 /usr/local/mycat/logs/wrapper.log | sed '/MyCAT[[:space:]]Server[[:space:]]startup[[:space:]]successfully/q'
+tail -n +1 /usr/local/mycat/logs/wrapper.log | sed '/mycat[[:space:]]starts[[:space:]]successful/q'
 
 if [ "${RUN_KEEPALIVED}" = "true" ]; then
     echo "local0.* ${keepalivedLog}" >> "${syslogConfig}"

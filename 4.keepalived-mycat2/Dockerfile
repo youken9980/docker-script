@@ -29,10 +29,22 @@ RUN PROJ_VERSION="$(xpath -q -e '//project/version/text()' ${PROJ_SRC}/pom.xml)"
 
 FROM youken9980/openjdk:8-jre-alpine
 
+ENV KEEPALIVED_INTERFACE="eth0"
+ENV KEEPALIVED_STATE="BACKUP"
+ENV KEEPALIVED_ROUTER_ID="100"
+ENV KEEPALIVED_PRIORITY="150"
+ENV KEEPALIVED_PASSWORD="d0cker"
+ENV KEEPALIVED_VIRTUAL_IP="172.18.0.100"
 ENV PATH=$PATH:/usr/local/mycat/bin
 
 COPY --from=temp /mycat /usr/local/mycat
 
+RUN apk add --no-cache which procps busybox-extras ipvsadm keepalived
+
+COPY realServerVip.sh /usr/local/bin/
+COPY check_service.sh /usr/local/bin/
+COPY notify.sh /usr/local/bin/
+COPY keepalived.conf /etc/keepalived/
 COPY entrypoint.sh /usr/local/bin/
 
 EXPOSE 1984 8066

@@ -1,8 +1,8 @@
 #!/bin/sh
 
-serviceName="Nginx"
-cmdCheck="ps aux --no-heading | grep 'nginx' | grep 'master' | grep -v '<defunct>' | wc -l"
-cmdStartService="nginx -c /etc/nginx/nginx.conf"
+serviceName="mycat2"
+cmdCheck="mycat status | grep 'mycat2 is running' | wc -l"
+cmdStartService="mycat start"
 cmdStopKeepalived="ps -C keepalived --no-heading | head -1 | awk '{ print$1 }' | xargs kill -9"
 counter="$(eval ${cmdCheck})"
 if [ "${counter}" = "0" ]; then

@@ -19,6 +19,8 @@ function rebuid() {
 rebuid /run/nginx
 rebuid /run/keepalived
 
+/usr/local/bin/realServerVip.sh start
+
 if [ "${RUN_KEEPALIVED}" = "true" ]; then
     /docker-entrypoint.sh "nginx" "-c" "${nginxConfig}"
 
