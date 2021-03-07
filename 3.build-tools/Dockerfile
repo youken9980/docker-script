@@ -8,7 +8,7 @@ ENV MAVEN_REPO="/usr/local/maven-repository"
 ENV MAVEN_REPOSITORY="${MAVEN_REPO}"
 ENV M2_REPO="${MAVEN_REPO}"
 
-ENV GRADLE_VERSION="6.7.1"
+ENV GRADLE_VERSION="6.8.3"
 ENV GRADLE_DOWNLOAD_URL="https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip"
 ENV GRADLE_HOME="/usr/local/gradle-${GRADLE_VERSION}"
 ENV GRADLE_REPO="/usr/local/gradle-repository"
@@ -16,9 +16,8 @@ ENV GRADLE_USER_HOME="${GRADLE_REPO}"
 
 ENV PATH=".:${PATH}:${MAVEN_HOME}/bin:${GRADLE_HOME}/bin"
 
-# RUN wget -c ${MAVEN_DOWNLOAD_URL}
-# RUN wget -c ${GRADLE_DOWNLOAD_URL}
-COPY *.zip /
+RUN wget -c ${MAVEN_DOWNLOAD_URL}
+RUN wget -c ${GRADLE_DOWNLOAD_URL}
 RUN mkdir -p ${MAVEN_REPO} ${GRADLE_REPO} && \
     apk add zip && unzip "*.zip" && \
     mv /apache-maven-${MAVEN_VERSION} ${MAVEN_HOME} && \
@@ -43,7 +42,7 @@ ENV MAVEN_REPO="/usr/local/maven-repository"
 ENV MAVEN_REPOSITORY="${MAVEN_REPO}"
 ENV M2_REPO="${MAVEN_REPO}"
 
-ENV GRADLE_VERSION="6.7.1"
+ENV GRADLE_VERSION="6.8.3"
 ENV GRADLE_HOME="/usr/local/gradle-${GRADLE_VERSION}"
 ENV GRADLE_REPO="/usr/local/gradle-repository"
 ENV GRADLE_USER_HOME="${GRADLE_REPO}"
