@@ -3,7 +3,7 @@
 imageTag="youken9980/alpine-xfce4-novnc:latest"
 vncPort="5900"
 novncPort="6080"
-vncResolution="1280x800"
+vncResolution="1600x900"
 vncPasswd="alpinelinux"
 
 function dockerRm() {
