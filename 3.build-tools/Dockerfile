@@ -16,8 +16,9 @@ ENV GRADLE_USER_HOME="${GRADLE_REPO}"
 
 ENV PATH=".:${PATH}:${MAVEN_HOME}/bin:${GRADLE_HOME}/bin"
 
-RUN wget -c ${MAVEN_DOWNLOAD_URL}
-RUN wget -c ${GRADLE_DOWNLOAD_URL}
+RUN apk add axel
+RUN axel -n 32 ${MAVEN_DOWNLOAD_URL}
+RUN axel -n 32 ${GRADLE_DOWNLOAD_URL}
 RUN mkdir -p ${MAVEN_REPO} ${GRADLE_REPO} && \
     apk add zip && unzip "*.zip" && \
     mv /apache-maven-${MAVEN_VERSION} ${MAVEN_HOME} && \

@@ -1,10 +1,10 @@
 FROM youken9980/alpine:latest as temp
 LABEL maintainer="YangJian <youken9980@163.com>"
 
-ENV JDK_TAR_GZ="jdk-8u271-linux-x64.tar.gz"
+ENV JDK_TAR_GZ="jdk-8u281-linux-x64.tar.gz"
 
 ADD "${JDK_TAR_GZ}" /
-RUN cd /jdk1.8.0_271 && \
+RUN cd /jdk1.8.0_281 && \
     rm -rf COPYRIGHT \
            LICENSE \
            README.html \
@@ -106,7 +106,7 @@ ENV TZ="Asia/Shanghai"
 ENV JAVA_HOME="/usr/local/openjdk-8"
 ENV PATH=".:$PATH:$JAVA_HOME/bin"
 
-COPY --chown=root:root --from=temp /jdk1.8.0_271 "${JAVA_HOME}"
+COPY --chown=root:root --from=temp /jdk1.8.0_281 "${JAVA_HOME}"
 RUN apk add --no-cache java-cacerts && \
     rm -rf "$JAVA_HOME/lib/security/cacerts" && \
     mkdir -p "$JAVA_HOME/lib/security/" && \
