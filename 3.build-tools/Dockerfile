@@ -2,7 +2,7 @@ FROM youken9980/alpine:latest as temp
 LABEL maintainer="YangJian <youken9980@163.com>"
 
 ENV MAVEN_VERSION="3.6.3"
-ENV MAVEN_DOWNLOAD_URL="https://mirrors.tuna.tsinghua.edu.cn/apache/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.zip"
+ENV MAVEN_DOWNLOAD_URL="https://mirrors.bfsu.edu.cn/apache/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.zip"
 ENV MAVEN_HOME="/usr/local/maven-${MAVEN_VERSION}"
 ENV MAVEN_REPO="/usr/local/maven-repository"
 ENV MAVEN_REPOSITORY="${MAVEN_REPO}"
@@ -16,11 +16,10 @@ ENV GRADLE_USER_HOME="${GRADLE_REPO}"
 
 ENV PATH=".:${PATH}:${MAVEN_HOME}/bin:${GRADLE_HOME}/bin"
 
-RUN apk add axel
 RUN axel -n 32 ${MAVEN_DOWNLOAD_URL}
 RUN axel -n 32 ${GRADLE_DOWNLOAD_URL}
 RUN mkdir -p ${MAVEN_REPO} ${GRADLE_REPO} && \
-    apk add zip && unzip "*.zip" && \
+    apk --update --no-cache add zip && unzip "*.zip" && \
     mv /apache-maven-${MAVEN_VERSION} ${MAVEN_HOME} && \
     sed -i "/  <!-- localRepository/i\  <localRepository>${MAVEN_REPO}</localRepository>" ${MAVEN_HOME}/conf/settings.xml && \
     sed -i '/    <!-- mirror/i\    <mirror>' ${MAVEN_HOME}/conf/settings.xml && \
@@ -35,7 +34,7 @@ RUN mkdir -p ${MAVEN_REPO} ${GRADLE_REPO} && \
 FROM youken9980/openjdk:8-jdk-alpine
 LABEL maintainer="YangJian <youken9980@163.com>"
 
-RUN apk add --no-cache git subversion perl-xml-xpath
+RUN apk --update --no-cache add git subversion perl-xml-xpath
 
 ENV MAVEN_VERSION="3.6.3"
 ENV MAVEN_HOME="/usr/local/maven-${MAVEN_VERSION}"

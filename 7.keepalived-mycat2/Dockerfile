@@ -1,28 +1,26 @@
 FROM youken9980/build-tools-openjdk8:latest as temp
 LABEL maintainer="YangJian <youken9980@163.com>"
 
-ENV GIT_URL="https://hub.fastgit.org/MyCATApache/Mycat-Server.git"
+ENV GIT_URL="https://hub.fastgit.org/MyCATApache/Mycat2.git"
 ENV PROJ_SRC="/proj-src"
 
-RUN git clone --depth=1 ${GIT_URL} ${PROJ_SRC} && \
+RUN git clone ${GIT_URL} ${PROJ_SRC} && \
     cd ${PROJ_SRC} && \
+    git checkout v1.12-2020-7-16 && \
     mvn clean package -Dmaven.test.skip=true -U
 RUN PROJ_VERSION="$(xpath -q -e '//project/version/text()' ${PROJ_SRC}/pom.xml)" && \
-    cp ${PROJ_SRC}/target/Mycat-server-$PROJ_VERSION-*-linux.tar.gz /mycat.tar.gz && \
+    cp ${PROJ_SRC}/mycat2/target/mycat2-$PROJ_VERSION.tar.gz /mycat.tar.gz && \
     tar -xvf /mycat.tar.gz -C / && \
     mkdir -p /mycat/logs && \
+    rm -rf /mycat/example && \
     chmod -R 644 /mycat && \
     chmod 755 /mycat \
               /mycat/bin \
               /mycat/bin/* \
-              /mycat/catlet \
               /mycat/conf \
-              /mycat/conf/zkconf \
-              /mycat/conf/zkdownload \
+              /mycat/conf/sql \
               /mycat/lib \
-              /mycat/logs \
-              && \
-    sed -i 's|        <asyncRoot level="info" includeLocation="true">|        <asyncRoot level="debug" includeLocation="true">|g' /mycat/conf/log4j2.xml
+              /mycat/logs
 
 
 FROM youken9980/openjdk:8-jre-alpine
@@ -45,7 +43,7 @@ COPY notify.sh /usr/local/bin/
 COPY keepalived.conf /etc/keepalived/
 COPY entrypoint.sh /usr/local/bin/
 
-EXPOSE 1984 8066 9066
+EXPOSE 1984 8066
 
 STOPSIGNAL SIGTERM
 

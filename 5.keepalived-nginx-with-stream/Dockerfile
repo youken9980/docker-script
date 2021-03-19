@@ -142,7 +142,7 @@ RUN NGINX_VERSION="1.18.0" && \
     \
     mkdir /docker-entrypoint.d && \
     \
-    apk add --no-cache which procps busybox-extras ipvsadm keepalived
+    apk --update --no-cache add which procps busybox-extras ipvsadm keepalived
 
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY default.conf /etc/nginx/conf.d/default.conf

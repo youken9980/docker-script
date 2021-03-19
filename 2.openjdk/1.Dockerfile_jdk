@@ -1,113 +1,11 @@
-FROM youken9980/alpine:latest as temp
+FROM youken9980/alpine:latest
 LABEL maintainer="YangJian <youken9980@163.com>"
 
-ENV JDK_TAR_GZ="jdk-8u281-linux-x64.tar.gz"
-
-ADD "${JDK_TAR_GZ}" /
-RUN cd /jdk1.8.0_281 && \
-    rm -rf COPYRIGHT \
-           LICENSE \
-           README.html \
-           THIRDPARTYLICENSEREADME-JAVAFX.txt \
-           THIRDPARTYLICENSEREADME.txt \
-           bin/ControlPanel \
-           bin/javafxpackager \
-           bin/javaws \
-           bin/jcontrol \
-           bin/jvisualvm \
-           javafx-src.zip \
-           jmc.txt \
-           jre/COPYRIGHT \
-           jre/LICENSE \
-           jre/README \
-           jre/THIRDPARTYLICENSEREADME-JAVAFX.txt \
-           jre/THIRDPARTYLICENSEREADME.txt \
-           jre/Welcome.html \
-           jre/bin/ControlPanel \
-           jre/bin/javaws \
-           jre/bin/jcontrol \
-           jre/legal \
-           jre/lib/amd64/libavplugin-53.so \
-           jre/lib/amd64/libavplugin-54.so \
-           jre/lib/amd64/libavplugin-55.so \
-           jre/lib/amd64/libavplugin-56.so \
-           jre/lib/amd64/libavplugin-57.so \
-           jre/lib/amd64/libavplugin-ffmpeg-56.so \
-           jre/lib/amd64/libavplugin-ffmpeg-57.so \
-           jre/lib/amd64/libavplugin-ffmpeg-58.so \
-           jre/lib/amd64/libbci.so \
-           jre/lib/amd64/libdcpr.so \
-           jre/lib/amd64/libdecora_sse.so \
-           jre/lib/amd64/libdeploy.so \
-           jre/lib/amd64/libfxplugins.so \
-           jre/lib/amd64/libglass.so \
-           jre/lib/amd64/libglassgtk2.so \
-           jre/lib/amd64/libglassgtk3.so \
-           jre/lib/amd64/libglib-lite.so \
-           jre/lib/amd64/libgstreamer-lite.so \
-           jre/lib/amd64/libjavafx_font.so \
-           jre/lib/amd64/libjavafx_font_freetype.so \
-           jre/lib/amd64/libjavafx_font_pango.so \
-           jre/lib/amd64/libjavafx_iio.so \
-           jre/lib/amd64/libjfr.so \
-           jre/lib/amd64/libjfxmedia.so \
-           jre/lib/amd64/libjfxwebkit.so \
-           jre/lib/amd64/libprism_common.so \
-           jre/lib/amd64/libprism_es2.so \
-           jre/lib/amd64/libprism_sw.so \
-           jre/lib/amd64/libresource.so \
-           jre/lib/amd64/libt2k.so \
-           jre/lib/deploy \
-           jre/lib/deploy.jar \
-           jre/lib/desktop \
-           jre/lib/ext/jfxrt.jar \
-           jre/lib/fontconfig.RedHat.5.bfc \
-           jre/lib/fontconfig.RedHat.5.properties.src \
-           jre/lib/fontconfig.RedHat.6.bfc \
-           jre/lib/fontconfig.RedHat.6.properties.src \
-           jre/lib/fontconfig.SuSE.10.bfc \
-           jre/lib/fontconfig.SuSE.10.properties.src \
-           jre/lib/fontconfig.SuSE.11.bfc \
-           jre/lib/fontconfig.SuSE.11.properties.src \
-           jre/lib/fontconfig.Turbo.bfc \
-           jre/lib/fontconfig.Turbo.properties.src \
-           jre/lib/fontconfig.bfc \
-           jre/lib/fontconfig.properties.src \
-           jre/lib/fonts \
-           jre/lib/images/icons \
-           jre/lib/javafx.properties \
-           jre/lib/javaws.jar \
-           jre/lib/jfxswt.jar \
-           jre/lib/locale \
-           jre/lib/oblique-fonts \
-           jre/lib/plugin.jar \
-           jre/lib/security/blacklist \
-           jre/lib/security/javaws.policy \
-           jre/lib/security/trusted.libraries \
-           jre/plugin \
-           legal \
-           lib/ant-javafx.jar \
-           lib/javafx-mx.jar \
-           lib/packager.jar \
-           lib/visualvm \
-           man/ja_JP.UTF-8/man1/javafxpackager.1 \
-           man/ja_JP.UTF-8/man1/javapackager.1 \
-           man/ja_JP.UTF-8/man1/javaws.1 \
-           man/ja_JP.UTF-8/man1/jvisualvm.1 \
-           man/man1/javafxpackager.1 \
-           man/man1/javapackager.1 \
-           man/man1/javaws.1 \
-           man/man1/jvisualvm.1
-
-
-FROM youken9980/alpine:latest
-
 ENV TZ="Asia/Shanghai"
-ENV JAVA_HOME="/usr/local/openjdk-8"
+ENV JAVA_HOME="/usr/lib/jvm/default-jvm"
 ENV PATH=".:$PATH:$JAVA_HOME/bin"
 
-COPY --chown=root:root --from=temp /jdk1.8.0_281 "${JAVA_HOME}"
-RUN apk add --no-cache java-cacerts && \
+RUN apk --update --no-cache add java-cacerts openjdk8 && \
     rm -rf "$JAVA_HOME/lib/security/cacerts" && \
     mkdir -p "$JAVA_HOME/lib/security/" && \
     ln -sT /etc/ssl/certs/java/cacerts "$JAVA_HOME/lib/security/cacerts"
