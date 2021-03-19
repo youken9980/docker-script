@@ -12,6 +12,7 @@ RUN PROJ_VERSION="$(xpath -q -e '//project/version/text()' ${PROJ_SRC}/pom.xml)"
 
 
 FROM youken9980/openjdk:8-jre-alpine
+LABEL maintainer="YangJian <youken9980@163.com>"
 
 ENV JAVA_OPTS="-Dfile.encoding=UTF8 -Dsun.jnu.encoding=UTF8"
 

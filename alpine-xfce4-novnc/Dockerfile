@@ -14,6 +14,7 @@ RUN cd ${NOVNC_HOME} && ln -snf vnc.html index.html
 
 
 FROM youken9980/alpine:latest
+LABEL maintainer="YangJian <youken9980@163.com>"
 
 ENV USER=root
 ENV DISPLAY=:1
