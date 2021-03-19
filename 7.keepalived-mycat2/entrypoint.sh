@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -e
+set -eux
 
 syslogConfig="/etc/syslog.conf"
 keepalivedLog="/var/log/keepalived.log"

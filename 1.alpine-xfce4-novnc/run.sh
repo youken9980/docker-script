@@ -1,8 +1,12 @@
 #!/bin/bash
 
-imageTag="youken9980/jrebel-ls:latest"
-containerName="jrebel-ls"
+imageTag="youken9980/alpine-xfce4-novnc:latest"
+containerName="alpine-xfce4-novnc"
 network="mynet"
+vncPort="5900"
+novncPort="6080"
+vncResolution="1600x900"
+vncPasswd="alpinelinux"
 
 function dockerRm() {
     filter="$1"
@@ -31,8 +35,14 @@ function dockerLogsUntil() {
 }
 
 dockerRm "name=${containerName}"
-docker run -d -p 8079:8080 \
-    --cpus 0.5 --memory 32M --memory-swap -1 \
+docker run --privileged -d \
+    --cpus 4 --memory 256M --memory-swap -1 \
+    -p ${vncPort}:${vncPort} \
+    -p ${novncPort}:${novncPort} \
+    -e VNC_PORT=${vncPort} \
+    -e NOVNC_PORT=${novncPort} \
+    -e VNC_RESOLUTION=${vncResolution} \
+    -e VNC_PASSWD=${vncPasswd} \
     --network="${network}" --name="${containerName}" \
     "${imageTag}"
-dockerLogsUntil "name=${containerName}" "{guid}(eg:http"
+dockerLogsUntil "name=${containerName}" "The[[:space:]]VNC[[:space:]]desktop[[:space:]]is"

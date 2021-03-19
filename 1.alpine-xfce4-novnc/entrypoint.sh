@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -xe
+set -eux
 
 source /etc/profile
 
@@ -14,4 +14,5 @@ $NOVNC_HOME/utils/launch.sh --vnc localhost:$VNC_PORT --listen $NOVNC_PORT &
 Xvfb $DISPLAY -screen 0 "$VNC_RESOLUTION"x"$VNC_COL_DEPTH" &
 startxfce4 --replace > $HOME/wm.log 2>&1 &
 sleep 1
-x11vnc -xkb -noxrecord -noxfixes -noxdamage -permitfiletransfer -tightfilexfer -rfbauth $PASSWD_PATH -display $DISPLAY -forever -o $HOME/.x11vnc/x11vnc.log -bg && tail -f $HOME/.x11vnc/x11vnc.log
+x11vnc -noncache -xkb -noxrecord -noxfixes -noxdamage -permitfiletransfer -tightfilexfer -rfbauth $PASSWD_PATH -display $DISPLAY -forever -o $HOME/.x11vnc/x11vnc.log -bg
+tail -f $HOME/.x11vnc/x11vnc.log

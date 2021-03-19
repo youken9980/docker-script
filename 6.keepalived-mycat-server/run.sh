@@ -30,7 +30,7 @@ function dockerLogsUntil() {
     sleep 1s
     PID=$(ps aux | grep "docker" | grep ${containerId} | awk '{print $2}' | sort -nr | head -1)
     if [ "${PID}" != "" ]; then
-        eval "tail -f --pid=${PID} /tmp/${containerId}.log | sed '/${endpoint}/q'"
+        eval "tail -n 1 -f --pid=${PID} /tmp/${containerId}.log | sed '/${endpoint}/q'"
         kill -9 ${PID}
         rm /tmp/${containerId}.log
     fi
