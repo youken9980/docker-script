@@ -1,14 +1,10 @@
 FROM youken9980/build-tools-openjdk8:latest as temp
 LABEL maintainer="YangJian <youken9980@163.com>"
 
-ENV OPENOFFICE_VERSION="4.1.9"
-ENV OPENOFFICE_DOWNLOAD_URL="https://jaist.dl.sourceforge.net/project/openofficeorg.mirror/${OPENOFFICE_VERSION}/binaries/en-US/Apache_OpenOffice_${OPENOFFICE_VERSION}_Linux_x86-64_install-deb_en-US.tar.gz"
 ENV GIT_URL="https://gitee.com/kekingcn/file-online-preview.git"
 ENV PROJ_SRC="/proj-src"
 ENV GIT_TAG="v3.5"
 
-RUN axel -n 32 -o /openoffice_install_deb.tar.gz ${OPENOFFICE_DOWNLOAD_URL}
-RUN tar -zxvf /openoffice_install_deb.tar.gz -C /tmp
 RUN git clone ${GIT_URL} ${PROJ_SRC} && \
     cd ${PROJ_SRC} && \
     git checkout ${GIT_TAG} && \
@@ -26,7 +22,6 @@ ENV SHELL="/bin/bash"
 ENV LANG="en_US.UTF-8"
 ENV TZ="Asia/Shanghai"
 
-COPY --chown=root:root --from=temp /tmp/en-US/DEBS /tmp/openoffice_install_deb
 COPY --chown=root:root --from=temp /kkFileView /kkFileView
 
 RUN ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
@@ -46,15 +41,21 @@ RUN ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo "deb http://mirrors.aliyun.com/debian/ buster-backports main non-free contrib" >> /etc/apt/sources.list && \
     echo "deb-src http://mirrors.aliyun.com/debian/ buster-backports main non-free contrib" >> /etc/apt/sources.list && \
     apt-get update && \
+    \
     apt-get install -y \
-        procps \
+        procps axel \
         ttf-mscorefonts-installer fontconfig \
         ttf-wqy-microhei ttf-wqy-zenhei xfonts-wqy \
         libxrender1 libxt6 libxext-dev libfreetype6-dev && \
+    \
+    OPENOFFICE_VERSION="4.1.9" && \
+    OPENOFFICE_DOWNLOAD_URL="https://jaist.dl.sourceforge.net/project/openofficeorg.mirror/${OPENOFFICE_VERSION}/binaries/en-US/Apache_OpenOffice_${OPENOFFICE_VERSION}_Linux_x86-64_install-deb_en-US.tar.gz" && \
+    axel -n 32 -o /tmp/openoffice_install_deb.tar.gz ${OPENOFFICE_DOWNLOAD_URL} && \
+    tar -zxvf /tmp/openoffice_install_deb.tar.gz -C /tmp && \
+    dpkg -i /tmp/en-US/DEBS/*.deb /tmp/en-US/DEBS/desktop-integration/*.deb && \
     mkfontscale &&\
     mkfontdir &&\
     fc-cache -f && \
-    dpkg -i /tmp/openoffice_install_deb/*.deb /tmp/openoffice_install_deb/desktop-integration/*.deb && \
     rm -rf rm -rf /tmp/* && rm -rf /var/lib/apt/lists/*
 
 EXPOSE 8012
