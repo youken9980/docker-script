@@ -19,7 +19,9 @@ FROM openjdk:8-jre-slim-buster
 LABEL maintainer="YangJian <youken9980@163.com>"
 
 ENV SHELL="/bin/bash"
-ENV LANG="en_US.UTF-8"
+ENV LANG="zh_CN.UTF-8"
+ENV LANGUAGE="zh_CN.UTF-8"
+ENV LC_ALL="zh_CN.UTF-8"
 ENV TZ="Asia/Shanghai"
 
 COPY --chown=root:root --from=temp /kkFileView /kkFileView
@@ -42,21 +44,29 @@ RUN ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo "deb-src http://mirrors.aliyun.com/debian/ buster-backports main non-free contrib" >> /etc/apt/sources.list && \
     apt-get update && \
     \
-    apt-get install -y \
-        procps axel \
+    apt-get install -y --no-install-recommends \
+        procps axel aptitude locales \
         ttf-mscorefonts-installer fontconfig \
-        ttf-wqy-microhei ttf-wqy-zenhei xfonts-wqy \
+        ttf-wqy-microhei ttf-wqy-zenhei xfonts-intl-chinese xfonts-wqy \
         libxrender1 libxt6 libxext-dev libfreetype6-dev && \
+    \
+    echo "locales locales/default_environment_locale select zh_CN.UTF-8" | debconf-set-selections && \
+    echo "locales locales/locales_to_be_generated multiselect zh_CN.UTF-8 UTF-8" | debconf-set-selections && \
+    rm "/etc/locale.gen" && \
+    dpkg-reconfigure --frontend noninteractive locales && \
+    mkfontscale &&\
+    mkfontdir &&\
+    fc-cache -f && \
     \
     OPENOFFICE_VERSION="4.1.9" && \
     OPENOFFICE_DOWNLOAD_URL="https://jaist.dl.sourceforge.net/project/openofficeorg.mirror/${OPENOFFICE_VERSION}/binaries/en-US/Apache_OpenOffice_${OPENOFFICE_VERSION}_Linux_x86-64_install-deb_en-US.tar.gz" && \
     axel -n 32 -o /tmp/openoffice_install_deb.tar.gz ${OPENOFFICE_DOWNLOAD_URL} && \
     tar -zxvf /tmp/openoffice_install_deb.tar.gz -C /tmp && \
     dpkg -i /tmp/en-US/DEBS/*.deb /tmp/en-US/DEBS/desktop-integration/*.deb && \
-    mkfontscale &&\
-    mkfontdir &&\
-    fc-cache -f && \
-    rm -rf rm -rf /tmp/* && rm -rf /var/lib/apt/lists/*
+    \
+    apt-get clean && \
+    rm -rf /tmp/* && \
+    rm -rf /var/lib/apt/lists/*
 
 EXPOSE 8012
 
