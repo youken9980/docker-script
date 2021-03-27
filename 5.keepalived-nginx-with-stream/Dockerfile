@@ -1,7 +1,6 @@
-FROM youken9980/alpine:latest
+FROM youken9980/alpine:3
 LABEL maintainer="YangJian <youken9980@163.com>"
 
-ENV TZ="Asia/Shanghai"
 ENV RUN_KEEPALIVED="false"
 ENV KEEPALIVED_INTERFACE="eth0"
 ENV KEEPALIVED_STATE="BACKUP"
@@ -11,7 +10,7 @@ ENV KEEPALIVED_PASSWORD="d0cker"
 ENV KEEPALIVED_VIRTUAL_IP="172.18.0.100"
 
 RUN NGINX_VERSION="1.18.0" && \
-    GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 && \
+    GPG_KEYS="B0F4253373F8F6F510D42178520A9993A1C052F8" && \
     CONFIG="\
         --prefix=/etc/nginx \
         --sbin-path=/usr/sbin/nginx \

@@ -1,5 +1,4 @@
 FROM youken9980/build-tools-openjdk8:latest as temp
-LABEL maintainer="YangJian <youken9980@163.com>"
 
 ENV GIT_URL="https://gitee.com/kekingcn/file-online-preview.git"
 ENV PROJ_SRC="/proj-src"
@@ -18,13 +17,15 @@ RUN PROJ_VERSION="$(xpath -q -e '//project/version/text()' ${PROJ_SRC}/pom.xml)"
 FROM openjdk:8-jre-slim-buster
 LABEL maintainer="YangJian <youken9980@163.com>"
 
-ENV SHELL="/bin/bash"
+ENV TZ="Asia/Shanghai"
 ENV LANG="zh_CN.UTF-8"
 ENV LANGUAGE="zh_CN.UTF-8"
 ENV LC_ALL="zh_CN.UTF-8"
-ENV TZ="Asia/Shanghai"
+ENV DEBIAN_MIRROR="https://mirrors.163.com"
+ENV KKFILEVIEW_HOME="/kkFileView"
+ENV KK_OFFICE_HOME="/opt/openoffice4"
 
-COPY --chown=root:root --from=temp /kkFileView /kkFileView
+COPY --chown=root:root --from=temp ${KKFILEVIEW_HOME} ${KKFILEVIEW_HOME}
 
 RUN ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo "Asia/Shanghai" > /etc/timezone && \
@@ -34,14 +35,14 @@ RUN ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     sed -i "s|# alias ll='ls \$LS_OPTIONS -l'|alias ll='ls \$LS_OPTIONS -la'|g" /root/.bashrc && \
     sed -i "s|# alias l='ls \$LS_OPTIONS -lA'|alias l='ls \$LS_OPTIONS -lA'|g" /root/.bashrc && \
     mv /etc/apt/sources.list /etc/apt/sources.list.bak && \
-    echo "deb http://mirrors.aliyun.com/debian/ buster main non-free contrib" >> /etc/apt/sources.list && \
-    echo "deb-src http://mirrors.aliyun.com/debian/ buster main non-free contrib" >> /etc/apt/sources.list && \
-    echo "deb http://mirrors.aliyun.com/debian-security buster/updates main" >> /etc/apt/sources.list && \
-    echo "deb-src http://mirrors.aliyun.com/debian-security buster/updates main" >> /etc/apt/sources.list && \
-    echo "deb http://mirrors.aliyun.com/debian/ buster-updates main non-free contrib" >> /etc/apt/sources.list && \
-    echo "deb-src http://mirrors.aliyun.com/debian/ buster-updates main non-free contrib" >> /etc/apt/sources.list && \
-    echo "deb http://mirrors.aliyun.com/debian/ buster-backports main non-free contrib" >> /etc/apt/sources.list && \
-    echo "deb-src http://mirrors.aliyun.com/debian/ buster-backports main non-free contrib" >> /etc/apt/sources.list && \
+    echo "deb ${DEBIAN_MIRROR}/debian/ buster main non-free contrib" >> /etc/apt/sources.list && \
+    echo "deb-src ${DEBIAN_MIRROR}/debian/ buster main non-free contrib" >> /etc/apt/sources.list && \
+    echo "deb ${DEBIAN_MIRROR}/debian-security buster/updates main" >> /etc/apt/sources.list && \
+    echo "deb-src ${DEBIAN_MIRROR}/debian-security buster/updates main" >> /etc/apt/sources.list && \
+    echo "deb ${DEBIAN_MIRROR}/debian/ buster-updates main non-free contrib" >> /etc/apt/sources.list && \
+    echo "deb-src ${DEBIAN_MIRROR}/debian/ buster-updates main non-free contrib" >> /etc/apt/sources.list && \
+    echo "deb ${DEBIAN_MIRROR}/debian/ buster-backports main non-free contrib" >> /etc/apt/sources.list && \
+    echo "deb-src ${DEBIAN_MIRROR}/debian/ buster-backports main non-free contrib" >> /etc/apt/sources.list && \
     apt-get update && \
     \
     apt-get install -y --no-install-recommends \
@@ -70,9 +71,6 @@ RUN ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
 
 EXPOSE 8012
 
-ENV KKFILEVIEW_BIN_FOLDER="/kkFileView/bin"
-ENV KK_OFFICE_HOME="/opt/openoffice4"
-
-WORKDIR ${KKFILEVIEW_BIN_FOLDER}
+WORKDIR ${KKFILEVIEW_HOME}/bin
 # java -Dfile.encoding=UTF8 -Dsun.jnu.encoding=UTF8 -Dspring.config.location=../config/application.properties -jar kkFileView.jar
 CMD ["java", "-Dfile.encoding=UTF8", "-Dsun.jnu.encoding=UTF8", "-Dspring.config.location=../config/application.properties", "-jar", "kkFileView.jar"]
