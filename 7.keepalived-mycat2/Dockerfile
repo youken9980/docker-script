@@ -1,7 +1,8 @@
 FROM youken9980/build-tools-openjdk8:latest as temp
 LABEL maintainer="YangJian <youken9980@163.com>"
 
-ENV GIT_URL="https://hub.fastgit.org/MyCATApache/Mycat2.git"
+ENV GITHUB_MIRROR="https://github.com.cnpmjs.org"
+ENV GIT_URL="${GITHUB_MIRROR}/MyCATApache/Mycat2.git"
 ENV PROJ_SRC="/proj-src"
 
 RUN git clone ${GIT_URL} ${PROJ_SRC} && \
