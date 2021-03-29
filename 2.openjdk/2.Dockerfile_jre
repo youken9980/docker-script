@@ -9,6 +9,44 @@ RUN apk --update --no-cache add java-cacerts openjdk8-jre && \
     mkdir -p "$JAVA_HOME/lib/security/" && \
     ln -sT /etc/ssl/certs/java/cacerts "$JAVA_HOME/lib/security/cacerts"
 
+# ---
+
+# 方案一、使用原版openjdk:8-jre-alpine镜像，升级jdk
+# 156MB
+
+# FROM openjdk:8-jre-alpine
+# ENV TZ="Asia/Shanghai"
+# ENV LANG="en_US.UTF-8"
+# ENV LANGUAGE="en_US.UTF-8"
+# ENV LC_ALL="en_US.UTF-8"
+# ENV ALPINE_MIRROR="mirrors.sjtug.sjtu.edu.cn"
+# ENV GITHUB_MIRROR="https://github.wuyanzheshui.workers.dev"
+# RUN sed -i "s|dl-cdn.alpinelinux.org|${ALPINE_MIRROR}|g" /etc/apk/repositories && \
+#     apk update --no-cache && \
+#     apk add --upgrade --no-cache openjdk8-jre-base && \
+#     apk add --upgrade --no-cache tzdata axel && \
+#     echo "Asia/Shanghai" > /etc/timezone && \
+#     ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+# ---
+
+# 方案二、基于alpine:3镜像，使用apk安装
+# 121MB
+
+# FROM youken9980/alpine:3
+# ENV JAVA_HOME="/usr/lib/jvm/default-jvm/jre"
+# ENV PATH=".:$PATH:$JAVA_HOME/bin"
+# RUN apk --update --no-cache add java-cacerts openjdk8-jre && \
+#     rm -rf "$JAVA_HOME/lib/security/cacerts" && \
+#     mkdir -p "$JAVA_HOME/lib/security/" && \
+#     ln -sT /etc/ssl/certs/java/cacerts "$JAVA_HOME/lib/security/cacerts"
+
+# ---
+
+# 方案三、基于alpine:3镜像，下载upstream-binaries自行安装
+# 128MB
+
+# FROM youken9980/alpine:3
 # ENV JAVA_HOME="/usr/share/openjdk-8"
 # RUN FILE_NAME="openjdk-8" && \
 #     DOWNLOAD_URL="$GITHUB_MIRROR/AdoptOpenJDK/openjdk8-upstream-binaries/releases/download/jdk8u282-b08/OpenJDK8U-jre_x64_linux_8u282b08.tar.gz" && \
