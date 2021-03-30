@@ -4,10 +4,11 @@ LABEL maintainer="YangJian <youken9980@163.com>"
 ENV GITHUB_MIRROR="https://github.com.cnpmjs.org"
 ENV GIT_URL="${GITHUB_MIRROR}/MyCATApache/Mycat2.git"
 ENV PROJ_SRC="/proj-src"
+ENV GIT_TAG="v1.12-2020-7-16"
 
 RUN git clone ${GIT_URL} ${PROJ_SRC} && \
     cd ${PROJ_SRC} && \
-    git checkout v1.12-2020-7-16 && \
+    git checkout ${GIT_TAG} && \
     mvn clean package -Dmaven.test.skip=true -U
 RUN PROJ_VERSION="$(xpath -q -e '//project/version/text()' ${PROJ_SRC}/pom.xml)" && \
     cp ${PROJ_SRC}/mycat2/target/mycat2-$PROJ_VERSION.tar.gz /mycat.tar.gz && \
@@ -35,7 +36,8 @@ ENV KEEPALIVED_PASSWORD="d0cker"
 ENV KEEPALIVED_VIRTUAL_IP="172.18.0.100"
 ENV PATH=$PATH:/usr/local/mycat/bin
 
-RUN apk --update --no-cache add which procps busybox-extras ipvsadm keepalived
+RUN apk --update --no-cache add which procps busybox-extras ipvsadm keepalived && \
+    rm -rf /var/cache/apk/*.*
 
 COPY realServerVip.sh /usr/local/bin/
 COPY notify.sh /usr/local/bin/

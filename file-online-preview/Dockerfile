@@ -45,7 +45,7 @@ RUN ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo "deb-src ${DEBIAN_MIRROR}/debian/ buster-backports main non-free contrib" >> /etc/apt/sources.list && \
     apt-get update && \
     \
-    apt-get install -y --no-install-recommends \
+    apt-get install --no-install-recommends -y \
         procps axel aptitude locales \
         ttf-mscorefonts-installer fontconfig \
         ttf-wqy-microhei ttf-wqy-zenhei xfonts-intl-chinese xfonts-wqy \
@@ -64,10 +64,12 @@ RUN ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     axel -n 32 -o /tmp/openoffice_install_deb.tar.gz ${OPENOFFICE_DOWNLOAD_URL} && \
     tar -zxvf /tmp/openoffice_install_deb.tar.gz -C /tmp && \
     dpkg -i /tmp/en-US/DEBS/*.deb /tmp/en-US/DEBS/desktop-integration/*.deb && \
+    rm -rf /opt/openoffice4/help && \
     \
     apt-get clean && \
-    rm -rf /tmp/* && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/cache/* \
+           /tmp/* \
+           /var/lib/apt/lists/*
 
 EXPOSE 8012
 

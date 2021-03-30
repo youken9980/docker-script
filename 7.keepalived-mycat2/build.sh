@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build -t youken9980/keepalived-mycat2:latest .
+docker build -f Dockerfile -t youken9980/keepalived-mycat2:latest .

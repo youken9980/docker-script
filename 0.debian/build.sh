@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build -t youken9980/debian:buster-slim .
+docker build -f Dockerfile -t youken9980/debian:buster-slim .

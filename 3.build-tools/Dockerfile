@@ -22,7 +22,6 @@ FROM youken9980/alpine:3 as gradle
 ENV GRADLE_VERSION="6.8.3"
 ENV GRADLE_DOWNLOAD_URL="https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip"
 ENV GRADLE_HOME="/usr/local/gradle-${GRADLE_VERSION}"
-ENV GRADLE_REPO="/usr/local/gradle-repository"
 
 RUN axel -n 32 ${GRADLE_DOWNLOAD_URL} && \
     apk --update --no-cache add zip && unzip "*.zip" && \
@@ -49,7 +48,8 @@ COPY --chown=root:root --from=maven ${MAVEN_HOME} ${MAVEN_HOME}
 COPY --chown=root:root --from=gradle ${GRADLE_HOME} ${GRADLE_HOME}
 
 RUN apk --update --no-cache add git subversion perl-xml-xpath && \
-    mkdir -p ${MAVEN_REPO} ${GRADLE_REPO}
+    mkdir -p ${MAVEN_REPO} ${GRADLE_REPO} && \
+    rm -rf /var/cache/apk/*.*
 
 STOPSIGNAL SIGTERM
 

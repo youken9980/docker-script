@@ -7,7 +7,15 @@ ENV PATH=".:$PATH:$JAVA_HOME/bin"
 RUN apk --update --no-cache add java-cacerts openjdk8 && \
     rm -rf "$JAVA_HOME/lib/security/cacerts" && \
     mkdir -p "$JAVA_HOME/lib/security/" && \
-    ln -sT /etc/ssl/certs/java/cacerts "$JAVA_HOME/lib/security/cacerts"
+    ln -sT /etc/ssl/certs/java/cacerts "$JAVA_HOME/lib/security/cacerts" && \
+    rm -rf /etc/fonts \
+           /usr/glibc-compat \
+           /usr/share/fontconfig \
+           /usr/share/fonts \
+           /usr/share/udhcpc \
+           /usr/share/xml \
+           /var/cache/apk/*.* \
+           /var/cache/fontconfig/*.*
 
 # ---
 
@@ -30,8 +38,8 @@ RUN apk --update --no-cache add java-cacerts openjdk8 && \
 
 # ---
 
-# 方案二、基于alpine:3镜像，使用apk安装
-# 141MB
+# 方案二、基于alpine:3镜像，使用apk安装，删除多余文件
+# 118MB
 
 # FROM youken9980/alpine:3
 # ENV JAVA_HOME="/usr/lib/jvm/default-jvm"
@@ -39,7 +47,15 @@ RUN apk --update --no-cache add java-cacerts openjdk8 && \
 # RUN apk --update --no-cache add java-cacerts openjdk8 && \
 #     rm -rf "$JAVA_HOME/lib/security/cacerts" && \
 #     mkdir -p "$JAVA_HOME/lib/security/" && \
-#     ln -sT /etc/ssl/certs/java/cacerts "$JAVA_HOME/lib/security/cacerts"
+#     ln -sT /etc/ssl/certs/java/cacerts "$JAVA_HOME/lib/security/cacerts" && \
+#     rm -rf /etc/fonts \
+#            /usr/glibc-compat \
+#            /usr/share/fontconfig \
+#            /usr/share/fonts \
+#            /usr/share/udhcpc \
+#            /usr/share/xml \
+#            /var/cache/apk/*.* \
+#            /var/cache/fontconfig/*.*
 
 # ---
 

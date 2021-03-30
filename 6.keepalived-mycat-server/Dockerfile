@@ -37,7 +37,8 @@ ENV KEEPALIVED_PASSWORD="d0cker"
 ENV KEEPALIVED_VIRTUAL_IP="172.18.0.100"
 ENV PATH=$PATH:/usr/local/mycat/bin
 
-RUN apk --update --no-cache add which procps busybox-extras ipvsadm keepalived
+RUN apk --update --no-cache add which procps busybox-extras ipvsadm keepalived && \
+    rm -rf /var/cache/apk/*.*
 
 COPY realServerVip.sh /usr/local/bin/
 COPY notify.sh /usr/local/bin/

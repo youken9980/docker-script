@@ -35,13 +35,17 @@ COPY --chown=root:root --from=novnc /noVNC ${NOVNC_HOME}
 
 RUN set -xe && \
     apk --update --no-cache add \
-        ca-certificates \
         xfce4 xfce4-terminal x11vnc xvfb \
         bash procps python2 font-adobe-100dpi \
         chromium && \
-    update-ca-certificates && \
+    mv /usr/lib/chromium/locales/en-US*.* /. && \
+    rm -rf /usr/lib/chromium/locales && \
+    mkdir -p /usr/lib/chromium/locales && \
+    mv /en-US*.* /usr/lib/chromium/locales/. && \
     echo "CHROMIUM_FLAGS=\"--no-sandbox --no-first-run --disable-gpu\"" >> /etc/chromium/chromium.conf && \
-    fc-cache -f
+    fc-cache -f && \
+    rm -rf /var/cache/apk/*.* && \
+    rm -rf /var/cache/fontconfig/*.*
 
 EXPOSE $VNC_PORT $NOVNC_PORT
 
