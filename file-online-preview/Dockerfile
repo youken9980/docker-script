@@ -1,7 +1,7 @@
 FROM youken9980/build-tools-openjdk8:latest as temp
 
 ENV GITHUB_MIRROR="https://hub.fastgit.org"
-ENV GIT_URL="${GITHUB_MIRROR}/kekingcn/kkFileView.git"
+ENV GIT_URL="${GITHUB_MIRROR}/youken9980/kkFileView.git"
 ENV PROJ_SRC="/proj-src"
 ENV GIT_TAG="master"
 
