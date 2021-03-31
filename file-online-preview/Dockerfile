@@ -2,7 +2,8 @@ FROM youken9980/build-tools-openjdk8:latest as temp
 
 ENV GIT_URL="https://gitee.com/kekingcn/file-online-preview.git"
 ENV PROJ_SRC="/proj-src"
-ENV GIT_TAG="v3.5"
+# ENV GIT_TAG="v3.5"
+ENV GIT_TAG="master"
 
 RUN git clone ${GIT_URL} ${PROJ_SRC} && \
     cd ${PROJ_SRC} && \
