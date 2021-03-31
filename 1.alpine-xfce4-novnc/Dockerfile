@@ -30,26 +30,29 @@ ENV VNC_COL_DEPTH=24
 ENV NOVNC_PORT=6080
 ENV NOVNC_HOME=${HOME}/noVNC
 
-COPY --chown=root:root --from=source-han-serif /SourceHanSerif.ttc /usr/share/fonts/SourceHanSerif.ttc
-COPY --chown=root:root --from=novnc /noVNC ${NOVNC_HOME}
-
 RUN set -xe && \
+    \
     apk --update --no-cache add \
         xfce4 xfce4-terminal x11vnc xvfb \
         bash procps python2 font-adobe-100dpi \
-        chromium && \
-    mv /usr/lib/chromium/locales/en-US*.* /. && \
-    rm -rf /usr/lib/chromium/locales && \
-    mkdir -p /usr/lib/chromium/locales && \
-    mv /en-US*.* /usr/lib/chromium/locales/. && \
-    echo "CHROMIUM_FLAGS=\"--no-sandbox --no-first-run --disable-gpu\"" >> /etc/chromium/chromium.conf && \
+        firefox && \
     fc-cache -f && \
-    rm -rf /var/cache/apk/*.* && \
-    rm -rf /var/cache/fontconfig/*.*
+    \
+    rm -rf /var/cache/apk/*.*
 
 EXPOSE $VNC_PORT $NOVNC_PORT
 
+COPY --chown=root:root --from=source-han-serif /SourceHanSerif.ttc /usr/share/fonts/SourceHanSerif.ttc
+COPY --chown=root:root --from=novnc /noVNC ${NOVNC_HOME}
+
 COPY config /etc/skel/.config
 COPY entrypoint.sh /entrypoint.sh
+
+# RUN apk --update --no-cache add chromium && \
+#     mv /usr/lib/chromium/locales/en-US*.* /. && \
+#     rm -rf /usr/lib/chromium/locales && \
+#     mkdir -p /usr/lib/chromium/locales && \
+#     mv /en-US*.* /usr/lib/chromium/locales/. && \
+#     echo "CHROMIUM_FLAGS=\"--no-sandbox --no-first-run --disable-gpu\"" >> /etc/chromium/chromium.conf
 
 CMD ["/entrypoint.sh"]

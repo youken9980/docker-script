@@ -1,8 +1,8 @@
 FROM youken9980/build-tools-openjdk8:latest as temp
 
-ENV GIT_URL="https://gitee.com/kekingcn/file-online-preview.git"
+ENV GITHUB_MIRROR="https://hub.fastgit.org"
+ENV GIT_URL="${GITHUB_MIRROR}/kekingcn/kkFileView.git"
 ENV PROJ_SRC="/proj-src"
-# ENV GIT_TAG="v3.5"
 ENV GIT_TAG="master"
 
 RUN git clone ${GIT_URL} ${PROJ_SRC} && \
@@ -23,8 +23,6 @@ ENV LANGUAGE="zh_CN.UTF-8"
 ENV LC_ALL="zh_CN.UTF-8"
 ENV KKFILEVIEW_HOME="/kkFileView"
 ENV KK_OFFICE_HOME="/opt/openoffice4"
-
-COPY --chown=root:root --from=temp ${KKFILEVIEW_HOME} ${KKFILEVIEW_HOME}
 
 RUN set -eux && \
     \
@@ -57,6 +55,9 @@ RUN set -eux && \
 
 EXPOSE 8012
 
+COPY --chown=root:root --from=temp ${KKFILEVIEW_HOME} ${KKFILEVIEW_HOME}
+
 WORKDIR ${KKFILEVIEW_HOME}/bin
+
 # java -Dfile.encoding=UTF8 -Dsun.jnu.encoding=UTF8 -Dspring.config.location=../config/application.properties -jar kkFileView.jar
 CMD ["java", "-Dfile.encoding=UTF8", "-Dsun.jnu.encoding=UTF8", "-Dspring.config.location=../config/application.properties", "-jar", "kkFileView.jar"]
