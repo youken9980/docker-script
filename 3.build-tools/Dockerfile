@@ -44,12 +44,12 @@ ENV GRADLE_USER_HOME="${GRADLE_REPO}"
 
 ENV PATH="${PATH}:${MAVEN_HOME}/bin:${GRADLE_HOME}/bin"
 
-COPY --chown=root:root --from=maven ${MAVEN_HOME} ${MAVEN_HOME}
-COPY --chown=root:root --from=gradle ${GRADLE_HOME} ${GRADLE_HOME}
-
 RUN apk --update --no-cache add git subversion perl-xml-xpath && \
     mkdir -p ${MAVEN_REPO} ${GRADLE_REPO} && \
     rm -rf /var/cache/apk/*.*
+
+COPY --chown=root:root --from=maven ${MAVEN_HOME} ${MAVEN_HOME}
+COPY --chown=root:root --from=gradle ${GRADLE_HOME} ${GRADLE_HOME}
 
 STOPSIGNAL SIGTERM
 

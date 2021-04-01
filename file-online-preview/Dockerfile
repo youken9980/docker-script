@@ -53,9 +53,9 @@ RUN set -eux && \
            /tmp/* \
            /opt/openoffice4/help
 
-EXPOSE 8012
-
 COPY --chown=root:root --from=temp ${KKFILEVIEW_HOME} ${KKFILEVIEW_HOME}
+
+EXPOSE 8012
 
 WORKDIR ${KKFILEVIEW_HOME}/bin
 

@@ -9,7 +9,6 @@ RUN apk --update --no-cache add java-cacerts openjdk8 && \
     mkdir -p "$JAVA_HOME/lib/security/" && \
     ln -sT /etc/ssl/certs/java/cacerts "$JAVA_HOME/lib/security/cacerts" && \
     rm -rf /etc/fonts \
-           /usr/glibc-compat \
            /usr/share/fontconfig \
            /usr/share/fonts \
            /usr/share/udhcpc \

@@ -1,0 +1,14 @@
+FROM youken9980/alpine:3
+LABEL maintainer="YangJian <youken9980@163.com>"
+
+RUN GLIBC_VERSION="2.33-r0" && \
+    axel -n 8 -o /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub && \
+    axel -n 8 -o glibc.apk ${GITHUB_MIRROR}/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk && \
+    apk --update --no-cache add glibc.apk && \
+    rm -rf glibc.apk && \
+    \
+    rm -rf /var/cache/apk/*.*
+
+STOPSIGNAL SIGTERM
+
+CMD [ "/bin/sh" ]

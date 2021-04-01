@@ -40,15 +40,16 @@ ENV PATH=$PATH:/usr/local/mycat/bin
 RUN apk --update --no-cache add which procps busybox-extras ipvsadm keepalived && \
     rm -rf /var/cache/apk/*.*
 
+COPY --from=temp /mycat /usr/local/mycat
+
 COPY realServerVip.sh /usr/local/bin/
 COPY notify.sh /usr/local/bin/
 COPY keepalived.conf /etc/keepalived/
-
-STOPSIGNAL SIGTERM
+COPY check_service.sh /usr/local/bin/
+COPY entrypoint.sh /usr/local/bin/
 
 EXPOSE 1984 8066 9066
 
-COPY --from=temp /mycat /usr/local/mycat
-COPY check_service.sh /usr/local/bin/
-COPY entrypoint.sh /usr/local/bin/
+STOPSIGNAL SIGTERM
+
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
