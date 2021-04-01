@@ -32,7 +32,9 @@ function dockerLogsUntil() {
 
 dockerRm "name=${containerName}"
 docker run -d -p 8012:8012 \
-    --cpus 4 --memory 384M --memory-swap -1 \
+    --cpus 1 --memory 384M --memory-swap -1 \
+    -e KK_OFFICE_PREVIEW_SWITCH_DISABLED="true" \
+    -e KK_OFFICE_PREVIEW_TYPE="pdf" \
     --network="${network}" --name="${containerName}" \
     "${imageTag}"
 dockerLogsUntil "name=${containerName}" "kkFileView[[:space:]]服务启动完成"
