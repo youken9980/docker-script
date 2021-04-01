@@ -10,6 +10,8 @@ ENV GITHUB_MIRROR="https://github.wuyanzheshui.workers.dev"
 # https://hub.fastgit.org
 # https://github.com.cnpmjs.org
 # https://github.wuyanzheshui.workers.dev
+# https://gitclone.com/github.com
+# http://toolwa.com/github
 
 RUN sed -i "s|dl-cdn.alpinelinux.org|${ALPINE_MIRROR}|g" /etc/apk/repositories && \
     apk --update --no-cache add tzdata ca-certificates axel && \
