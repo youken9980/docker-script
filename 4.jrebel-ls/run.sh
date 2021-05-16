@@ -31,7 +31,7 @@ function dockerLogsUntil() {
 }
 
 dockerRm "name=${containerName}"
-docker run -d -p 8079:8080 \
+docker run -d -p 127.0.0.1:8079:8080 \
     --cpus 0.5 --memory 32M --memory-swap -1 \
     --network="${network}" --name="${containerName}" \
     "${imageTag}"

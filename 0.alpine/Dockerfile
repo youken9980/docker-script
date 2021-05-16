@@ -5,8 +5,10 @@ ENV TZ="Asia/Shanghai"
 ENV LANG="en_US.UTF-8"
 ENV LANGUAGE="en_US.UTF-8"
 ENV LC_ALL="en_US.UTF-8"
-ENV ALPINE_MIRROR="mirrors.sjtug.sjtu.edu.cn"
-ENV GITHUB_MIRROR="https://github.wuyanzheshui.workers.dev"
+ENV ALPINE_MIRROR="mirrors.aliyun.com"
+# mirrors.aliyun.com
+# mirrors.sjtug.sjtu.edu.cn
+ENV GITHUB_MIRROR="https://hub.fastgit.org"
 # https://hub.fastgit.org
 # https://github.com.cnpmjs.org
 # https://github.wuyanzheshui.workers.dev

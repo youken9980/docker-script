@@ -1,10 +1,13 @@
 FROM youken9980/alpine:3 as source-han-serif
+ENV GITHUB_MIRROR="https://github.wuyanzheshui.workers.dev"
 RUN axel -n 32 -o /SourceHanSerif.ttc ${GITHUB_MIRROR}/adobe-fonts/source-han-serif/releases/download/1.001R/SourceHanSerif.ttc
 
 FROM youken9980/alpine:3 as source-han-sans
+ENV GITHUB_MIRROR="https://github.wuyanzheshui.workers.dev"
 RUN axel -n 32 -o /SourceHanSans.ttc ${GITHUB_MIRROR}/adobe-fonts/source-han-sans/releases/download/2.002R/SourceHanSans.ttc
 
 FROM youken9980/alpine:3 as source-han-mono
+ENV GITHUB_MIRROR="https://github.wuyanzheshui.workers.dev"
 RUN axel -n 32 -o /SourceHanMono.ttc ${GITHUB_MIRROR}/adobe-fonts/source-han-mono/releases/download/1.002/SourceHanMono.ttc
 
 FROM youken9980/alpine:3 as novnc

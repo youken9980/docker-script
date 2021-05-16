@@ -31,11 +31,8 @@ function dockerLogsUntil() {
 }
 
 dockerRm "name=${containerName}"
-docker run -d -p 8012:8012 \
+docker run -d -p 127.0.0.1:8012:8012 \
     --cpus 1 --memory 384M --memory-swap -1 \
-    -e KK_CACHE_TYPE="redis" \
-    -e KK_SPRING_REDISSON_ADDRESS="127.0.0.1:6379" \
-    -e KK_SPRING_REDISSON_PASSWORD="" \
     -e KK_OFFICE_PREVIEW_SWITCH_DISABLED="true" \
     -e KK_OFFICE_PREVIEW_TYPE="pdf" \
     -e WATERMARK_TXT="才华有限公司" \
