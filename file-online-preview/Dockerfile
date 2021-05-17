@@ -15,7 +15,7 @@ RUN PROJ_VERSION="$(xpath -q -e '//project/version/text()' ${PROJ_SRC}/pom.xml)"
     cp ${PROJ_SRC}/server/target/kkFileView-$PROJ_VERSION.jar /kkFileView/bin/kkFileView.jar
 
 
-FROM adoptopenjdk/openjdk8:debianslim-jre
+FROM openjdk:8-jre-slim-buster
 LABEL maintainer="YangJian <youken9980@163.com>"
 
 ENV SHELL="/bin/bash"
