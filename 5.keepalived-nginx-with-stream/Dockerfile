@@ -9,7 +9,7 @@ ENV KEEPALIVED_PRIORITY="150"
 ENV KEEPALIVED_PASSWORD="d0cker"
 ENV KEEPALIVED_VIRTUAL_IP="172.18.0.100"
 
-RUN NGINX_VERSION="1.18.0" && \
+RUN NGINX_VERSION="1.20.1" && \
     GPG_KEYS="B0F4253373F8F6F510D42178520A9993A1C052F8" && \
     CONFIG="\
         --prefix=/etc/nginx \
@@ -71,8 +71,8 @@ RUN NGINX_VERSION="1.18.0" && \
         libxslt-dev \
         gd-dev \
         geoip-dev && \
-    curl -fSL http://nginx.org/download/nginx-$NGINX_VERSION.tar.gz -o nginx.tar.gz && \
-    curl -fSL http://nginx.org/download/nginx-$NGINX_VERSION.tar.gz.asc  -o nginx.tar.gz.asc && \
+    curl -fSL https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz -o nginx.tar.gz && \
+    curl -fSL https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz.asc -o nginx.tar.gz.asc && \
     export GNUPGHOME="$(mktemp -d)" && \
     found=''; \
     for server in \

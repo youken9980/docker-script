@@ -1,7 +1,7 @@
 FROM youken9980/build-tools-openjdk8:latest as temp
 LABEL maintainer="YangJian <youken9980@163.com>"
 
-ENV GITHUB_MIRROR="https://github.com.cnpmjs.org"
+ENV GITHUB_MIRROR="https://hub.fastgit.org"
 ENV GIT_URL="${GITHUB_MIRROR}/MyCATApache/Mycat-Server.git"
 ENV PROJ_SRC="/proj-src"
 ENV GIT_TAG="1.6.76-release-2020-11-2"
