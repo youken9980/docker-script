@@ -3,12 +3,10 @@ FROM youken9980/build-tools-openjdk8:latest as temp
 ENV GITHUB_MIRROR="https://hub.fastgit.org"
 ENV GIT_URL="${GITHUB_MIRROR}/kekingcn/kkFileView.git"
 ENV PROJ_SRC="/proj-src"
-ENV GIT_TAG="master"
 
-RUN git clone ${GIT_URL} ${PROJ_SRC} && \
-    cd ${PROJ_SRC} && \
-    git checkout ${GIT_TAG} && \
-    mvn clean package -Dmaven.test.skip=true -U
+RUN git clone --depth=1 ${GIT_URL} ${PROJ_SRC}
+WORKDIR ${PROJ_SRC}
+RUN mvn clean package -Dmaven.test.skip=true -U
 RUN PROJ_VERSION="$(xpath -q -e '//project/version/text()' ${PROJ_SRC}/pom.xml)" && \
     mkdir -p /kkFileView/config /kkFileView/bin && \
     cp ${PROJ_SRC}/server/src/main/config/application.properties /kkFileView/config/application.properties && \

@@ -6,10 +6,10 @@ ENV GIT_URL="${GITHUB_MIRROR}/MyCATApache/Mycat2.git"
 ENV PROJ_SRC="/proj-src"
 ENV GIT_TAG="v1.12-2020-7-16"
 
-RUN git clone ${GIT_URL} ${PROJ_SRC} && \
-    cd ${PROJ_SRC} && \
-    git checkout ${GIT_TAG} && \
-    mvn clean package -Dmaven.test.skip=true -U
+RUN git clone ${GIT_URL} ${PROJ_SRC}
+WORKDIR ${PROJ_SRC}
+RUN git checkout ${GIT_TAG}
+RUN mvn clean package -Dmaven.test.skip=true -U
 RUN PROJ_VERSION="$(xpath -q -e '//project/version/text()' ${PROJ_SRC}/pom.xml)" && \
     cp ${PROJ_SRC}/mycat2/target/mycat2-$PROJ_VERSION.tar.gz /mycat.tar.gz && \
     tar -xvf /mycat.tar.gz -C / && \
