@@ -88,5 +88,5 @@ EXPOSE 8012
 
 WORKDIR ${KKFILEVIEW_HOME}/bin
 
-# java -Dfile.encoding=UTF8 -Dsun.jnu.encoding=UTF8 -Dspring.config.location=../config/application.properties -jar kkFileView.jar
-CMD ["java", "-Dfile.encoding=UTF8", "-Dsun.jnu.encoding=UTF8", "-Dspring.config.location=../config/application.properties", "-jar", "kkFileView.jar"]
+# java -Duser.timezone=GMT+8 -Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8 -Dspring.config.location=../config/application.properties -jar kkFileView.jar
+CMD ["java", "-Duser.timezone=GMT+8", "-Dfile.encoding=UTF-8", "-Dsun.jnu.encoding=UTF-8", "-Dspring.config.location=../config/application.properties", "-jar", "kkFileView.jar"]
