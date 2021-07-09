@@ -74,7 +74,7 @@
 
 # ---
 
-FROM youken9980/alpine:3
+FROM youken9980/alpine:3-glibc
 LABEL maintainer="YangJian <youken9980@163.com>"
 
 ENV JAVA_HOME="/usr/lib/jvm/default-jvm"
