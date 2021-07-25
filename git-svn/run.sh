@@ -17,8 +17,7 @@ function dockerRm() {
 
 dockerRm "ancestor=${imageTag}"
 docker run --rm -it \
-    -e GIT_USER_NAME="ycg" \
-    -e GIT_USER_EMAIL="ycg@ycg.com" \
-    -v ~/Destiny/YunCaiGong/git:/root \
+    -e GIT_USER_NAME="git" \
+    -e GIT_USER_EMAIL="git@ycg.com" \
     --net "${network}" \
     "${imageTag}"

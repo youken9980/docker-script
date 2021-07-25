@@ -10,9 +10,8 @@ RUN set -eux && \
     \
     rm -rf /var/cache/apk/*.*
 
-COPY entrypoint.sh /entrypoint.sh
-COPY sshkeygen.sh /sshkeygen.sh
-
 WORKDIR /root
+COPY sshkeygen.sh /root/sshkeygen.sh
+COPY entrypoint.sh /root/entrypoint.sh
 
-ENTRYPOINT [ "/entrypoint.sh" ]
+ENTRYPOINT [ "/root/entrypoint.sh" ]
