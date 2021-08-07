@@ -32,6 +32,7 @@ function dockerLogsUntil() {
 
 dockerRm "name=${containerName}"
 docker run -d -p 25565:25565 \
+    --cpus 2 --memory 2560M --memory-swap -1 \
     -v $(pwd)/server.properties:/papermc/server.properties \
     --net="${network}" --name="${containerName}" \
     "${imageTag}"
