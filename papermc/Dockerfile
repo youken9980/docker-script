@@ -46,4 +46,4 @@ RUN set -eux && \
 EXPOSE 25565
 
 WORKDIR /papermc
-CMD ["java", "-jar", "/papermc/papermc.jar"]
+CMD ["java", "-Xms2G", "-Xmx2G", "-jar", "/papermc/papermc.jar", "--nogui"]
