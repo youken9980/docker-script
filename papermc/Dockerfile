@@ -43,6 +43,14 @@ RUN set -eux && \
     sed -i 's|eula=false|eula=true|g' eula.txt && \
     sed -i 's|online-mode=true|online-mode=false|g' server.properties
 
+# server.properties
+# gamemode=survival  //游戏模式 0=生存 1=创造 2=冒险 3=旁观
+# difficulty=easy  //难度0=和平 1=简单 2=普通 3=困难
+# max-players=20  //服务器最大玩家数限制
+# server-port=25565  //服务器端口
+# online-mode=true  //在线（正版）验证[默认启用]
+# pvp=true
+
 EXPOSE 25565
 
 WORKDIR /papermc
