@@ -1,0 +1,44 @@
+FROM mysql:5
+LABEL maintainer="YangJian <youken9980@163.com>"
+
+ENV SHELL="/bin/bash"
+ENV TZ="Asia/Shanghai"
+
+RUN set -eux && \
+    \
+    mv /usr/share/zoneinfo/PRC /PRC && \
+    rm -rf /usr/share/zoneinfo && \
+    mkdir -p /usr/share/zoneinfo/Asia && \
+    mv /PRC /usr/share/zoneinfo/PRC && \
+    ln -sTf /usr/share/zoneinfo/PRC /usr/share/zoneinfo/Asia/Shanghai && \
+    ln -sTf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+    echo "Asia/Shanghai" > /etc/timezone && \
+    \
+    sed -i "s|# export LS_OPTIONS='--color=auto'|export LS_OPTIONS='--color=auto'|g" /root/.bashrc && \
+    sed -i 's|# eval "`dircolors`"|eval "`dircolors`"|g' /root/.bashrc && \
+    sed -i "s|# alias ls='ls \$LS_OPTIONS'|alias ls='ls \$LS_OPTIONS'|g" /root/.bashrc && \
+    sed -i "s|# alias ll='ls \$LS_OPTIONS -l'|alias ll='ls \$LS_OPTIONS -la'|g" /root/.bashrc && \
+    sed -i "s|# alias l='ls \$LS_OPTIONS -lA'|alias l='ls \$LS_OPTIONS -lA'|g" /root/.bashrc && \
+    \
+    mv /etc/apt/sources.list /etc/apt/sources.list.bak && \
+    DEBIAN_MIRROR="http://mirrors.tuna.tsinghua.edu.cn" && \
+    echo "# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释" >> /etc/apt/sources.list && \
+    echo "deb ${DEBIAN_MIRROR}/debian/ buster main contrib non-free" >> /etc/apt/sources.list && \
+    echo "# deb-src ${DEBIAN_MIRROR}/debian/ buster main contrib non-free" >> /etc/apt/sources.list && \
+    echo "deb ${DEBIAN_MIRROR}/debian/ buster-updates main contrib non-free" >> /etc/apt/sources.list && \
+    echo "# deb-src ${DEBIAN_MIRROR}/debian/ buster-updates main contrib non-free" >> /etc/apt/sources.list && \
+    echo "deb ${DEBIAN_MIRROR}/debian/ buster-backports main contrib non-free" >> /etc/apt/sources.list && \
+    echo "# deb-src ${DEBIAN_MIRROR}/debian/ buster-backports main contrib non-free" >> /etc/apt/sources.list && \
+    echo "deb ${DEBIAN_MIRROR}/debian-security buster/updates main contrib non-free" >> /etc/apt/sources.list && \
+    echo "# deb-src ${DEBIAN_MIRROR}/debian-security buster/updates main contrib non-free" >> /etc/apt/sources.list && \
+    \
+    apt-get update && \
+    apt-get install --no-install-recommends -y apt-transport-https ca-certificates pv && \
+    sed -i "s|http://|https://|g" /etc/apt/sources.list && \
+    apt-get update && \
+    \
+    rm -rf /var/lib/apt/lists/*
+
+STOPSIGNAL SIGTERM
+
+CMD ["/bin/bash"]
