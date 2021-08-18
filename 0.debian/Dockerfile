@@ -3,12 +3,8 @@ LABEL maintainer="YangJian <youken9980@163.com>"
 
 ENV SHELL="/bin/bash"
 ENV TZ="Asia/Shanghai"
-ENV DEBIAN_MIRROR="https://mirrors.tuna.tsinghua.edu.cn"
 
 RUN set -eux && \
-    \
-    apt-get update && \
-    apt-get install --no-install-recommends -y apt-transport-https ca-certificates && \
     \
     mv /usr/share/zoneinfo/PRC /PRC && \
     rm -rf /usr/share/zoneinfo && \
@@ -25,6 +21,7 @@ RUN set -eux && \
     sed -i "s|# alias l='ls \$LS_OPTIONS -lA'|alias l='ls \$LS_OPTIONS -lA'|g" /root/.bashrc && \
     \
     mv /etc/apt/sources.list /etc/apt/sources.list.bak && \
+    DEBIAN_MIRROR="http://mirrors.tuna.tsinghua.edu.cn" && \
     echo "# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释" >> /etc/apt/sources.list && \
     echo "deb ${DEBIAN_MIRROR}/debian/ buster main contrib non-free" >> /etc/apt/sources.list && \
     echo "# deb-src ${DEBIAN_MIRROR}/debian/ buster main contrib non-free" >> /etc/apt/sources.list && \
@@ -34,6 +31,11 @@ RUN set -eux && \
     echo "# deb-src ${DEBIAN_MIRROR}/debian/ buster-backports main contrib non-free" >> /etc/apt/sources.list && \
     echo "deb ${DEBIAN_MIRROR}/debian-security buster/updates main contrib non-free" >> /etc/apt/sources.list && \
     echo "# deb-src ${DEBIAN_MIRROR}/debian-security buster/updates main contrib non-free" >> /etc/apt/sources.list && \
+    \
+    apt-get update && \
+    apt-get install --no-install-recommends -y apt-transport-https ca-certificates && \
+    sed -i "s|http://|https://|g" /etc/apt/sources.list && \
+    apt-get update && \
     \
     rm -rf /var/lib/apt/lists/*
 
