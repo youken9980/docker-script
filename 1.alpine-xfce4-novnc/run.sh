@@ -5,7 +5,7 @@ containerName="alpine-xfce4-novnc"
 network="mynet"
 vncPort="5900"
 novncPort="6080"
-vncResolution="1680x945"
+vncResolution="1440x900"
 vncPasswd="alpinelinux"
 
 function dockerRm() {
@@ -36,7 +36,7 @@ function dockerLogsUntil() {
 
 dockerRm "name=${containerName}"
 docker run --privileged -d \
-    --cpus 4 --memory 2048M --memory-swap -1 \
+    --cpus 1 --memory 512M --memory-swap -1 \
     -p ${vncPort}:${vncPort} \
     -p ${novncPort}:${novncPort} \
     -e VNC_PORT=${vncPort} \

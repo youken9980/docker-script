@@ -2,7 +2,7 @@
 
 set -eux
 
-source /etc/profile
+# source /etc/profile
 
 mkdir -p "$HOME/.x11vnc"
 PASSWD_PATH="$HOME/.x11vnc/passwd"
