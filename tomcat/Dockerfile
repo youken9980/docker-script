@@ -11,10 +11,10 @@ ENV LD_RUN_PATH="${LD_RUN_PATH:+$LD_RUN_PATH:}$TOMCAT_NATIVE_LIBDIR:/usr/local/a
 
 RUN set -eux && \
     aprVersion="1.7.0" && \
-    aprIconvVersion="1.2.2" && \
     aprUtilVersion="1.6.1" && \
+    aprIconvVersion="1.2.2" && \
     tomcatMajor="9" && \
-    tomcatVersion="9.0.52" && \
+    tomcatVersion="9.0.53" && \
     tempDir="$(mktemp -d)" && \
     npPocessors="$(getconf _NPROCESSORS_ONLN)" && \
     \
@@ -29,27 +29,27 @@ RUN set -eux && \
     \
     cd ${tempDir} && \
     axel -n 32 -o apr.tar.gz https://mirrors.bfsu.edu.cn/apache/apr/apr-${aprVersion}.tar.gz && \
-    axel -n 32 -o apr-iconv.tar.gz https://mirrors.bfsu.edu.cn/apache/apr/apr-iconv-${aprIconvVersion}.tar.gz && \
     axel -n 32 -o apr-util.tar.gz https://mirrors.bfsu.edu.cn/apache/apr/apr-util-${aprUtilVersion}.tar.gz && \
+    axel -n 32 -o apr-iconv.tar.gz https://mirrors.bfsu.edu.cn/apache/apr/apr-iconv-${aprIconvVersion}.tar.gz && \
     mkdir apr \
           apr-iconv \
           apr-util && \
     tar -zxvf apr.tar.gz -C apr --strip-components=1 && \
-    tar -zxvf apr-iconv.tar.gz -C apr-iconv --strip-components=1 && \
     tar -zxvf apr-util.tar.gz -C apr-util --strip-components=1 && \
+    tar -zxvf apr-iconv.tar.gz -C apr-iconv --strip-components=1 && \
     cd ${tempDir}/apr && \
     ./configure --prefix=/usr/local/apr && \
-    make -j${npPocessors} && \
-    make install && \
-    cd ${tempDir}/apr-iconv && \
-    ./configure --prefix=/usr/local/apr-iconv \
-                --with-apr=/usr/local/apr && \
     make -j${npPocessors} && \
     make install && \
     cd ${tempDir}/apr-util && \
     ./configure --prefix=/usr/local/apr-util \
                 --with-apr=/usr/local/apr \
                 --with-apr-iconv=/usr/local/apr-iconv/bin/apriconv && \
+    make -j${npPocessors} && \
+    make install && \
+    cd ${tempDir}/apr-iconv && \
+    ./configure --prefix=/usr/local/apr-iconv \
+                --with-apr=/usr/local/apr && \
     make -j${npPocessors} && \
     make install && \
     \
