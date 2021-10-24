@@ -14,7 +14,7 @@ RUN set -eux && \
     aprUtilVersion="1.6.1" && \
     aprIconvVersion="1.2.2" && \
     tomcatMajor="9" && \
-    tomcatVersion="9.0.53" && \
+    tomcatVersion="9.0.54" && \
     tempDir="$(mktemp -d)" && \
     npPocessors="$(getconf _NPROCESSORS_ONLN)" && \
     \
