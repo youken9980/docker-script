@@ -3,8 +3,6 @@ LABEL maintainer="YangJian <youken9980@163.com>"
 
 ENV SHELL="/bin/bash"
 ENV TZ="Asia/Shanghai"
-ENV DEBIAN_FRONTEND="noninteractive"
-ENV UBUNTU_MIRROR="https://mirrors.tuna.tsinghua.edu.cn"
 
 RUN set -eux && \
     \
@@ -17,9 +15,12 @@ RUN set -eux && \
     ln -sTf /usr/share/zoneinfo/Asia/Shanghai /usr/share/zoneinfo/PRC && \
     ln -sTf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo "Asia/Shanghai" > /etc/timezone && \
+    \
+    DEBIAN_FRONTEND="noninteractive" && \
     dpkg-reconfigure --frontend noninteractive tzdata && \
     \
     mv /etc/apt/sources.list /etc/apt/sources.list.bak && \
+    UBUNTU_MIRROR="https://mirrors.tuna.tsinghua.edu.cn" && \
     echo "# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释" >> /etc/apt/sources.list && \
     echo "deb ${UBUNTU_MIRROR}/ubuntu/ focal main restricted universe multiverse" >> /etc/apt/sources.list && \
     echo "# deb-src ${UBUNTU_MIRROR}/ubuntu/ focal main restricted universe multiverse" >> /etc/apt/sources.list && \

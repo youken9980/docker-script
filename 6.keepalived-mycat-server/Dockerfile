@@ -1,6 +1,7 @@
 FROM youken9980/build-tools-openjdk8:latest as temp
 
-ENV GITHUB_MIRROR="https://hub.fastgit.org"
+ENV GITHUB_MIRROR="https://hub.fastgit.xyz"
+ENV GITHUB_RAW_MIRROR="https://raw.fastgit.org"
 ENV GIT_URL="${GITHUB_MIRROR}/MyCATApache/Mycat-Server.git"
 ENV PROJ_SRC="/proj-src"
 ENV GIT_TAG="1.6.76-release-2020-11-2"

@@ -1,7 +1,6 @@
 FROM youken9980/alpine:3
 LABEL maintainer="YangJian <youken9980@163.com>"
 
-ENV GITHUB_MIRROR="https://hub.fastgit.org"
 ENV GIT_USER_NAME="user.name"
 ENV GIT_USER_EMAIL="user.email"
 

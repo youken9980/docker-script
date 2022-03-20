@@ -3,7 +3,7 @@ FROM golang:1.12-alpine as temp
 ARG NGROK_DOMAIN="ngrok.com"
 
 ENV ALPINE_MIRROR="mirrors.aliyun.com"
-ENV GITHUB_MIRROR="https://hub.fastgit.org"
+ENV GITHUB_MIRROR="https://hub.fastgit.xyz"
 ENV GITHUB_RAW_MIRROR="https://raw.fastgit.org"
 ENV GIT_URL="${GITHUB_MIRROR}/inconshreveable/ngrok.git"
 ENV PROJ_SRC="/proj-src"

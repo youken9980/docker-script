@@ -1,11 +1,12 @@
 FROM youken9980/build-tools-openjdk8:latest as temp
 
-ENV GITHUB_MIRROR="https://hub.fastgit.org"
+ENV GITHUB_MIRROR="https://hub.fastgit.xyz"
+ENV GITHUB_RAW_MIRROR="https://raw.fastgit.org"
 ENV GIT_URL="${GITHUB_MIRROR}/MyCATApache/Mycat2.git"
 ENV PROJ_SRC="/proj-src"
 ENV GIT_TAG="1.19-release"
 ENV ORIGINAL_JAR="mycat2-1.19-jar-with-dependencies.jar"
-ENV MYCAT2_INSTALL_ZIP="mycat2-install-template-1.19.zip"
+ENV MYCAT2_INSTALL_ZIP="mycat2-install-template-1.21.zip"
 ENV MYCAT2_INSTALL_URL="http://dl.mycat.org.cn/2.0/install-template/${MYCAT2_INSTALL_ZIP}"
 
 RUN git clone ${GIT_URL} ${PROJ_SRC}
