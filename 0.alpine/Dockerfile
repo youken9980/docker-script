@@ -5,7 +5,7 @@ ENV TZ="Asia/Shanghai"
 ENV LANG="en_US.UTF-8"
 ENV LANGUAGE="en_US.UTF-8"
 ENV LC_ALL="en_US.UTF-8"
-ENV ALPINE_MIRROR="dl-cdn.alpinelinux.org"
+ENV ALPINE_MIRROR="mirrors.aliyun.com"
 # dl-cdn.alpinelinux.org
 # mirrors.aliyun.com
 # mirrors.sjtug.sjtu.edu.cn
