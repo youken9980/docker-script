@@ -1,6 +1,8 @@
 FROM youken9980/build-tools-openjdk8:latest as temp
 
-ENV GIT_URL="https://gitee.com/gsls200808/JrebelLicenseServerforJava.git"
+ENV GITHUB_MIRROR="https://hub.fastgit.xyz"
+ENV GITHUB_RAW_MIRROR="https://raw.fastgit.org"
+ENV GIT_URL="${GITHUB_MIRROR}/Byron4j/JrebelLicenseServerforJava.git"
 ENV PROJ_SRC="/proj-src"
 
 RUN git clone --depth=1 ${GIT_URL} ${PROJ_SRC}

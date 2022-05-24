@@ -42,7 +42,7 @@ RUN set -xe && \
     \
     apk --update --no-cache add \
         xfce4 xfce4-terminal x11vnc xvfb \
-        bash procps python2 font-adobe-100dpi \
+        bash procps python3 font-adobe-100dpi \
         firefox && \
     fc-cache -f && \
     \
