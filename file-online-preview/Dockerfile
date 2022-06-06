@@ -14,7 +14,7 @@ RUN PROJ_VERSION="$(xpath -q -e '//project/version/text()' ${PROJ_SRC}/pom.xml)"
     cp ${PROJ_SRC}/server/target/kkFileView-$PROJ_VERSION.jar /kkFileView/bin/kkFileView.jar
 
 
-FROM openjdk:8-jre-slim-buster
+FROM openjdk:8-jre-slim-bullseye
 LABEL maintainer="YangJian <youken9980@163.com>"
 
 ENV SHELL="/bin/bash"
@@ -44,14 +44,14 @@ RUN set -eux && \
     mv /etc/apt/sources.list /etc/apt/sources.list.bak && \
     DEBIAN_MIRROR="http://mirrors.tuna.tsinghua.edu.cn" && \
     echo "# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释" >> /etc/apt/sources.list && \
-    echo "deb ${DEBIAN_MIRROR}/debian/ buster main contrib non-free" >> /etc/apt/sources.list && \
-    echo "# deb-src ${DEBIAN_MIRROR}/debian/ buster main contrib non-free" >> /etc/apt/sources.list && \
-    echo "deb ${DEBIAN_MIRROR}/debian/ buster-updates main contrib non-free" >> /etc/apt/sources.list && \
-    echo "# deb-src ${DEBIAN_MIRROR}/debian/ buster-updates main contrib non-free" >> /etc/apt/sources.list && \
-    echo "deb ${DEBIAN_MIRROR}/debian/ buster-backports main contrib non-free" >> /etc/apt/sources.list && \
-    echo "# deb-src ${DEBIAN_MIRROR}/debian/ buster-backports main contrib non-free" >> /etc/apt/sources.list && \
-    echo "deb ${DEBIAN_MIRROR}/debian-security buster/updates main contrib non-free" >> /etc/apt/sources.list && \
-    echo "# deb-src ${DEBIAN_MIRROR}/debian-security buster/updates main contrib non-free" >> /etc/apt/sources.list && \
+    echo "deb ${DEBIAN_MIRROR}/debian/ bullseye main contrib non-free" >> /etc/apt/sources.list && \
+    echo "# deb-src ${DEBIAN_MIRROR}/debian/ bullseye main contrib non-free" >> /etc/apt/sources.list && \
+    echo "deb ${DEBIAN_MIRROR}/debian/ bullseye-updates main contrib non-free" >> /etc/apt/sources.list && \
+    echo "# deb-src ${DEBIAN_MIRROR}/debian/ bullseye-updates main contrib non-free" >> /etc/apt/sources.list && \
+    echo "deb ${DEBIAN_MIRROR}/debian/ bullseye-backports main contrib non-free" >> /etc/apt/sources.list && \
+    echo "# deb-src ${DEBIAN_MIRROR}/debian/ bullseye-backports main contrib non-free" >> /etc/apt/sources.list && \
+    echo "deb ${DEBIAN_MIRROR}/debian-security bullseye-security main contrib non-free" >> /etc/apt/sources.list && \
+    echo "# deb-src ${DEBIAN_MIRROR}/debian-security bullseye-security main contrib non-free" >> /etc/apt/sources.list && \
     \
     apt-get update && \
     apt-get install --no-install-recommends -y apt-transport-https ca-certificates && \
@@ -72,7 +72,7 @@ RUN set -eux && \
     fc-cache -f && \
     \
     FILE_NAME="openoffice_install_deb" && \
-    OPENOFFICE_VERSION="4.1.10" && \
+    OPENOFFICE_VERSION="4.1.12" && \
     OPENOFFICE_DOWNLOAD_URL="https://udomain.dl.sourceforge.net/project/openofficeorg.mirror/${OPENOFFICE_VERSION}/binaries/en-US/Apache_OpenOffice_${OPENOFFICE_VERSION}_Linux_x86-64_install-deb_en-US.tar.gz" && \
     axel -n 32 -o /tmp/${FILE_NAME}.tgz ${OPENOFFICE_DOWNLOAD_URL} && \
     tar --strip 1 -zxvf /tmp/${FILE_NAME}.tgz -C /tmp && \
