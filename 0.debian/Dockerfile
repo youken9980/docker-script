@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:bullseye
 LABEL maintainer="YangJian <youken9980@163.com>"
 
 ENV SHELL="/bin/bash"
@@ -23,14 +23,14 @@ RUN set -eux && \
     mv /etc/apt/sources.list /etc/apt/sources.list.bak && \
     DEBIAN_MIRROR="http://mirrors.tuna.tsinghua.edu.cn" && \
     echo "# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释" >> /etc/apt/sources.list && \
-    echo "deb ${DEBIAN_MIRROR}/debian/ buster main contrib non-free" >> /etc/apt/sources.list && \
-    echo "# deb-src ${DEBIAN_MIRROR}/debian/ buster main contrib non-free" >> /etc/apt/sources.list && \
-    echo "deb ${DEBIAN_MIRROR}/debian/ buster-updates main contrib non-free" >> /etc/apt/sources.list && \
-    echo "# deb-src ${DEBIAN_MIRROR}/debian/ buster-updates main contrib non-free" >> /etc/apt/sources.list && \
-    echo "deb ${DEBIAN_MIRROR}/debian/ buster-backports main contrib non-free" >> /etc/apt/sources.list && \
-    echo "# deb-src ${DEBIAN_MIRROR}/debian/ buster-backports main contrib non-free" >> /etc/apt/sources.list && \
-    echo "deb ${DEBIAN_MIRROR}/debian-security buster/updates main contrib non-free" >> /etc/apt/sources.list && \
-    echo "# deb-src ${DEBIAN_MIRROR}/debian-security buster/updates main contrib non-free" >> /etc/apt/sources.list && \
+    echo "deb ${DEBIAN_MIRROR}/debian/ bullseye main contrib non-free" >> /etc/apt/sources.list && \
+    echo "# deb-src ${DEBIAN_MIRROR}/debian/ bullseye main contrib non-free" >> /etc/apt/sources.list && \
+    echo "deb ${DEBIAN_MIRROR}/debian/ bullseye-updates main contrib non-free" >> /etc/apt/sources.list && \
+    echo "# deb-src ${DEBIAN_MIRROR}/debian/ bullseye-updates main contrib non-free" >> /etc/apt/sources.list && \
+    echo "deb ${DEBIAN_MIRROR}/debian/ bullseye-backports main contrib non-free" >> /etc/apt/sources.list && \
+    echo "# deb-src ${DEBIAN_MIRROR}/debian/ bullseye-backports main contrib non-free" >> /etc/apt/sources.list && \
+    echo "deb ${DEBIAN_MIRROR}/debian-security bullseye-security main contrib non-free" >> /etc/apt/sources.list && \
+    echo "# deb-src ${DEBIAN_MIRROR}/debian-security bullseye-security main contrib non-free" >> /etc/apt/sources.list && \
     \
     apt-get update && \
     apt-get install --no-install-recommends -y apt-transport-https ca-certificates && \
