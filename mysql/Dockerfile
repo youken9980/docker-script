@@ -1,4 +1,4 @@
-FROM mysql:5
+FROM mysql:5-debian
 LABEL maintainer="YangJian <youken9980@163.com>"
 
 ENV SHELL="/bin/bash"
