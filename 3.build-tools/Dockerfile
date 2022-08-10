@@ -1,6 +1,6 @@
 FROM youken9980/alpine:3 as maven
 
-ENV MAVEN_VERSION="3.6.3"
+ENV MAVEN_VERSION="3.8.6"
 ENV MAVEN_DOWNLOAD_URL="https://mirrors.bfsu.edu.cn/apache/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz"
 ENV MAVEN_HOME="/usr/local/maven-${MAVEN_VERSION}"
 ENV MAVEN_REPO="/usr/local/maven-repository"
@@ -19,7 +19,7 @@ RUN axel -n 32 ${MAVEN_DOWNLOAD_URL} && \
 
 FROM youken9980/alpine:3 as gradle
 
-ENV GRADLE_VERSION="6.8.3"
+ENV GRADLE_VERSION="6.9.2"
 ENV GRADLE_DOWNLOAD_URL="https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip"
 ENV GRADLE_HOME="/usr/local/gradle-${GRADLE_VERSION}"
 
@@ -31,13 +31,13 @@ RUN axel -n 32 ${GRADLE_DOWNLOAD_URL} && \
 FROM youken9980/openjdk:8-jdk-alpine
 LABEL maintainer="YangJian <youken9980@163.com>"
 
-ENV MAVEN_VERSION="3.6.3"
+ENV MAVEN_VERSION="3.8.6"
 ENV MAVEN_HOME="/usr/local/maven-${MAVEN_VERSION}"
 ENV MAVEN_REPO="/usr/local/maven-repository"
 ENV MAVEN_REPOSITORY="${MAVEN_REPO}"
 ENV M2_REPO="${MAVEN_REPO}"
 
-ENV GRADLE_VERSION="6.8.3"
+ENV GRADLE_VERSION="6.9.2"
 ENV GRADLE_HOME="/usr/local/gradle-${GRADLE_VERSION}"
 ENV GRADLE_REPO="/usr/local/gradle-repository"
 ENV GRADLE_USER_HOME="${GRADLE_REPO}"

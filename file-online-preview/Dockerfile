@@ -1,11 +1,13 @@
 FROM youken9980/build-tools-openjdk8:latest as temp
 
-ENV GITHUB_MIRROR="https://hub.fastgit.xyz"
-ENV GITHUB_RAW_MIRROR="https://raw.fastgit.org"
+ENV GITHUB_MIRROR="https://github.com"
+ENV GITHUB_RAW_MIRROR="https://raw.githubusercontent.com"
 ENV GIT_URL="${GITHUB_MIRROR}/kekingcn/kkFileView.git"
 ENV PROJ_SRC="/proj-src"
 
-RUN git clone --depth=1 ${GIT_URL} ${PROJ_SRC}
+RUN git config --global url."https://hub.fastgit.xyz".insteadof "https://github.com" && \
+    git config --global url."https://raw.staticdn.net".insteadof "https://raw.githubusercontent.com" && \
+    git clone --depth=1 ${GIT_URL} ${PROJ_SRC}
 WORKDIR ${PROJ_SRC}
 RUN mvn clean package -Dmaven.test.skip=true -U
 RUN PROJ_VERSION="$(xpath -q -e '//project/version/text()' ${PROJ_SRC}/pom.xml)" && \
