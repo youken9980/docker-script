@@ -3,16 +3,13 @@ FROM golang:1.12-alpine as temp
 ARG NGROK_DOMAIN="ngrok.com"
 
 ENV ALPINE_MIRROR="mirrors.aliyun.com"
-ENV GITHUB_MIRROR="https://hub.fastgit.xyz"
-ENV GITHUB_RAW_MIRROR="https://raw.fastgit.org"
+ENV GITHUB_MIRROR="https://github.com"
 ENV GIT_URL="${GITHUB_MIRROR}/inconshreveable/ngrok.git"
 ENV PROJ_SRC="/proj-src"
 ENV GOPROXY="https://goproxy.cn"
 
 RUN sed -i "s|dl-cdn.alpinelinux.org|${ALPINE_MIRROR}|g" /etc/apk/repositories
 RUN apk --update --no-cache add git make openssl
-RUN git config --global url."${GITHUB_MIRROR}".insteadof "https://github.com"
-RUN git config --global url."${GITHUB_RAW_MIRROR}".insteadof "https://raw.githubusercontent.com"
 RUN git clone --depth=1 ${GIT_URL} ${PROJ_SRC}
 WORKDIR ${PROJ_SRC}
 

@@ -1,13 +1,11 @@
 FROM youken9980/alpine:3
 LABEL maintainer="YangJian <youken9980@163.com>"
 
-ENV GITHUB_MIRROR="https://hub.fastgit.xyz"
-ENV GITHUB_RAW_MIRROR="https://raw.fastgit.org"
-
 # https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.33-r0/glibc-2.33-r0.apk
 # https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.33-r0/glibc-bin-2.33-r0.apk
 
-RUN GLIBC_VERSION="2.33-r0" && \
+RUN GITHUB_MIRROR="https://cdn.githubjs.cf" && \
+    GLIBC_VERSION="2.33-r0" && \
     wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub && \
     wget ${GITHUB_MIRROR}/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk && \
     wget ${GITHUB_MIRROR}/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-bin-${GLIBC_VERSION}.apk && \
