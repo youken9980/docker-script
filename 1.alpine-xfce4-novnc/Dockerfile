@@ -1,21 +1,21 @@
 FROM youken9980/alpine:3 as source-han-serif
-ENV GITHUB_MIRROR="https://hub.fastgit.xyz"
-ENV GITHUB_RAW_MIRROR="https://raw.fastgit.org"
+ENV GITHUB_MIRROR="https://github.com"
+ENV GITHUB_RAW_MIRROR="https://raw.githubusercontent.com"
 RUN axel -n 32 -o /SourceHanSerif.ttc ${GITHUB_MIRROR}/adobe-fonts/source-han-serif/releases/download/1.001R/SourceHanSerif.ttc
 
 FROM youken9980/alpine:3 as source-han-sans
-ENV GITHUB_MIRROR="https://hub.fastgit.xyz"
-ENV GITHUB_RAW_MIRROR="https://raw.fastgit.org"
+ENV GITHUB_MIRROR="https://github.com"
+ENV GITHUB_RAW_MIRROR="https://raw.githubusercontent.com"
 RUN axel -n 32 -o /SourceHanSans.ttc ${GITHUB_MIRROR}/adobe-fonts/source-han-sans/releases/download/2.002R/SourceHanSans.ttc
 
 FROM youken9980/alpine:3 as source-han-mono
-ENV GITHUB_MIRROR="https://hub.fastgit.xyz"
-ENV GITHUB_RAW_MIRROR="https://raw.fastgit.org"
+ENV GITHUB_MIRROR="https://github.com"
+ENV GITHUB_RAW_MIRROR="https://raw.githubusercontent.com"
 RUN axel -n 32 -o /SourceHanMono.ttc ${GITHUB_MIRROR}/adobe-fonts/source-han-mono/releases/download/1.002/SourceHanMono.ttc
 
 FROM youken9980/alpine:3 as novnc
-ENV GITHUB_MIRROR="https://hub.fastgit.xyz"
-ENV GITHUB_RAW_MIRROR="https://raw.fastgit.org"
+ENV GITHUB_MIRROR="https://github.com"
+ENV GITHUB_RAW_MIRROR="https://raw.githubusercontent.com"
 ENV NOVNC_HOME="/noVNC"
 RUN mkdir -p ${NOVNC_HOME}/utils/websockify
 RUN wget -qO- ${GITHUB_MIRROR}/novnc/noVNC/archive/v1.2.0.tar.gz | tar zxvf - --strip 1 -C ${NOVNC_HOME}
