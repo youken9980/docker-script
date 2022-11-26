@@ -1,6 +1,6 @@
 FROM youken9980/build-tools-openjdk8:latest as temp
 
-ENV GITHUB_MIRROR="https://github.com"
+ENV GITHUB_MIRROR="https://github.91chi.fun/https://github.com"
 ENV GIT_URL="${GITHUB_MIRROR}/Byron4j/JrebelLicenseServerforJava.git"
 ENV PROJ_SRC="/proj-src"
 

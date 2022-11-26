@@ -1,4 +1,4 @@
-FROM alpine:3
+FROM alpine:3.15
 LABEL maintainer="YangJian <youken9980@163.com>"
 
 ENV TZ="Asia/Shanghai"
