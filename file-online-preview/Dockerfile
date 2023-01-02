@@ -4,6 +4,7 @@ ENV GITHUB_MIRROR="https://github.com"
 ENV GIT_URL="${GITHUB_MIRROR}/kekingcn/kkFileView.git"
 ENV PROJ_SRC="/proj-src"
 
+RUN git config --global url."https://github.91chi.fun/https://github.com".insteadof "https://github.com"
 RUN git clone --depth=1 ${GIT_URL} ${PROJ_SRC}
 WORKDIR ${PROJ_SRC}
 RUN mvn clean package -Dmaven.test.skip=true -U
