@@ -21,7 +21,7 @@
 # ---
 
 # 方案二、基于alpine:3镜像，带glibc，下载upstream-binaries自行安装，删除多余文件
-# https://cdn.githubjs.cf/adoptium/temurin8-binaries/releases/download/jdk8u345-b01/OpenJDK8U-jre_x64_alpine-linux_hotspot_8u345b01.tar.gz
+# https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u345-b01/OpenJDK8U-jre_x64_alpine-linux_hotspot_8u345b01.tar.gz
 # 128MB >>> 1.8.0_345
 
 # FROM youken9980/alpine:3-glibc
@@ -29,7 +29,7 @@
 # ENV PATH=".:$PATH:$JAVA_HOME/bin"
 # RUN set -eux && \
 #     FILE_NAME="openjdk-8" && \
-#     DOWNLOAD_URL="https://cdn.githubjs.cf/adoptium/temurin8-binaries/releases/download/jdk8u345-b01/OpenJDK8U-jre_x64_alpine-linux_hotspot_8u345b01.tar.gz" && \
+#     DOWNLOAD_URL="https://ghproxy.com/https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u345-b01/OpenJDK8U-jre_x64_alpine-linux_hotspot_8u345b01.tar.gz" && \
 #     wget -O $FILE_NAME.tar.gz $DOWNLOAD_URL && \
 #     mkdir -p $JAVA_HOME && \
 #     tar --strip 1 -zxvf $FILE_NAME.tar.gz -C $JAVA_HOME && \

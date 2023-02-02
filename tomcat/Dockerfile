@@ -10,11 +10,11 @@ ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$TOMCAT_NATIVE_LIBDIR:
 ENV LD_RUN_PATH="${LD_RUN_PATH:+$LD_RUN_PATH:}$TOMCAT_NATIVE_LIBDIR:/usr/local/apr/lib"
 
 RUN set -eux && \
-    aprVersion="1.7.0" && \
-    aprUtilVersion="1.6.1" && \
+    aprVersion="1.7.2" && \
+    aprUtilVersion="1.6.3" && \
     aprIconvVersion="1.2.2" && \
     tomcatMajor="9" && \
-    tomcatVersion="9.0.70" && \
+    tomcatVersion="9.0.71" && \
     tempDir="$(mktemp -d)" && \
     npPocessors="$(getconf _NPROCESSORS_ONLN)" && \
     \
@@ -28,9 +28,9 @@ RUN set -eux && \
             openssl-dev && \
     \
     cd ${tempDir} && \
-    axel -n 32 -o apr.tar.gz https://mirrors.bfsu.edu.cn/apache/apr/apr-${aprVersion}.tar.gz && \
-    axel -n 32 -o apr-util.tar.gz https://mirrors.bfsu.edu.cn/apache/apr/apr-util-${aprUtilVersion}.tar.gz && \
-    axel -n 32 -o apr-iconv.tar.gz https://mirrors.bfsu.edu.cn/apache/apr/apr-iconv-${aprIconvVersion}.tar.gz && \
+    axel -n 8 -o apr.tar.gz https://mirrors.bfsu.edu.cn/apache/apr/apr-${aprVersion}.tar.gz && \
+    axel -n 8 -o apr-util.tar.gz https://mirrors.bfsu.edu.cn/apache/apr/apr-util-${aprUtilVersion}.tar.gz && \
+    axel -n 8 -o apr-iconv.tar.gz https://mirrors.bfsu.edu.cn/apache/apr/apr-iconv-${aprIconvVersion}.tar.gz && \
     mkdir apr \
           apr-iconv \
           apr-util && \
@@ -54,7 +54,7 @@ RUN set -eux && \
     make install && \
     \
     cd ${tempDir} && \
-    axel -n 32 -o tomcat.tar.gz https://mirrors.tuna.tsinghua.edu.cn/apache/tomcat/tomcat-${tomcatMajor}/v${tomcatVersion}/bin/apache-tomcat-${tomcatVersion}.tar.gz && \
+    axel -n 8 -o tomcat.tar.gz https://mirrors.tuna.tsinghua.edu.cn/apache/tomcat/tomcat-${tomcatMajor}/v${tomcatVersion}/bin/apache-tomcat-${tomcatVersion}.tar.gz && \
     mkdir tomcat && \
     tar -zxvf tomcat.tar.gz -C tomcat --strip-components=1 && \
     mv tomcat ${CATALINA_HOME} && \

@@ -1,26 +1,17 @@
 FROM youken9980/alpine:3 as source-han-serif
-ENV GITHUB_MIRROR="https://github.91chi.fun/https://github.com"
-ENV GITHUB_RAW_MIRROR="https://raw.githubusercontent.com"
-RUN axel -n 32 -o /SourceHanSerif.ttc ${GITHUB_MIRROR}/adobe-fonts/source-han-serif/releases/download/1.001R/SourceHanSerif.ttc
+RUN axel -n 8 -o /SourceHanSerif.ttc https://ghproxy.com/https://github.com/adobe-fonts/source-han-serif/releases/download/1.001R/SourceHanSerif.ttc
 
 FROM youken9980/alpine:3 as source-han-sans
-ENV GITHUB_MIRROR="https://github.91chi.fun/https://github.com"
-ENV GITHUB_RAW_MIRROR="https://raw.githubusercontent.com"
-RUN axel -n 32 -o /SourceHanSans.ttc ${GITHUB_MIRROR}/adobe-fonts/source-han-sans/releases/download/2.002R/SourceHanSans.ttc
+RUN axel -n 8 -o /SourceHanSans.ttc https://ghproxy.com/https://github.com/adobe-fonts/source-han-sans/releases/download/2.002R/SourceHanSans.ttc
 
 FROM youken9980/alpine:3 as source-han-mono
-ENV GITHUB_MIRROR="https://github.91chi.fun/https://github.com"
-ENV GITHUB_RAW_MIRROR="https://raw.githubusercontent.com"
-RUN axel -n 32 -o /SourceHanMono.ttc ${GITHUB_MIRROR}/adobe-fonts/source-han-mono/releases/download/1.002/SourceHanMono.ttc
+RUN axel -n 8 -o /SourceHanMono.ttc https://ghproxy.com/https://github.com/adobe-fonts/source-han-mono/releases/download/1.002/SourceHanMono.ttc
 
 FROM youken9980/alpine:3 as novnc
-ENV GITHUB_MIRROR="https://github.91chi.fun/https://github.com"
-ENV GITHUB_RAW_MIRROR="https://raw.githubusercontent.com"
 ENV NOVNC_HOME="/noVNC"
 RUN mkdir -p ${NOVNC_HOME}/utils/websockify
-RUN wget -qO- ${GITHUB_MIRROR}/novnc/noVNC/archive/v1.2.0.tar.gz | tar zxvf - --strip 1 -C ${NOVNC_HOME}
-RUN wget -qO- ${GITHUB_MIRROR}/novnc/websockify/archive/v0.9.0.tar.gz | tar zxvf - --strip 1 -C ${NOVNC_HOME}/utils/websockify
-RUN chmod +x -v ${NOVNC_HOME}/utils/*.sh
+RUN wget -qO- https://ghproxy.com/https://github.com/novnc/noVNC/archive/v1.4.0.tar.gz | tar zxvf - --strip 1 -C ${NOVNC_HOME}
+RUN wget -qO- https://ghproxy.com/https://github.com/novnc/websockify/archive/v0.11.0.tar.gz | tar zxvf - --strip 1 -C ${NOVNC_HOME}/utils/websockify
 RUN cd ${NOVNC_HOME} && ln -snf vnc.html index.html
 
 
@@ -38,7 +29,7 @@ ENV VNC_COL_DEPTH=24
 ENV NOVNC_PORT=6080
 ENV NOVNC_HOME=${HOME}/noVNC
 
-RUN set -xe && \
+RUN set -eux && \
     \
     apk --update --no-cache add \
         xfce4 xfce4-terminal x11vnc xvfb \

@@ -1,10 +1,8 @@
 FROM youken9980/build-tools-openjdk8:latest as temp
 
-ENV GITHUB_MIRROR="https://github.com"
-ENV GIT_URL="${GITHUB_MIRROR}/kekingcn/kkFileView.git"
+ENV GIT_URL="https://ghproxy.com/https://github.com/kekingcn/kkFileView.git"
 ENV PROJ_SRC="/proj-src"
 
-RUN git config --global url."https://github.91chi.fun/https://github.com".insteadof "https://github.com"
 RUN git clone --depth=1 ${GIT_URL} ${PROJ_SRC}
 WORKDIR ${PROJ_SRC}
 RUN mvn clean package -Dmaven.test.skip=true -U
@@ -72,9 +70,9 @@ RUN set -eux && \
     fc-cache -f && \
     \
     FILE_NAME="openoffice_install_deb" && \
-    OPENOFFICE_VERSION="4.1.12" && \
-    OPENOFFICE_DOWNLOAD_URL="https://udomain.dl.sourceforge.net/project/openofficeorg.mirror/${OPENOFFICE_VERSION}/binaries/en-US/Apache_OpenOffice_${OPENOFFICE_VERSION}_Linux_x86-64_install-deb_en-US.tar.gz" && \
-    axel -n 32 -o /tmp/${FILE_NAME}.tgz ${OPENOFFICE_DOWNLOAD_URL} && \
+    OPENOFFICE_VERSION="4.1.13" && \
+    OPENOFFICE_DOWNLOAD_URL="https://jaist.dl.sourceforge.net/project/openofficeorg.mirror/${OPENOFFICE_VERSION}/binaries/en-US/Apache_OpenOffice_${OPENOFFICE_VERSION}_Linux_x86-64_install-deb_en-US.tar.gz" && \
+    axel -n 8 -o /tmp/${FILE_NAME}.tgz ${OPENOFFICE_DOWNLOAD_URL} && \
     tar --strip 1 -zxvf /tmp/${FILE_NAME}.tgz -C /tmp && \
     dpkg -i /tmp/DEBS/*.deb /tmp/DEBS/desktop-integration/*.deb && \
     \
