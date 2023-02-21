@@ -5,6 +5,7 @@ ENV SHELL="/bin/bash"
 ENV TZ="Asia/Shanghai"
 
 RUN set -eux && \
+    UBUNTU_MIRROR="https://mirrors.tuna.tsinghua.edu.cn" && \
     \
     apt-get update && \
     apt-get install --no-install-recommends -y apt-transport-https ca-certificates tzdata && \
@@ -20,7 +21,6 @@ RUN set -eux && \
     dpkg-reconfigure --frontend noninteractive tzdata && \
     \
     mv /etc/apt/sources.list /etc/apt/sources.list.bak && \
-    UBUNTU_MIRROR="https://mirrors.tuna.tsinghua.edu.cn" && \
     echo "# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释" >> /etc/apt/sources.list && \
     echo "deb ${UBUNTU_MIRROR}/ubuntu/ focal main restricted universe multiverse" >> /etc/apt/sources.list && \
     echo "# deb-src ${UBUNTU_MIRROR}/ubuntu/ focal main restricted universe multiverse" >> /etc/apt/sources.list && \

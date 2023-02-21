@@ -3,13 +3,13 @@
 imageTag="youken9980/keepalived-nginx-with-stream:latest"
 containerNamePrefix="nginx"
 network="mynet"
-nodeCount=2
+nodeCount=1
 startPort="8090"
 publishPort="true"
 keepalivedRouterId="209"
 keepalivedVirtualIp="172.18.0.209"
-runKeepalived="true"
-runWithSSL="false"
+runKeepalived="false"
+runWithSSL="true"
 
 function dockerRm() {
     filter="$1"
