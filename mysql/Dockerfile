@@ -5,6 +5,7 @@ ENV SHELL="/bin/bash"
 ENV TZ="Asia/Shanghai"
 
 RUN set -eux && \
+    DEBIAN_MIRROR="http://mirrors.tuna.tsinghua.edu.cn" && \
     \
     mv /usr/share/zoneinfo/PRC /PRC && \
     rm -rf /usr/share/zoneinfo && \
@@ -21,7 +22,6 @@ RUN set -eux && \
     sed -i "s|# alias l='ls \$LS_OPTIONS -lA'|alias l='ls \$LS_OPTIONS -lA'|g" /root/.bashrc && \
     \
     mv /etc/apt/sources.list /etc/apt/sources.list.bak && \
-    DEBIAN_MIRROR="http://mirrors.tuna.tsinghua.edu.cn" && \
     echo "# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释" >> /etc/apt/sources.list && \
     echo "deb ${DEBIAN_MIRROR}/debian/ buster main contrib non-free" >> /etc/apt/sources.list && \
     echo "# deb-src ${DEBIAN_MIRROR}/debian/ buster main contrib non-free" >> /etc/apt/sources.list && \

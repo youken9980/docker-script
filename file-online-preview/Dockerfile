@@ -24,6 +24,8 @@ ENV KKFILEVIEW_HOME="/kkFileView"
 ENV KK_OFFICE_HOME="/opt/openoffice4"
 
 RUN set -eux && \
+    DEBIAN_MIRROR="http://mirrors.tuna.tsinghua.edu.cn" && \
+    OPENOFFICE_VERSION="4.1.13" && \
     \
     mv /usr/share/zoneinfo/PRC /PRC && \
     rm -rf /usr/share/zoneinfo && \
@@ -40,7 +42,6 @@ RUN set -eux && \
     sed -i "s|# alias l='ls \$LS_OPTIONS -lA'|alias l='ls \$LS_OPTIONS -lA'|g" /root/.bashrc && \
     \
     mv /etc/apt/sources.list /etc/apt/sources.list.bak && \
-    DEBIAN_MIRROR="http://mirrors.tuna.tsinghua.edu.cn" && \
     echo "# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释" >> /etc/apt/sources.list && \
     echo "deb ${DEBIAN_MIRROR}/debian/ bullseye main contrib non-free" >> /etc/apt/sources.list && \
     echo "# deb-src ${DEBIAN_MIRROR}/debian/ bullseye main contrib non-free" >> /etc/apt/sources.list && \
@@ -69,9 +70,8 @@ RUN set -eux && \
     mkfontdir && \
     fc-cache -f && \
     \
-    FILE_NAME="openoffice_install_deb" && \
-    OPENOFFICE_VERSION="4.1.13" && \
     OPENOFFICE_DOWNLOAD_URL="https://jaist.dl.sourceforge.net/project/openofficeorg.mirror/${OPENOFFICE_VERSION}/binaries/en-US/Apache_OpenOffice_${OPENOFFICE_VERSION}_Linux_x86-64_install-deb_en-US.tar.gz" && \
+    FILE_NAME="openoffice_install_deb" && \
     axel -n 8 -o /tmp/${FILE_NAME}.tgz ${OPENOFFICE_DOWNLOAD_URL} && \
     tar --strip 1 -zxvf /tmp/${FILE_NAME}.tgz -C /tmp && \
     dpkg -i /tmp/DEBS/*.deb /tmp/DEBS/desktop-integration/*.deb && \
