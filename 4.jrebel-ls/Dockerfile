@@ -1,6 +1,6 @@
 FROM youken9980/build-tools-openjdk8:latest as temp
 
-ENV GIT_URL="https://ghproxy.com/https://github.com/Byron4j/JrebelLicenseServerforJava.git"
+ENV GIT_URL="https://github.com/Byron4j/JrebelLicenseServerforJava.git"
 ENV PROJ_SRC="/proj-src"
 
 RUN git clone --depth=1 ${GIT_URL} ${PROJ_SRC}

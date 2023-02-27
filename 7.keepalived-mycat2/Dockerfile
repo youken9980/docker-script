@@ -1,6 +1,6 @@
 FROM youken9980/build-tools-openjdk8:latest as temp
 
-ENV GIT_URL="https://ghproxy.com/https://github.com/MyCATApache/Mycat2.git"
+ENV GIT_URL="https://github.com/MyCATApache/Mycat2.git"
 ENV PROJ_SRC="/proj-src"
 ENV GIT_TAG="1.19-release"
 ENV ORIGINAL_JAR="mycat2-1.19-jar-with-dependencies.jar"

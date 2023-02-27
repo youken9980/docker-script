@@ -71,8 +71,8 @@ RUN NGINX_VERSION="1.21.6" && \
         libxslt-dev \
         gd-dev \
         geoip-dev && \
-    curl -fSL https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz -o nginx.tar.gz && \
-    curl -fSL https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz.asc -o nginx.tar.gz.asc && \
+    axel -n 8 https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz && \
+    axel -n 8 https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz.asc && \
     export GNUPGHOME="$(mktemp -d)" && \
     found=''; \
     for server in \
@@ -85,11 +85,11 @@ RUN NGINX_VERSION="1.21.6" && \
         gpg --keyserver "$server" --keyserver-options timeout=10 --recv-keys "$GPG_KEYS" && found=yes && break; \
     done; \
     test -z "$found" && echo >&2 "error: failed to fetch GPG key $GPG_KEYS" && exit 1; \
-    gpg --batch --verify nginx.tar.gz.asc nginx.tar.gz && \
-    rm -r "$GNUPGHOME" nginx.tar.gz.asc && \
+    gpg --batch --verify nginx-$NGINX_VERSION.tar.gz.asc nginx-$NGINX_VERSION.tar.gz && \
+    rm -r "$GNUPGHOME" nginx-$NGINX_VERSION.tar.gz.asc && \
     mkdir -p /usr/src && \
-    tar -zxC /usr/src -f nginx.tar.gz && \
-    rm nginx.tar.gz && \
+    tar -zxC /usr/src -f nginx-$NGINX_VERSION.tar.gz && \
+    rm nginx-$NGINX_VERSION.tar.gz && \
     cd /usr/src/nginx-$NGINX_VERSION && \
     ./configure $CONFIG --with-debug && \
     make -j$(getconf _NPROCESSORS_ONLN) && \

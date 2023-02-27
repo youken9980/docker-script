@@ -19,7 +19,7 @@ RUN axel -n 8 ${MAVEN_DOWNLOAD_URL} && \
 
 FROM youken9980/alpine:3 as gradle
 
-ENV GRADLE_VERSION="6.9.3"
+ENV GRADLE_VERSION="6.9.4"
 ENV GRADLE_DOWNLOAD_URL="https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip"
 ENV GRADLE_HOME="/usr/local/gradle-${GRADLE_VERSION}"
 
@@ -37,7 +37,7 @@ ENV MAVEN_REPO="/usr/local/maven-repository"
 ENV MAVEN_REPOSITORY="${MAVEN_REPO}"
 ENV M2_REPO="${MAVEN_REPO}"
 
-ENV GRADLE_VERSION="6.9.3"
+ENV GRADLE_VERSION="6.9.4"
 ENV GRADLE_HOME="/usr/local/gradle-${GRADLE_VERSION}"
 ENV GRADLE_REPO="/usr/local/gradle-repository"
 ENV GRADLE_USER_HOME="${GRADLE_REPO}"
@@ -46,6 +46,11 @@ ENV PATH="${PATH}:${MAVEN_HOME}/bin:${GRADLE_HOME}/bin"
 
 RUN apk --update --no-cache add git subversion perl-xml-xpath && \
     mkdir -p ${MAVEN_REPO} ${GRADLE_REPO} && \
+    GITHUB_MIRROR="https://ghproxy.com/https://github.com" && \
+    GITHUBUSERCONTENT_MIRROR="https://raw.staticdn.net" && \
+    git config --global url."${GITHUB_MIRROR}".insteadof "https://github.com" && \
+    git config --global url."${GITHUBUSERCONTENT_MIRROR}".insteadof "https://raw.githubusercontent.com" && \
+    \
     rm -rf /var/cache/apk/*.*
 
 COPY --chown=root:root --from=maven ${MAVEN_HOME} ${MAVEN_HOME}
