@@ -1,4 +1,4 @@
-FROM alpine:3
+FROM alpine:3.17
 LABEL maintainer="YangJian <youken9980@163.com>"
 
 # dl-cdn.alpinelinux.org

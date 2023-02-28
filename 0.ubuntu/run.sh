@@ -1,6 +1,6 @@
 #!/bin/bash
 
-imageTag="youken9980/ubuntu:20.04"
+imageTag="youken9980/ubuntu:jammy"
 network="mynet"
 
 function dockerRm() {

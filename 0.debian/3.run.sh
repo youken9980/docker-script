@@ -1,6 +1,6 @@
 #!/bin/bash
 
-imageTag="youken9980/debian:buster"
+imageTag="youken9980/debian:bullseye"
 network="mynet"
 
 function dockerRm() {

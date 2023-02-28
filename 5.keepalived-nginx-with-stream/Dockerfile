@@ -88,7 +88,7 @@ RUN NGINX_VERSION="1.21.6" && \
     gpg --batch --verify nginx-$NGINX_VERSION.tar.gz.asc nginx-$NGINX_VERSION.tar.gz && \
     rm -r "$GNUPGHOME" nginx-$NGINX_VERSION.tar.gz.asc && \
     mkdir -p /usr/src && \
-    tar -zxC /usr/src -f nginx-$NGINX_VERSION.tar.gz && \
+    tar -zxvf nginx-$NGINX_VERSION.tar.gz -C /usr/src --no-same-owner && \
     rm nginx-$NGINX_VERSION.tar.gz && \
     cd /usr/src/nginx-$NGINX_VERSION && \
     ./configure $CONFIG --with-debug && \

@@ -12,7 +12,7 @@ ENV LD_RUN_PATH="${LD_RUN_PATH:+$LD_RUN_PATH:}$TOMCAT_NATIVE_LIBDIR:/usr/local/a
 RUN set -eux && \
     APACHE_MIRROR="https://mirrors.bfsu.edu.cn/apache" && \
     tomcatMajor="9" && \
-    tomcatVersion="9.0.72" && \
+    tomcatVersion="${tomcatMajor}.0.72" && \
     aprVersion="1.7.2" && \
     aprUtilVersion="1.6.3" && \
     aprIconvVersion="1.2.2" && \
@@ -35,9 +35,9 @@ RUN set -eux && \
     mkdir apr \
           apr-iconv \
           apr-util && \
-    tar -zxvf apr.tar.gz -C apr --strip-components=1 && \
-    tar -zxvf apr-util.tar.gz -C apr-util --strip-components=1 && \
-    tar -zxvf apr-iconv.tar.gz -C apr-iconv --strip-components=1 && \
+    tar -zxvf apr.tar.gz -C apr --strip-components=1 --no-same-owner && \
+    tar -zxvf apr-util.tar.gz -C apr-util --strip-components=1 --no-same-owner && \
+    tar -zxvf apr-iconv.tar.gz -C apr-iconv --strip-components=1 --no-same-owner && \
     cd ${tempDir}/apr && \
     ./configure --prefix=/usr/local/apr && \
     make -j${npPocessors} && \
@@ -57,11 +57,11 @@ RUN set -eux && \
     cd ${tempDir} && \
     axel -n 8 -o tomcat.tar.gz ${APACHE_MIRROR}/tomcat/tomcat-${tomcatMajor}/v${tomcatVersion}/bin/apache-tomcat-${tomcatVersion}.tar.gz && \
     mkdir tomcat && \
-    tar -zxvf tomcat.tar.gz -C tomcat --strip-components=1 && \
+    tar -zxvf tomcat.tar.gz -C tomcat --strip-components=1 --no-same-owner && \
     mv tomcat ${CATALINA_HOME} && \
     mv ${CATALINA_HOME}/bin/tomcat-native.tar.gz . && \
     mkdir tomcat-native && \
-    tar -zxvf tomcat-native.tar.gz -C tomcat-native --strip-components=1 && \
+    tar -zxvf tomcat-native.tar.gz -C tomcat-native --strip-components=1 --no-same-owner && \
     cd ${tempDir}/tomcat-native/native && \
     ./configure --build="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
                 --libdir="${TOMCAT_NATIVE_LIBDIR}" \

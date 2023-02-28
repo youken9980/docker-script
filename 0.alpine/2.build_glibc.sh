@@ -1,3 +1,7 @@
 #!/bin/bash
 
-docker build -f Dockerfile_glibc -t youken9980/alpine:3-glibc .
+docker build \
+    --add-host "ghproxy.com:141.147.152.25" \
+    --add-host "raw.staticdn.net:104.21.31.232" \
+    -f Dockerfile_glibc \
+    -t youken9980/alpine:3-glibc .
