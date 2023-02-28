@@ -26,9 +26,11 @@ function dockerLogsUntil() {
     endpoint="$2"
     containerId=$(docker ps -aq --filter "${filter}")
     nohup docker logs -f "${containerId}" > "/tmp/${containerId}.log" 2>&1 &
+    sleep 1s
     PID=$(ps aux | grep "docker" | grep ${containerId} | awk '{print $2}' | sort -nr | head -1)
     if [ "${PID}" != "" ]; then
         eval "tail -n 1 -f --pid=${PID} /tmp/${containerId}.log | sed '/${endpoint}/q'"
+        kill -9 ${PID}
         kill ${PID}
         rm /tmp/${containerId}.log
     fi
