@@ -9,7 +9,7 @@ RUN set -eux && \
     \
     apt-get update && \
     DEBIAN_FRONTEND="noninteractive" && \
-    apt-get install --no-install-recommends -y apt-transport-https ca-certificates tzdata && \
+    apt-get install --no-install-recommends -y apt-transport-https ca-certificates tzdata fontconfig locales && \
     mv /usr/share/zoneinfo/Asia/Shanghai /Shanghai && \
     rm -rf /usr/share/zoneinfo && \
     mkdir -p /usr/share/zoneinfo/Asia && \
@@ -18,6 +18,8 @@ RUN set -eux && \
     ln -sTf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo "Asia/Shanghai" > /etc/timezone && \
     dpkg-reconfigure --frontend noninteractive tzdata && \
+    echo "zh_CN.UTF-8 UTF-8" >> /etc/locale.gen && \
+    locale-gen en_US.UTF-8 && \
     \
     mv /etc/apt/sources.list /etc/apt/sources.list.bak && \
     echo "# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释" >> /etc/apt/sources.list && \

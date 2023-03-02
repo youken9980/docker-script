@@ -1,4 +1,4 @@
-FROM nginx:1.22-alpine
+FROM alpine:3.17
 LABEL maintainer="YangJian <youken9980@163.com>"
 
 # dl-cdn.alpinelinux.org
@@ -26,6 +26,6 @@ RUN set -eux && \
     \
     rm -rf /var/cache/apk/*.*
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
+STOPSIGNAL SIGTERM
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD [ "/bin/sh" ]

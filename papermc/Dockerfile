@@ -6,7 +6,7 @@ RUN set -eux && \
     PAPERMC_BUILD="426" && \
     \
     mkdir -p /papermc && cd /papermc && \
-    axel -n 8 -o papermc.jar https://papermc.io/api/v2/projects/paper/versions/${PAPERMC_VERSION}/builds/${PAPERMC_BUILD}/downloads/paper-${PAPERMC_VERSION}-${PAPERMC_BUILD}.jar && \
+    wget -O papermc.jar https://papermc.io/api/v2/projects/paper/versions/${PAPERMC_VERSION}/builds/${PAPERMC_BUILD}/downloads/paper-${PAPERMC_VERSION}-${PAPERMC_BUILD}.jar && \
     java -jar papermc.jar && \
     sed -i 's|eula=false|eula=true|g' eula.txt && \
     sed -i 's|online-mode=true|online-mode=false|g' server.properties && \

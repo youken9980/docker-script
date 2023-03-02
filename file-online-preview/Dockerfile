@@ -9,7 +9,7 @@ RUN mvn clean package -Dmaven.test.skip=true -U
 RUN PROJ_VERSION="$(xpath -q -e '//project/version/text()' ${PROJ_SRC}/pom.xml)" && \
     mkdir -p /kkFileView/config /kkFileView/bin && \
     cp ${PROJ_SRC}/server/src/main/config/application.properties /kkFileView/config/application.properties && \
-    cp ${PROJ_SRC}/server/target/kkFileView-$PROJ_VERSION.jar /kkFileView/bin/kkFileView.jar
+    cp ${PROJ_SRC}/server/target/kkFileView-${PROJ_VERSION}.jar /kkFileView/bin/kkFileView.jar
 
 
 FROM youken9980/openjdk:17-jre-jammy
@@ -31,7 +31,7 @@ RUN set -eux && \
     mkfontscale && \
     mkfontdir && \
     \
-    axel -n 8 -o /tmp/openoffice.tar.gz ${OPENOFFICE_DOWNLOAD_URL} && \
+    wget -O /tmp/openoffice.tar.gz ${OPENOFFICE_DOWNLOAD_URL} && \
     tar -zxvf /tmp/openoffice.tar.gz -C /tmp --strip-components=1 --no-same-owner && \
     dpkg -i /tmp/DEBS/*.deb /tmp/DEBS/desktop-integration/*.deb && \
     \
