@@ -4,7 +4,7 @@ ENV JAVA_HOME="/opt/java/openjdk"
 
 # https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u362-b09/OpenJDK8U-jdk_x64_alpine-linux_hotspot_8u362b09.tar.gz
 RUN set -eux && \
-    GITHUB_MIRROR="https://ghproxy.com/https://github.com" && \
+    GITHUB_MIRROR="https://ghps.cc/https://github.com" && \
     JDK_MAJOR="8" && \
     JDK_VERSION="362" && \
     JDK_BUILD="09" && \

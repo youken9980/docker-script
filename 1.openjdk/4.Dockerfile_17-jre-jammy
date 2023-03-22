@@ -7,7 +7,7 @@ RUN apt-get update && \
 
 # https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.6%2B10/OpenJDK17U-jre_x64_linux_hotspot_17.0.6_10.tar.gz
 RUN set -eux && \
-    GITHUB_MIRROR="https://ghproxy.com/https://github.com" && \
+    GITHUB_MIRROR="https://ghps.cc/https://github.com" && \
     JDK_MAJOR="17" && \
     JDK_VERSION="${JDK_MAJOR}.0.6" && \
     JDK_BUILD="10" && \

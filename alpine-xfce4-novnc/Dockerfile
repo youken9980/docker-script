@@ -1,16 +1,16 @@
 FROM youken9980/alpine:3 as source-han-serif
-RUN axel -n 8 -o /SourceHanSerif.ttc https://ghproxy.com/https://github.com/adobe-fonts/source-han-serif/releases/download/1.001R/SourceHanSerif.ttc
+RUN axel -n 8 -o /SourceHanSerif.ttc https://ghps.cc/https://github.com/adobe-fonts/source-han-serif/releases/download/1.001R/SourceHanSerif.ttc
 
 # FROM youken9980/alpine:3 as source-han-sans
-# RUN axel -n 8 -o /SourceHanSans.ttc https://ghproxy.com/https://github.com/adobe-fonts/source-han-sans/releases/download/2.002R/SourceHanSans.ttc
+# RUN axel -n 8 -o /SourceHanSans.ttc https://ghps.cc/https://github.com/adobe-fonts/source-han-sans/releases/download/2.002R/SourceHanSans.ttc
 
 # FROM youken9980/alpine:3 as source-han-mono
-# RUN axel -n 8 -o /SourceHanMono.ttc https://ghproxy.com/https://github.com/adobe-fonts/source-han-mono/releases/download/1.002/SourceHanMono.ttc
+# RUN axel -n 8 -o /SourceHanMono.ttc https://ghps.cc/https://github.com/adobe-fonts/source-han-mono/releases/download/1.002/SourceHanMono.ttc
 
 FROM youken9980/alpine:3 as novnc
 RUN NOVNC_HOME="/noVNC" && \
-    axel -n 8 -o novnc.tar.gz https://ghproxy.com/https://github.com/novnc/noVNC/archive/v1.4.0.tar.gz && \
-    axel -n 8 -o websockify.tar.gz https://ghproxy.com/https://github.com/novnc/websockify/archive/v0.11.0.tar.gz && \
+    axel -n 8 -o novnc.tar.gz https://ghps.cc/https://github.com/novnc/noVNC/archive/v1.4.0.tar.gz && \
+    axel -n 8 -o websockify.tar.gz https://ghps.cc/https://github.com/novnc/websockify/archive/v0.11.0.tar.gz && \
     mkdir -p ${NOVNC_HOME}/utils/websockify && \
     tar -zxvf novnc.tar.gz -C ${NOVNC_HOME} --strip-components=1 --no-same-owner && \
     tar -zxvf websockify.tar.gz -C ${NOVNC_HOME}/utils/websockify --strip-components=1 --no-same-owner && \

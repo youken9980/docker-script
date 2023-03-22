@@ -50,7 +50,7 @@ ENV PATH="${PATH}:${MAVEN_HOME}/bin:${GRADLE_HOME}/bin"
 
 RUN apk --update --no-cache add git subversion perl-xml-xpath && \
     mkdir -p ${MAVEN_REPO} ${GRADLE_REPO} && \
-    GITHUB_MIRROR="https://ghproxy.com/https://github.com" && \
+    GITHUB_MIRROR="https://ghps.cc/https://github.com" && \
     GITHUBUSERCONTENT_MIRROR="https://raw.staticdn.net" && \
     git config --global url."${GITHUB_MIRROR}".insteadof "https://github.com" && \
     git config --global url."${GITHUBUSERCONTENT_MIRROR}".insteadof "https://raw.githubusercontent.com" && \
