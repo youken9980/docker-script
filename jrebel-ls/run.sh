@@ -36,4 +36,4 @@ docker run -d -p 127.0.0.1:8079:8080 \
     --network="${network}" --name="${containerName}" \
     --restart always \
     "${imageTag}"
-dockerLogsUntil "name=${containerName}" "{guid}(eg:http"
+dockerLogsUntil "name=${containerName}" "Server:main:[[:space:]]jlhttp:[[:space:]]Started"
