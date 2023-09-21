@@ -1,4 +1,4 @@
-FROM nginx:1.22-alpine
+FROM nginx:1.24-alpine-slim
 LABEL maintainer="YangJian <youken9980@163.com>"
 
 # dl-cdn.alpinelinux.org
