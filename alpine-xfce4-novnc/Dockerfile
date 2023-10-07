@@ -1,10 +1,13 @@
 FROM youken9980/alpine:3 as source-han-serif
+# Source Han Serif | 思源宋体 | 思源宋體 | 思源宋體 香港 | 源ノ明朝 | 본명조
 RUN axel -n 8 -o /SourceHanSerif.ttc https://ghps.cc/https://github.com/adobe-fonts/source-han-serif/releases/download/1.001R/SourceHanSerif.ttc
 
 # FROM youken9980/alpine:3 as source-han-sans
-# RUN axel -n 8 -o /SourceHanSans.ttc https://ghps.cc/https://github.com/adobe-fonts/source-han-sans/releases/download/2.002R/SourceHanSans.ttc
+# Source Han Sans | 思源黑体 | 思源黑體 | 思源黑體 香港 | 源ノ角ゴシック | 본고딕
+# RUN axel -n 8 -o /SourceHanSans.ttc https://ghps.cc/https://github.com/adobe-fonts/source-han-sans/releases/download/2.003R/SourceHanSans.ttc
 
 # FROM youken9980/alpine:3 as source-han-mono
+# Source Han Mono | 思源等宽 | 思源等寬 | 思源等寬 香港 | 源ノ等幅 | 본모노
 # RUN axel -n 8 -o /SourceHanMono.ttc https://ghps.cc/https://github.com/adobe-fonts/source-han-mono/releases/download/1.002/SourceHanMono.ttc
 
 FROM youken9980/alpine:3 as novnc
