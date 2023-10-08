@@ -1,4 +1,4 @@
-FROM youken9980/nginx:1.22-alpine
+FROM youken9980/nginx:1.24-alpine-slim
 LABEL maintainer="YangJian <youken9980@163.com>"
 
 ENV RUN_KEEPALIVED="false"

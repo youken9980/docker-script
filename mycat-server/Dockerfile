@@ -26,11 +26,6 @@ RUN MYCAT_VERSION="1.6.7.6" && \
     sed -i 's|        <asyncRoot level="info" includeLocation="true">|        <asyncRoot level="debug" includeLocation="true">|g' /mycat/conf/log4j2.xml
 
 
-
-
-
-
-
 FROM youken9980/openjdk:8-jre-jammy
 LABEL maintainer="YangJian <youken9980@163.com>"
 
