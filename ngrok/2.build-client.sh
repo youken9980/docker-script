@@ -1,6 +1,5 @@
 #!/bin/bash
 
-docker pull golang:1.12-alpine
 docker build \
     --add-host "github.com:140.82.114.4" \
     --add-host "ghproxy.com:141.147.152.25" \

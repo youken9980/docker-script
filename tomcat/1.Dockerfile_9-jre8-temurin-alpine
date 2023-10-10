@@ -1,0 +1,36 @@
+FROM youken9980/temurin:8-jre-alpine
+LABEL maintainer="YangJian <youken9980@163.com>"
+
+ENV CATALINA_HOME="/usr/local/tomcat"
+ENV PATH="$CATALINA_HOME/bin:$PATH"
+
+# let "Tomcat Native" live somewhere isolated
+ENV TOMCAT_NATIVE_LIBDIR="$CATALINA_HOME/native-jni-lib"
+ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$TOMCAT_NATIVE_LIBDIR:/usr/local/apr/lib"
+ENV LD_RUN_PATH="${LD_RUN_PATH:+$LD_RUN_PATH:}$TOMCAT_NATIVE_LIBDIR:/usr/local/apr/lib"
+
+COPY --chown=root:root --from=youken9980/tomcat:9-jdk8-openjdk-alpine $CATALINA_HOME $CATALINA_HOME
+
+RUN set -eux && \
+    \
+    cat "$TOMCAT_NATIVE_LIBDIR/.dependencies.txt" | xargs -rt apk add --update --no-cache && \
+    \
+    rm -rf /var/cache/apk/*.*
+
+# verify Tomcat Native is working properly
+RUN set -eux && \
+    nativeLines="$(catalina.sh configtest 2>&1)" && \
+    nativeLines="$(echo "$nativeLines" | grep 'Apache Tomcat Native')" && \
+    nativeLines="$(echo "$nativeLines" | sort -u)" && \
+    if ! echo "$nativeLines" | grep 'INFO: Loaded Apache Tomcat Native library' >&2; then \
+        echo >&2 "$nativeLines"; \
+        exit 1; \
+    fi
+
+WORKDIR $CATALINA_HOME
+
+EXPOSE 8080
+
+STOPSIGNAL SIGTERM
+
+CMD ["catalina.sh", "run"]

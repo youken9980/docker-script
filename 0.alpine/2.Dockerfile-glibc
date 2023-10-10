@@ -6,7 +6,7 @@ LABEL maintainer="YangJian <youken9980@163.com>"
 # https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.35-r0/glibc-i18n-2.35-r0.apk
 
 RUN set -eux && \
-    GITHUB_MIRROR="https://ghps.cc/https://github.com" && \
+    GITHUB_MIRROR="https://ghproxy.com/https://github.com" && \
     GLIBC_VERSION="2.35-r0" && \
     \
     wget -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub && \

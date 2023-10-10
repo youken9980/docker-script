@@ -1,13 +1,12 @@
 FROM youken9980/build-tools-openjdk8:latest as temp
 
-ENV GIT_URL="https://github.com/kekingcn/kkFileView.git"
-ENV GIT_TAG="4.3.0"
+ENV GIT_URL="https://ghproxy.com/https://github.com/kekingcn/kkFileView.git"
 ENV PROJ_SRC="/proj-src"
 ENV KKFILEVIEW_HOME="/kkFileView"
 
-RUN git clone ${GIT_URL} ${PROJ_SRC}
+RUN git clone --depth=1 ${GIT_URL} ${PROJ_SRC}
 WORKDIR ${PROJ_SRC}
-RUN git checkout "v${GIT_TAG}"
+# RUN sed -i "s|https://repository.aspose.com/repo|https://releases.aspose.com/java/repo|g" ./server/pom.xml
 RUN mvn clean package -Dmaven.test.skip=true -U
 RUN PROJ_VERSION="$(xpath -q -e '//project/version/text()' ${PROJ_SRC}/pom.xml)" && \
     cp ${PROJ_SRC}/server/target/kkFileView-${PROJ_VERSION}.tar.gz /kkFileView.tar.gz && \
@@ -16,7 +15,7 @@ RUN PROJ_VERSION="$(xpath -q -e '//project/version/text()' ${PROJ_SRC}/pom.xml)"
     mv ${KKFILEVIEW_HOME}/bin/kkFileView-${GIT_TAG}.jar ${KKFILEVIEW_HOME}/bin/kkFileView.jar
 
 
-FROM youken9980/openjdk:8-jre-jammy
+FROM youken9980/temurin:8-jre-jammy
 LABEL maintainer="YangJian <youken9980@163.com>"
 
 ENV LIBREOFFICE_VERSION="7.5.7"

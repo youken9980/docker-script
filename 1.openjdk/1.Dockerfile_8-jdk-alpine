@@ -2,15 +2,18 @@ FROM youken9980/alpine:3-glibc as temp
 
 ENV JAVA_HOME="/opt/java/openjdk"
 
+RUN apk update && \
+    apk add axel
+
 # https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u382-b05/OpenJDK8U-jdk_x64_alpine-linux_hotspot_8u382b05.tar.gz
 RUN set -eux && \
-    GITHUB_MIRROR="https://ghps.cc/https://github.com" && \
+    GITHUB_MIRROR="https://ghproxy.com/https://github.com" && \
     JDK_MAJOR="8" && \
     JDK_VERSION="382" && \
     JDK_BUILD="05" && \
     \
-    wget -O /tmp/openjdk.tar.gz ${GITHUB_MIRROR}/adoptium/temurin${JDK_MAJOR}-binaries/releases/download/jdk${JDK_MAJOR}u${JDK_VERSION}-b${JDK_BUILD}/OpenJDK${JDK_MAJOR}U-jdk_x64_alpine-linux_hotspot_${JDK_MAJOR}u${JDK_VERSION}b${JDK_BUILD}.tar.gz && \
-    wget -O /tmp/openjdk.tar.gz.sha256.txt ${GITHUB_MIRROR}/adoptium/temurin${JDK_MAJOR}-binaries/releases/download/jdk${JDK_MAJOR}u${JDK_VERSION}-b${JDK_BUILD}/OpenJDK${JDK_MAJOR}U-jdk_x64_alpine-linux_hotspot_${JDK_MAJOR}u${JDK_VERSION}b${JDK_BUILD}.tar.gz.sha256.txt && \
+    axel -n 8 -o /tmp/openjdk.tar.gz ${GITHUB_MIRROR}/adoptium/temurin${JDK_MAJOR}-binaries/releases/download/jdk${JDK_MAJOR}u${JDK_VERSION}-b${JDK_BUILD}/OpenJDK${JDK_MAJOR}U-jdk_x64_alpine-linux_hotspot_${JDK_MAJOR}u${JDK_VERSION}b${JDK_BUILD}.tar.gz && \
+    axel -n 8 -o /tmp/openjdk.tar.gz.sha256.txt ${GITHUB_MIRROR}/adoptium/temurin${JDK_MAJOR}-binaries/releases/download/jdk${JDK_MAJOR}u${JDK_VERSION}-b${JDK_BUILD}/OpenJDK${JDK_MAJOR}U-jdk_x64_alpine-linux_hotspot_${JDK_MAJOR}u${JDK_VERSION}b${JDK_BUILD}.tar.gz.sha256.txt && \
     echo "$(cat /tmp/openjdk.tar.gz.sha256.txt | awk '{ print $1 }') */tmp/openjdk.tar.gz" | sha256sum -c - && \
     mkdir -p ${JAVA_HOME} && \
     tar -zxvf /tmp/openjdk.tar.gz -C ${JAVA_HOME} --strip-components=1 --no-same-owner && \
