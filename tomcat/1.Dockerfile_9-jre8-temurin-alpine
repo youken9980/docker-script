@@ -9,7 +9,7 @@ ENV TOMCAT_NATIVE_LIBDIR="$CATALINA_HOME/native-jni-lib"
 ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$TOMCAT_NATIVE_LIBDIR:/usr/local/apr/lib"
 ENV LD_RUN_PATH="${LD_RUN_PATH:+$LD_RUN_PATH:}$TOMCAT_NATIVE_LIBDIR:/usr/local/apr/lib"
 
-COPY --chown=root:root --from=youken9980/tomcat:9-jdk8-openjdk-alpine $CATALINA_HOME $CATALINA_HOME
+COPY --chown=root:root --from=youken9980/tomcat:9-jdk8-temurin-alpine $CATALINA_HOME $CATALINA_HOME
 
 RUN set -eux && \
     \

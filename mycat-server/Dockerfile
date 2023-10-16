@@ -1,7 +1,5 @@
 FROM youken9980/ubuntu:jammy as temp
 
-ENV JAVA_HOME="/opt/java/openjdk"
-
 RUN apt-get update && \
     apt-get install --no-install-recommends -y wget unzip
 
@@ -26,7 +24,7 @@ RUN MYCAT_VERSION="1.6.7.6" && \
     sed -i 's|        <asyncRoot level="info" includeLocation="true">|        <asyncRoot level="debug" includeLocation="true">|g' /mycat/conf/log4j2.xml
 
 
-FROM youken9980/openjdk:8-jre-jammy
+FROM youken9980/temurin:8-jre-jammy
 LABEL maintainer="YangJian <youken9980@163.com>"
 
 ENV PATH=".:$PATH:/mycat/bin"

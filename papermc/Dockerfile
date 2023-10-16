@@ -1,4 +1,4 @@
-FROM youken9980/openjdk:17-jre-jammy
+FROM youken9980/temurin:17-jre-jammy
 LABEL maintainer="YangJian <youken9980@163.com>"
 
 RUN set -eux && \

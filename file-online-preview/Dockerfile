@@ -1,4 +1,4 @@
-FROM youken9980/build-tools-openjdk8:latest as temp
+FROM youken9980/build-tools-temurin8:latest as temp
 
 ENV GIT_URL="https://ghproxy.com/https://github.com/kekingcn/kkFileView.git"
 ENV PROJ_SRC="/proj-src"

@@ -1,4 +1,4 @@
-FROM youken9980/build-tools-openjdk8:latest as temp
+FROM youken9980/build-tools-temurin8:latest as temp
 
 ENV GIT_URL="https://gitee.com/nism/jrebel-server.git"
 ENV PROJ_SRC="/proj-src"
@@ -10,7 +10,7 @@ RUN PROJ_VERSION="$(xpath -q -e '//project/version/text()' ${PROJ_SRC}/pom.xml)"
     cp ${PROJ_SRC}/target/JrebelServer.jar /service.jar
 
 
-FROM youken9980/openjdk:8-jre-alpine
+FROM youken9980/temurin:8-jre-alpine
 LABEL maintainer="YangJian <youken9980@163.com>"
 
 COPY --from=temp /service.jar /service.jar
