@@ -5,14 +5,23 @@ ENV PROJ_SRC="/proj-src"
 ENV KKFILEVIEW_HOME="/kkFileView"
 
 RUN git clone --depth=1 ${GIT_URL} ${PROJ_SRC}
+
+# https://releases.aspose.com/java/repo/com/aspose/aspose-cad/23.7/aspose-cad-23.7.pom
+# https://releases.aspose.com/java/repo/com/aspose/aspose-cad/23.7/aspose-cad-23.7.jar
+# https://releases.aspose.com/java/repo/com/aspose/aspose-cad/23.7/aspose-cad-23.7-javadoc.jar
+RUN ASPOSE_VERSION="$(xpath -q -e '//project/properties/aspose-cad.version/text()' ${PROJ_SRC}/pom.xml)" && \
+    mkdir -p ${MAVEN_REPO}/com/aspose/aspose-cad/${ASPOSE_VERSION} && \
+    cd ${MAVEN_REPO}/com/aspose/aspose-cad/${ASPOSE_VERSION} && \
+    axel -n 8 https://releases.aspose.com/java/repo/com/aspose/aspose-cad/${ASPOSE_VERSION}/aspose-cad-${ASPOSE_VERSION}.pom && \
+    axel -n 8 https://releases.aspose.com/java/repo/com/aspose/aspose-cad/${ASPOSE_VERSION}/aspose-cad-${ASPOSE_VERSION}.jar
+
 WORKDIR ${PROJ_SRC}
-# RUN sed -i "s|https://repository.aspose.com/repo|https://releases.aspose.com/java/repo|g" ./server/pom.xml
 RUN mvn clean package -Dmaven.test.skip=true -U
 RUN PROJ_VERSION="$(xpath -q -e '//project/version/text()' ${PROJ_SRC}/pom.xml)" && \
     cp ${PROJ_SRC}/server/target/kkFileView-${PROJ_VERSION}.tar.gz /kkFileView.tar.gz && \
     mkdir -p ${KKFILEVIEW_HOME} && \
     tar -zxvf /kkFileView.tar.gz -C ${KKFILEVIEW_HOME} --strip-components=1 --no-same-owner && \
-    mv ${KKFILEVIEW_HOME}/bin/kkFileView-${GIT_TAG}.jar ${KKFILEVIEW_HOME}/bin/kkFileView.jar
+    mv ${KKFILEVIEW_HOME}/bin/kkFileView-${PROJ_VERSION}.jar ${KKFILEVIEW_HOME}/bin/kkFileView.jar
 
 
 FROM youken9980/temurin:8-jre-jammy

@@ -9,17 +9,16 @@ ENV MAVEN_REPO="/usr/local/maven-repository"
 
 RUN axel -n 8 -o maven.tar.gz ${MAVEN_DOWNLOAD_URL} && \
     mkdir -p ${MAVEN_HOME} && \
-    tar -zxvf maven.tar.gz -C ${MAVEN_HOME} --strip-components=1 --no-same-owner
+    tar -zxvf maven.tar.gz -C ${MAVEN_HOME} --strip-components=1 --no-same-owner && \
+    cp ${MAVEN_HOME}/conf/settings.xml ${MAVEN_HOME}/conf/settings.xml.bak
 
-COPY settings.xml ${MAVEN_HOME}/conf/settings.xml
-
-# RUN sed -i "/  <!-- localRepository/i\  <localRepository>${MAVEN_REPO}</localRepository>" ${MAVEN_HOME}/conf/settings.xml && \
-#     sed -i '/    <!-- mirror/i\    <mirror>' ${MAVEN_HOME}/conf/settings.xml && \
-#     sed -i '/    <!-- mirror/i\        <id>aliyunmaven</id>' ${MAVEN_HOME}/conf/settings.xml && \
-#     sed -i '/    <!-- mirror/i\        <mirrorOf>*</mirrorOf>' ${MAVEN_HOME}/conf/settings.xml && \
-#     sed -i '/    <!-- mirror/i\        <name>阿里云公共仓库</name>' ${MAVEN_HOME}/conf/settings.xml && \
-#     sed -i '/    <!-- mirror/i\        <url>https://maven.aliyun.com/repository/public</url>' ${MAVEN_HOME}/conf/settings.xml && \
-#     sed -i '/    <!-- mirror/i\    </mirror>' ${MAVEN_HOME}/conf/settings.xml
+RUN sed -i '/  <!-- localRepository/i\  <localRepository>${MAVEN_REPO}</localRepository>' ${MAVEN_HOME}/conf/settings.xml && \
+    sed -i '/    <!-- mirror/i\    <mirror>' ${MAVEN_HOME}/conf/settings.xml && \
+    sed -i '/    <!-- mirror/i\        <id>aliyunmaven</id>' ${MAVEN_HOME}/conf/settings.xml && \
+    sed -i '/    <!-- mirror/i\        <mirrorOf>central</mirrorOf>' ${MAVEN_HOME}/conf/settings.xml && \
+    sed -i '/    <!-- mirror/i\        <name>阿里云公共仓库</name>' ${MAVEN_HOME}/conf/settings.xml && \
+    sed -i '/    <!-- mirror/i\        <url>https://maven.aliyun.com/repository/public</url>' ${MAVEN_HOME}/conf/settings.xml && \
+    sed -i '/    <!-- mirror/i\    </mirror>' ${MAVEN_HOME}/conf/settings.xml
 
 
 FROM youken9980/alpine:3 as gradle
