@@ -1,6 +1,6 @@
 FROM youken9980/build-tools-temurin8:latest as temp
 
-ENV GIT_URL="https://ghps.cc/https://github.com/kekingcn/kkFileView.git"
+ENV GIT_URL="https://gitclone.com/github.com/kekingcn/kkFileView.git"
 ENV PROJ_SRC="/proj-src"
 ENV KKFILEVIEW_HOME="/kkFileView"
 

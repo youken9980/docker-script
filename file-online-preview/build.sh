@@ -1,7 +1,7 @@
 #!/bin/bash
 
 docker build \
-    --add-host "raw.staticdn.net:104.21.31.232" \
-    --add-host "maven.aliyun.com:59.110.251.10" \
+    --add-host "releases.aspose.com:18.160.18.60" \
+    --add-host "maven.aliyun.com:59.110.251.11" \
     -f Dockerfile \
     -t youken9980/file-online-preview:latest .

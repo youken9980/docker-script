@@ -1,13 +1,13 @@
 FROM youken9980/alpine:3
 LABEL maintainer="YangJian <youken9980@163.com>"
 
-# https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.33-r0/glibc-2.33-r0.apk
-# https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.33-r0/glibc-bin-2.33-r0.apk
-# https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.35-r0/glibc-i18n-2.35-r0.apk
+# https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.35-r1/glibc-2.35-r1.apk
+# https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.35-r1/glibc-bin-2.35-r1.apk
+# https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.35-r1/glibc-i18n-2.35-r1.apk
 
 RUN set -eux && \
-    GITHUB_MIRROR="https://ghps.cc/https://github.com" && \
-    GLIBC_VERSION="2.35-r0" && \
+    GITHUB_MIRROR="https://gh.ddlc.top/https://github.com" && \
+    GLIBC_VERSION="2.35-r1" && \
     \
     wget -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub && \
     wget ${GITHUB_MIRROR}/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk && \

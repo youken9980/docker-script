@@ -1,4 +1,4 @@
-FROM youken9980/alpine:3 as maven
+FROM youken9980/temurin:8-jdk-alpine as maven
 
 RUN apk --update --no-cache add zip
 
@@ -21,15 +21,15 @@ RUN sed -i '/  <!-- localRepository/i\  <localRepository>${MAVEN_REPO}</localRep
     sed -i '/    <!-- mirror/i\    </mirror>' ${MAVEN_HOME}/conf/settings.xml
 
 
-FROM youken9980/alpine:3 as gradle
+FROM youken9980/temurin:8-jdk-alpine as gradle
 
 RUN apk --update --no-cache add zip
 
 # https://github.com/gradle/gradle-distributions/releases/download/v8.5.0/gradle-8.5-bin.zip
 
 ENV GRADLE_VERSION="8.5"
-# ENV GRADLE_DOWNLOAD_URL="https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip"
-ENV GRADLE_DOWNLOAD_URL="https://ghps.cc/https://github.com/gradle/gradle-distributions/releases/download/v8.5.0/gradle-8.5-bin.zip"
+ENV GRADLE_DOWNLOAD_URL="https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip"
+# ENV GRADLE_DOWNLOAD_URL="https://gh.ddlc.top/https://github.com/gradle/gradle-distributions/releases/download/v8.5.0/gradle-8.5-bin.zip"
 ENV GRADLE_HOME="/usr/local/gradle-${GRADLE_VERSION}"
 
 RUN axel -n 8 -o gradle.zip ${GRADLE_DOWNLOAD_URL} && \
@@ -55,10 +55,6 @@ ENV PATH="${PATH}:${MAVEN_HOME}/bin:${GRADLE_HOME}/bin"
 
 RUN apk --update --no-cache add git subversion perl-xml-xpath && \
     mkdir -p ${MAVEN_REPO} ${GRADLE_REPO} && \
-    GITHUB_MIRROR="https://ghps.cc/https://github.com" && \
-    GITHUBUSERCONTENT_MIRROR="https://raw.staticdn.net" && \
-    git config --global url."${GITHUB_MIRROR}".insteadof "https://github.com" && \
-    git config --global url."${GITHUBUSERCONTENT_MIRROR}".insteadof "https://raw.githubusercontent.com" && \
     \
     rm -rf /var/cache/apk/*.*
 
