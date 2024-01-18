@@ -2,8 +2,8 @@ FROM youken9980/temurin:17-jre-jammy
 LABEL maintainer="YangJian <youken9980@163.com>"
 
 RUN set -eux && \
-    PAPERMC_VERSION="1.20.2" && \
-    PAPERMC_BUILD="318" && \
+    PAPERMC_VERSION="1.20.4" && \
+    PAPERMC_BUILD="389" && \
     \
     mkdir -p /papermc && cd /papermc && \
     wget -O papermc.jar https://papermc.io/api/v2/projects/paper/versions/${PAPERMC_VERSION}/builds/${PAPERMC_BUILD}/downloads/paper-${PAPERMC_VERSION}-${PAPERMC_BUILD}.jar && \
