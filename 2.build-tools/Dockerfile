@@ -25,11 +25,11 @@ FROM youken9980/temurin:8-jdk-alpine as gradle
 
 RUN apk --update --no-cache add zip
 
-# https://github.com/gradle/gradle-distributions/releases/download/v8.5.0/gradle-8.5-bin.zip
+# https://github.com/gradle/gradle-distributions
 
 ENV GRADLE_VERSION="8.5"
-ENV GRADLE_DOWNLOAD_URL="https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip"
-# ENV GRADLE_DOWNLOAD_URL="https://gh.ddlc.top/https://github.com/gradle/gradle-distributions/releases/download/v8.5.0/gradle-8.5-bin.zip"
+# ENV GRADLE_DOWNLOAD_URL="https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip"
+ENV GRADLE_DOWNLOAD_URL="https://hub.gitmirror.com/https://github.com/gradle/gradle-distributions/releases/download/v8.5.0/gradle-8.5-bin.zip"
 ENV GRADLE_HOME="/usr/local/gradle-${GRADLE_VERSION}"
 
 RUN axel -n 8 -o gradle.zip ${GRADLE_DOWNLOAD_URL} && \
