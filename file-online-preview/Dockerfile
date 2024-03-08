@@ -27,7 +27,7 @@ RUN PROJ_VERSION="$(xpath -q -e '//project/version/text()' ${PROJ_SRC}/pom.xml)"
 FROM youken9980/temurin:8-jre-jammy
 LABEL maintainer="YangJian <youken9980@163.com>"
 
-ENV LIBREOFFICE_VERSION="7.6.4"
+ENV LIBREOFFICE_VERSION="7.6.5"
 ENV KK_OFFICE_HOME="/opt/libreoffice7.6"
 ENV KKFILEVIEW_HOME="/kkFileView"
 
