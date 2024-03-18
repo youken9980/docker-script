@@ -12,7 +12,7 @@ ENV LD_RUN_PATH="${LD_RUN_PATH:+$LD_RUN_PATH:}$TOMCAT_NATIVE_LIBDIR:/usr/local/a
 RUN set -eux && \
     APACHE_MIRROR="https://mirrors.bfsu.edu.cn/apache" && \
     tomcatMajor="9" && \
-    tomcatVersion="${tomcatMajor}.0.84" && \
+    tomcatVersion="${tomcatMajor}.0.87" && \
     aprVersion="1.7.4" && \
     aprUtilVersion="1.6.3" && \
     aprIconvVersion="1.2.2" && \
