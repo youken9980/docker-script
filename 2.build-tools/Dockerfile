@@ -27,9 +27,9 @@ RUN apk --update --no-cache add zip
 
 # https://github.com/gradle/gradle-distributions
 
-ENV GRADLE_VERSION="8.5"
+ENV GRADLE_VERSION="8.7"
 # ENV GRADLE_DOWNLOAD_URL="https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip"
-ENV GRADLE_DOWNLOAD_URL="https://hub.gitmirror.com/https://github.com/gradle/gradle-distributions/releases/download/v8.5.0/gradle-8.5-bin.zip"
+ENV GRADLE_DOWNLOAD_URL="https://hub.gitmirror.com/https://github.com/gradle/gradle-distributions/releases/download/v${GRADLE_VERSION}.0/gradle-${GRADLE_VERSION}-bin.zip"
 ENV GRADLE_HOME="/usr/local/gradle-${GRADLE_VERSION}"
 
 RUN axel -n 8 -o gradle.zip ${GRADLE_DOWNLOAD_URL} && \
@@ -46,7 +46,7 @@ ENV MAVEN_REPO="/usr/local/maven-repository"
 ENV MAVEN_REPOSITORY="${MAVEN_REPO}"
 ENV M2_REPO="${MAVEN_REPO}"
 
-ENV GRADLE_VERSION="8.5"
+ENV GRADLE_VERSION="8.7"
 ENV GRADLE_HOME="/usr/local/gradle-${GRADLE_VERSION}"
 ENV GRADLE_REPO="/usr/local/gradle-repository"
 ENV GRADLE_USER_HOME="${GRADLE_REPO}"
