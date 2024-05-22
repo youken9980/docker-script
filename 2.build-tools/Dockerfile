@@ -53,7 +53,7 @@ ENV GRADLE_USER_HOME="${GRADLE_REPO}"
 
 ENV PATH="${PATH}:${MAVEN_HOME}/bin:${GRADLE_HOME}/bin"
 
-RUN apk --update --no-cache add git subversion perl-xml-xpath && \
+RUN apk --update --no-cache add git subversion perl-xml-xpath yq && \
     mkdir -p ${MAVEN_REPO} ${GRADLE_REPO} && \
     \
     rm -rf /var/cache/apk/*.*
