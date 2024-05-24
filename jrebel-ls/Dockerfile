@@ -1,4 +1,4 @@
-FROM youken9980/build-tools-temurin8:latest as temp
+FROM youken9980/build-tools-temurin8:repository as temp
 
 ENV GIT_URL="https://gitee.com/nism/jrebel-server.git"
 ENV PROJ_SRC="/proj-src"
