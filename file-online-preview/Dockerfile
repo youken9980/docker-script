@@ -47,7 +47,7 @@ RUN set -eux && \
     mkfontdir && \
     fc-cache -fv && \
     \
-    axel -n 8 -o /tmp/libreoffice_deb.tar.gz https://www.mirrorservice.org/sites/download.documentfoundation.org/tdf/libreoffice/stable/${LIBREOFFICE_VERSION}/deb/x86_64/LibreOffice_${LIBREOFFICE_VERSION}_Linux_x86-64_deb.tar.gz && \
+    axel -n 64 -o /tmp/libreoffice_deb.tar.gz https://www.mirrorservice.org/sites/download.documentfoundation.org/tdf/libreoffice/stable/${LIBREOFFICE_VERSION}/deb/x86_64/LibreOffice_${LIBREOFFICE_VERSION}_Linux_x86-64_deb.tar.gz && \
     mkdir -p /tmp/libreoffice && \
     tar -zxvf /tmp/libreoffice_deb.tar.gz -C /tmp/libreoffice --strip-components=1 --no-same-owner && \
     cd /tmp/libreoffice/DEBS && \
