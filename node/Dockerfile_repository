@@ -1,4 +1,18 @@
-FROM youken9980/node:14-alpine-repository
-LABEL maintainer="YangJian <youken9980@163.com>"
+FROM youken9980/node:14-alpine-repository as tmp
 
 COPY --chown=root:root .npm /root/.npm
+
+
+FROM youken9980/node:14-alpine
+LABEL maintainer="YangJian <youken9980@163.com>"
+
+RUN npm config set registry=https://mirrors.huaweicloud.com/repository/npm/ && \
+    npm config set disturl=https://mirrors.huaweicloud.com/nodejs && \
+    npm config set sass_binary_site=https://mirrors.huaweicloud.com/node-sass && \
+    npm config set phantomjs_cdnurl=https://mirrors.huaweicloud.com/phantomjs && \
+    npm config set chromedriver_cdnurl=https://mirrors.huaweicloud.com/chromedriver && \
+    npm config set operadriver_cdnurl=https://mirrors.huaweicloud.com/operadriver && \
+    npm config set electron_mirror=https://mirrors.huaweicloud.com/electron && \
+    npm config set python_mirror=https://mirrors.huaweicloud.com/python
+
+COPY --chown=root:root --from=tmp /root/.npm /root/.npm
