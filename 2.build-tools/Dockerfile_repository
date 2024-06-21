@@ -1,0 +1,15 @@
+FROM youken9980/build-tools-temurin8:repository as temp
+
+COPY --chown=root:root apache-maven/conf/settings.xml ${MAVEN_HOME}/conf/settings.xml
+COPY --chown=root:root maven-repository ${MAVEN_REPO}
+
+
+FROM youken9980/build-tools-temurin8:latest
+LABEL maintainer="YangJian <youken9980@163.com>"
+
+COPY --chown=root:root --from=temp ${MAVEN_HOME}/conf/settings.xml ${MAVEN_HOME}/conf/settings.xml
+COPY --chown=root:root --from=temp ${MAVEN_REPO} ${MAVEN_REPO}
+
+STOPSIGNAL SIGTERM
+
+CMD [ "/bin/sh" ]

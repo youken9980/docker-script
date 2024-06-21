@@ -1,0 +1,4 @@
+FROM youken9980/node:14-alpine-repository
+LABEL maintainer="YangJian <youken9980@163.com>"
+
+COPY --chown=root:root .npm /root/.npm
