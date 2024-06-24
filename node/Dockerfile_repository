@@ -1,11 +1,8 @@
-FROM youken9980/node:14-alpine-repository as tmp
-
-COPY --chown=root:root .npm /.npm
-COPY --chown=root:root .yarn /.yarn
-
-
 FROM youken9980/node:14-alpine
 LABEL maintainer="YangJian <youken9980@163.com>"
+
+ENV NPM_CACHE_DIR="/.npm"
+ENV YARN_CACHE_DIR="/.yarn"
 
 RUN npm config set registry=https://mirrors.huaweicloud.com/repository/npm/ && \
     npm config set disturl=https://mirrors.huaweicloud.com/nodejs && \
@@ -15,10 +12,7 @@ RUN npm config set registry=https://mirrors.huaweicloud.com/repository/npm/ && \
     npm config set operadriver_cdnurl=https://mirrors.huaweicloud.com/operadriver && \
     npm config set electron_mirror=https://mirrors.huaweicloud.com/electron && \
     npm config set python_mirror=https://mirrors.huaweicloud.com/python && \
-    npm config set cache /.npm && \
+    npm config set cache ${NPM_CACHE_DIR} && \
     npm cache clean -f && \
-    yarn config set cache-folder /.yarn && \
+    yarn config set cache-folder ${YARN_CACHE_DIR} && \
     yarn cache clean
-
-COPY --chown=root:root --from=tmp /.npm /.npm
-COPY --chown=root:root --from=tmp /.yarn /.yarn
