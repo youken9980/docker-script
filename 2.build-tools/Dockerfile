@@ -2,7 +2,7 @@ FROM youken9980/temurin:8-jdk-alpine as maven
 
 RUN apk --update --no-cache add zip
 
-ENV MAVEN_VERSION="3.9.6"
+ENV MAVEN_VERSION="3.9.8"
 ENV MAVEN_DOWNLOAD_URL="https://mirrors.bfsu.edu.cn/apache/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz"
 ENV MAVEN_HOME="/usr/local/maven-${MAVEN_VERSION}"
 ENV MAVEN_REPO="/usr/local/maven-repository"
@@ -25,11 +25,12 @@ FROM youken9980/temurin:8-jdk-alpine as gradle
 
 RUN apk --update --no-cache add zip
 
-# https://github.com/gradle/gradle-distributions
+# https://services.gradle.org/distributions/gradle-8.8-bin.zip
+# https://github.com/gradle/gradle-distributions/releases/download/v8.8.0/gradle-8.8-bin.zip
 
-ENV GRADLE_VERSION="8.7"
+ENV GRADLE_VERSION="8.8"
 # ENV GRADLE_DOWNLOAD_URL="https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip"
-ENV GRADLE_DOWNLOAD_URL="https://hub.gitmirror.com/https://github.com/gradle/gradle-distributions/releases/download/v${GRADLE_VERSION}.0/gradle-${GRADLE_VERSION}-bin.zip"
+ENV GRADLE_DOWNLOAD_URL="https://gh.ddlc.top/https://github.com/gradle/gradle-distributions/releases/download/v${GRADLE_VERSION}.0/gradle-${GRADLE_VERSION}-bin.zip"
 ENV GRADLE_HOME="/usr/local/gradle-${GRADLE_VERSION}"
 
 RUN axel -n 8 -o gradle.zip ${GRADLE_DOWNLOAD_URL} && \
@@ -40,13 +41,13 @@ RUN axel -n 8 -o gradle.zip ${GRADLE_DOWNLOAD_URL} && \
 FROM youken9980/temurin:8-jdk-alpine
 LABEL maintainer="YangJian <youken9980@163.com>"
 
-ENV MAVEN_VERSION="3.9.6"
+ENV MAVEN_VERSION="3.9.8"
 ENV MAVEN_HOME="/usr/local/maven-${MAVEN_VERSION}"
 ENV MAVEN_REPO="/usr/local/maven-repository"
 ENV MAVEN_REPOSITORY="${MAVEN_REPO}"
 ENV M2_REPO="${MAVEN_REPO}"
 
-ENV GRADLE_VERSION="8.7"
+ENV GRADLE_VERSION="8.8"
 ENV GRADLE_HOME="/usr/local/gradle-${GRADLE_VERSION}"
 ENV GRADLE_REPO="/usr/local/gradle-repository"
 ENV GRADLE_USER_HOME="${GRADLE_REPO}"

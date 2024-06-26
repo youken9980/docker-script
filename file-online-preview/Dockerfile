@@ -16,7 +16,7 @@ RUN ASPOSE_VERSION="$(xpath -q -e '//project/properties/aspose-cad.version/text(
     axel -n 8 https://releases.aspose.com/java/repo/com/aspose/aspose-cad/${ASPOSE_VERSION}/aspose-cad-${ASPOSE_VERSION}.jar
 
 WORKDIR ${PROJ_SRC}
-RUN mvn clean package -Dmaven.test.skip=true -U
+RUN mvn -Dmaven.test.skip=true -U -T 4C clean compile package
 RUN PROJ_VERSION="$(xpath -q -e '//project/version/text()' ${PROJ_SRC}/pom.xml)" && \
     cp ${PROJ_SRC}/server/target/kkFileView-${PROJ_VERSION}.tar.gz /kkFileView.tar.gz && \
     mkdir -p ${KKFILEVIEW_HOME} && \
