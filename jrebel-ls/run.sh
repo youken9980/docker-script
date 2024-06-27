@@ -1,9 +1,5 @@
 #!/bin/bash
 
-imageTag="youken9980/jrebel-ls:latest"
-containerName="jrebel-ls"
-network="mynet"
-
 function dockerRm() {
     filter="$1"
     containerId=$(docker ps -aq --filter "${filter}")
@@ -30,10 +26,14 @@ function dockerLogsUntil() {
     fi
 }
 
+imageTag="youken9980/jrebel-ls:latest"
+containerName="jrebel-ls"
+serverPort="8080"
+network="mynet"
+startSuccessTag="{guid}(eg:http:"
+
 dockerRm "name=${containerName}"
-docker run -d -p 127.0.0.1:8079:8080 \
+docker run -d -p 127.0.0.1:8079:${serverPort} --restart always \
     --cpus 0.5 --memory 32M --memory-swap -1 \
-    --network="${network}" --name="${containerName}" \
-    --restart always \
-    "${imageTag}"
-dockerLogsUntil "name=${containerName}" "{guid}(eg:http:"
+    --network="${network}" --name="${containerName}" "${imageTag}"
+dockerLogsUntil "name=${containerName}" "${startSuccessTag}"
