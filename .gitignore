@@ -4,3 +4,6 @@ Thumbs.db
 
 # ssl
 nginx/ssl
+
+# htpasswd
+registry/htpasswd
