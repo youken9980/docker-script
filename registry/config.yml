@@ -1,0 +1,34 @@
+version: 0.1
+log:
+    level: error
+    fields:
+        service: registry
+storage:
+    delete:
+        enabled: true
+    cache:
+        blobdescriptor: inmemory
+    filesystem:
+        rootdirectory: /var/lib/registry
+    maintenance:
+        uploadpurging:
+            enabled: false
+http:
+    addr: :5000
+    headers:
+        X-Content-Type-Options: [nosniff]
+health:
+    storagedriver:
+        enabled: true
+        interval: 10s
+        threshold: 3
+
+# 部分上游需要该选项，诸如 quay
+# 详情参 https://github.com/distribution/distribution/issues/2367#issuecomment-454805687
+# compatibility:
+#     schema1:
+#         enabled: true
+
+proxy:
+    # 更换为上游的地址。
+    remoteurl: https://registry-1.docker.io
