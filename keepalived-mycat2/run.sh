@@ -53,14 +53,13 @@ for i in $(seq ${nodeCount}); do
         -e RUN_KEEPALIVED="${runKeepalived}" \
         -e KEEPALIVED_ROUTER_ID="${keepalivedRouterId}" \
         -e KEEPALIVED_VIRTUAL_IP="${keepalivedVirtualIp}" \
-        -v ~/dockerScripts/mycat2/prototypeDs.datasource.json:/mycat/conf/datasources/prototypeDs.datasource.json \
-        -v ~/dockerScripts/mycat2/eo-public.schema.json:/mycat/conf/schemas/eo-public.schema.json \
+        -v $(pwd)/prototypeDs.datasource.json:/mycat/datasources/prototypeDs.datasource.json \
         --network="${network}" --name="${containerName}" \
         "${imageTag}"
     if [ "${runKeepalived}" = "true" ]; then
         dockerLogsUntil "name=${containerName}" "VRRP_Script(check_service)[[:space:]]succeeded"
     else
-        dockerLogsUntil "name=${containerName}" "[[:space:]]mycat[[:space:]]starts[[:space:]]successful"
+        dockerLogsUntil "name=${containerName}" "[[:space:]]started[[:space:]]up."
     fi
     port=$[$port + 1]
 done

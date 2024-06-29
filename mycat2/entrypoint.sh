@@ -1,13 +1,3 @@
 #!/bin/bash
 
-set -eux
-
-pidFile="/mycat/logs/mycat.pid"
-if [ -e "${pidFile}" ]; then
-    rm "${pidFile}"
-fi
-
-mycat start
-sleep 2s
-# tail -n +1 /mycat/logs/wrapper.log | sed '/mycat[[:space:]]starts[[:space:]]successful/q'
-tail -n +1 -f /mycat/logs/wrapper.log
+java -Djava.security.egd=file:/dev/./urandom -Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8 -DMYCAT_HOME=${MYCAT_HOME} -jar ${MYCAT_HOME}/mycat2.jar

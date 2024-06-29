@@ -33,8 +33,7 @@ function dockerLogsUntil() {
 dockerRm "name=${containerName}"
 docker run --privileged -d -p 8066:8066 \
     --cpus 2 --memory 3072M --memory-swap -1 \
-    -v ~/dockerScripts/mycat2/prototypeDs.datasource.json:/mycat/conf/datasources/prototypeDs.datasource.json \
-    -v ~/dockerScripts/mycat2/eo-public.schema.json:/mycat/conf/schemas/eo-public.schema.json \
+    -v $(pwd)/prototypeDs.datasource.json:/mycat/datasources/prototypeDs.datasource.json \
     --network="${network}" --name="${containerName}" \
     "${imageTag}"
-dockerLogsUntil "name=${containerName}" "[[:space:]]mycat[[:space:]]starts[[:space:]]successful"
+dockerLogsUntil "name=${containerName}" "[[:space:]]started[[:space:]]up."

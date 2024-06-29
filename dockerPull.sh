@@ -1,12 +1,14 @@
 #!/bin/bash
 
-docker pull alpine:3.18
+docker pull alpine:3
 
 docker pull centos:7
 docker pull centos:8
 
 docker pull debian:bullseye
 docker pull debian:bullseye-slim
+docker pull debian:bookworm
+docker pull debian:bookworm-slim
 
 docker pull ubuntu:jammy
 

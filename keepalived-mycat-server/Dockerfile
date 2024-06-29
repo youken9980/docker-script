@@ -19,7 +19,7 @@ RUN set -eux && \
 COPY realServerVip.sh /usr/local/bin/
 COPY notify.sh /usr/local/bin/
 COPY keepalived.conf /etc/keepalived/
-COPY check_service.sh /usr/local/bin/
+COPY check-service.sh /usr/local/bin/
 COPY entrypoint.sh /usr/local/bin/
 
 STOPSIGNAL SIGTERM

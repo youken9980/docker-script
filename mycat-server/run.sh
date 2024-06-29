@@ -33,9 +33,9 @@ function dockerLogsUntil() {
 dockerRm "name=${containerName}"
 docker run --privileged -d -p 8066:8066 \
     --cpus 2 --memory 3072M --memory-swap -1 \
-    -v ~/dockerScripts/ycg/docker/config/2.mycat-server.xml:/mycat/conf/server.xml \
-    -v ~/dockerScripts/ycg/docker/config/2.mycat-schema.xml:/mycat/conf/schema.xml \
-    -v ~/dockerScripts/ycg/docker/config/2.mycat-rule.xml:/mycat/conf/rule.xml \
+    -v $(pwd)/server.xml:/mycat/conf/server.xml \
+    -v $(pwd)/schema.xml:/mycat/conf/schema.xml \
+    -v $(pwd)/rule.xml:/mycat/conf/rule.xml \
     --network="${network}" --name="${containerName}" \
     "${imageTag}"
 dockerLogsUntil "name=${containerName}" "MyCAT[[:space:]]Server[[:space:]]startup[[:space:]]successfully"

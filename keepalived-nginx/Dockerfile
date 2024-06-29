@@ -14,8 +14,8 @@ RUN set -eux && \
     rm -rf /var/cache/apk/*.*
 
 COPY realServerVip.sh /usr/local/bin/
-COPY check_host_port.sh /usr/local/bin/
-COPY check_service.sh /usr/local/bin/
+COPY check-host-port.sh /usr/local/bin/
+COPY check-service.sh /usr/local/bin/
 COPY notify.sh /usr/local/bin/
 COPY keepalived.conf /etc/keepalived/
 COPY entrypoint.sh /usr/local/bin/

@@ -68,7 +68,7 @@ for i in $(seq ${nodeCount}); do
         --network="${network}" --name="${containerName}" \
         "${imageTag}"
     if [ "${runKeepalived}" = "true" ]; then
-        dockerLogsUntil "name=${containerName}" "VRRP_Script(check_service)[[:space:]]succeeded"
+        dockerLogsUntil "name=${containerName}" "VRRP_Script(check-service)[[:space:]]succeeded"
     else
         dockerLogsUntil "name=${containerName}" "[[:space:]]ready[[:space:]]for[[:space:]]start[[:space:]]up"
     fi

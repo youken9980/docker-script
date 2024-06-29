@@ -27,9 +27,9 @@ rmPid /run/syslogd.pid
 rmPid /mycat/logs/mycat.pid
 
 /usr/local/bin/realServerVip.sh start
-mycat start
+nohup java -Djava.security.egd=file:/dev/./urandom -Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8 -DMYCAT_HOME=${MYCAT_HOME} -jar ${MYCAT_HOME}/mycat2.jar >> /mycat/logs/mycat.log 2>&1 &
 sleep 2s
-tail -n +1 /mycat/logs/wrapper.log | sed '/mycat[[:space:]]starts[[:space:]]successful/q'
+tail -n +1 /mycat/logs/mycat.log | sed '/[[:space:]]started[[:space:]]up./q'
 
 if [ "${RUN_KEEPALIVED}" = "true" ]; then
     echo "local0.* ${keepalivedLog}" >> "${syslogConfig}"

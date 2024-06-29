@@ -24,7 +24,7 @@ RUN PROJ_VERSION="$(xpath -q -e '//project/version/text()' ${PROJ_SRC}/pom.xml)"
     mv ${KKFILEVIEW_HOME}/bin/kkFileView-${PROJ_VERSION}.jar ${KKFILEVIEW_HOME}/bin/kkFileView.jar
 
 
-FROM youken9980/temurin:8-jre-jammy
+FROM youken9980/temurin:21-jre-jammy
 LABEL maintainer="YangJian <youken9980@163.com>"
 
 ENV LIBREOFFICE_VERSION="7.6.7"
