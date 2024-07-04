@@ -3,11 +3,12 @@ LABEL maintainer="YangJian <youken9980@163.com>"
 
 ENV NPM_CACHE_DIR="/.npm"
 ENV YARN_CACHE_DIR="/.yarn"
-ENV APP_PATH="/app"
-ENV NODE_MODULES_PATH="/node_modules"
-VOLUME ["${APP_PATH}", "${NODE_MODULES_PATH}"]
 
-RUN npm config set registry=https://mirrors.huaweicloud.com/repository/npm/ && \
+RUN set -eux && \
+    \
+    mkdir -p "${NPM_CACHE_DIR}" "${YARN_CACHE_DIR}" && \
+    \
+    npm config set registry=https://mirrors.huaweicloud.com/repository/npm && \
     npm config set disturl=https://mirrors.huaweicloud.com/nodejs && \
     npm config set sass_binary_site=https://mirrors.huaweicloud.com/node-sass && \
     npm config set phantomjs_cdnurl=https://mirrors.huaweicloud.com/phantomjs && \
@@ -17,13 +18,14 @@ RUN npm config set registry=https://mirrors.huaweicloud.com/repository/npm/ && \
     npm config set python_mirror=https://mirrors.huaweicloud.com/python && \
     npm config set cache ${NPM_CACHE_DIR} && \
     npm cache clean -f && \
-    yarn config set registry=https://mirrors.huaweicloud.com/repository/npm/ && \
-    yarn config set disturl=https://mirrors.huaweicloud.com/nodejs && \
-    yarn config set sass_binary_site=https://mirrors.huaweicloud.com/node-sass && \
-    yarn config set phantomjs_cdnurl=https://mirrors.huaweicloud.com/phantomjs && \
-    yarn config set chromedriver_cdnurl=https://mirrors.huaweicloud.com/chromedriver && \
-    yarn config set operadriver_cdnurl=https://mirrors.huaweicloud.com/operadriver && \
-    yarn config set electron_mirror=https://mirrors.huaweicloud.com/electron && \
-    yarn config set python_mirror=https://mirrors.huaweicloud.com/python && \
+    \
+    yarn config set registry https://mirrors.huaweicloud.com/repository/npm && \
+    yarn config set disturl https://mirrors.huaweicloud.com/nodejs && \
+    yarn config set sass_binary_site https://mirrors.huaweicloud.com/node-sass && \
+    yarn config set phantomjs_cdnurl https://mirrors.huaweicloud.com/phantomjs && \
+    yarn config set chromedriver_cdnurl https://mirrors.huaweicloud.com/chromedriver && \
+    yarn config set operadriver_cdnurl https://mirrors.huaweicloud.com/operadriver && \
+    yarn config set electron_mirror https://mirrors.huaweicloud.com/electron && \
+    yarn config set python_mirror https://mirrors.huaweicloud.com/python && \
     yarn config set cache-folder ${YARN_CACHE_DIR} && \
     yarn cache clean

@@ -15,7 +15,7 @@ RUN set -eux && \
     ALPINE_MIRROR="mirrors.sjtug.sjtu.edu.cn" && \
     \
     sed -i "s|dl-cdn.alpinelinux.org|${ALPINE_MIRROR}|g" /etc/apk/repositories && \
-    apk --update --no-cache add tzdata ca-certificates git subversion axel && \
+    apk --update --no-cache add tzdata ca-certificates git subversion axel tree rsync && \
     mv /usr/share/zoneinfo/Asia/Shanghai /Shanghai && \
     rm -rf /usr/share/zoneinfo && \
     mkdir -p /usr/share/zoneinfo/Asia && \
