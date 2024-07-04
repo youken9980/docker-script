@@ -3,6 +3,9 @@ LABEL maintainer="YangJian <youken9980@163.com>"
 
 ENV NPM_CACHE_DIR="/.npm"
 ENV YARN_CACHE_DIR="/.yarn"
+ENV APP_PATH="/app"
+ENV NODE_MODULES_PATH="/node_modules"
+VOLUME ["${APP_PATH}", "${NODE_MODULES_PATH}"]
 
 RUN npm config set registry=https://mirrors.huaweicloud.com/repository/npm/ && \
     npm config set disturl=https://mirrors.huaweicloud.com/nodejs && \
