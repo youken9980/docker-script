@@ -101,13 +101,25 @@ dockerRun
 # User
 # jenkins
 
-# Volumes
+# Volumes （新版本已无）
 # 冒号左边是宿主机路径，不是jenkins-master容器路径，冒号右边是jenkins-agent容器路径。左右都用绝对路径
 # /var/run/docker.sock:/var/run/docker.sock
-# ~/share/gradle-6.7.1/:/usr/local/gradle/
-# ~/share/gradle-repository/:/usr/local/gradle-repository/
-# ~/share/apache-maven-3.6.3/:/usr/local/maven/
-# ~/share/maven-repository:/usr/local/maven-repository/
+# ~/Destiny/Share/gradle/:/usr/local/gradle/
+# ~/Destiny/Share/gradle-repository/:/usr/local/gradle-repository/
+# ~/Destiny/Share/apache-maven/:/usr/local/maven/
+# ~/Destiny/Share/maven-repository/:/usr/local/maven-repository/
+
+# Network
+# mynet
+
+# Mounts
+# 参考 docker run 的参数： --mount type=bind, source=/data/mysql, target=/var/lib/mysql
+# source是宿主机路径，不是jenkins-master容器路径，target是jenkins-agent容器路径。左右都用绝对路径
+# type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock
+# type=bind,source=~/Destiny/Share/gradle/,target=/usr/local/gradle/
+# type=bind,source=~/Destiny/Share/gradle-repository/,target=/usr/local/gradle-repository/
+# type=bind,source=~/Destiny/Share/apache-maven/,target=/usr/local/maven/
+# type=bind,source=~/Destiny/Share/maven-repository/,target=/usr/local/maven-repository/
 
 # Volumes From
 # jenkins
