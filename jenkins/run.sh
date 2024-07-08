@@ -141,8 +141,9 @@ dockerRun
 # 参照上面「已安装工具的路径和版本号」选择工具并配置路径
 
 # Maven
-# clean
-# package
-# -P$MAVEN_PROFILE
 # -Dmaven.test.skip=true
 # -U
+# -T 4C
+# clean compile package
+# -P $PROFILE
+# -pl $MODULE -am
