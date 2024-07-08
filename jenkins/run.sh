@@ -1,6 +1,5 @@
 #!/bin/bash
-
-set -eu
+set -eux
 
 cleanup="false"
 imageTag="jenkins/jenkins:lts-alpine"
