@@ -92,10 +92,17 @@ dockerRun
 # /usr/local/maven/bin/mvn maven-3.6.3
 # /usr/bin/docker docker-19.03.12
 
-# Docker (Host) URL:
+# Docker Host URI:
 # unix:///var/run/docker.sock
 
+# Labels
+# docker-agent
+
+# Name
+# docker-agent
+
 # Docker Image
+# JDK 版本必须与开发环境及部署环境一致
 # jenkins/inbound-agent:alpine
 
 # User
@@ -125,16 +132,19 @@ dockerRun
 # jenkins
 
 # Environment
-# TZ="Asia/Shanghai"
-# JAVA_OPTS="-Duser.timezone=Asia/Shanghai -Dfile.encoding=UTF8 -Dsun.jnu.encoding=UTF8"
-# GRADLE_REPO=/usr/local/gradle-repository
-# GRADLE_USER_HOME=${GRADLE_REPO}
+# TZ=Asia/Shanghai
 # MAVEN_REPO=/usr/local/maven-repository
-# MAVEN_REPOSITORY=${MAVEN_REPO}
-# M2_REPO=${MAVEN_REPO}
+# MAVEN_REPOSITORY=$MAVEN_REPO
+# M2_REPO=$MAVEN_REPO
 
 # Remote File System Root
 # /home/jenkins
+
+# User
+# jenkins
+
+# Java Executable
+# /opt/java/openjdk/bin/java
 
 # Node Properties
 # 工具位置列表
