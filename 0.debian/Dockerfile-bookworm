@@ -1,11 +1,12 @@
 FROM debian:bookworm
 LABEL maintainer="YangJian <youken9980@163.com>"
 
+ARG DEBIAN_MIRROR="mirrors.tuna.tsinghua.edu.cn"
+
 ENV SHELL="/bin/bash"
 ENV TZ="Asia/Shanghai"
 
 RUN set -eux && \
-    DEBIAN_MIRROR="http://mirrors.tuna.tsinghua.edu.cn" && \
     \
     mv /usr/share/zoneinfo/PRC /PRC && \
     rm -rf /usr/share/zoneinfo && \
@@ -22,7 +23,7 @@ RUN set -eux && \
     sed -i "s|# alias l='ls \$LS_OPTIONS -lA'|alias l='ls \$LS_OPTIONS -lA'|g" /root/.bashrc && \
     \
     cp /etc/apt/sources.list.d/debian.sources /etc/apt/sources.list.d/debian.sources.bak && \
-    sed -i "s|deb.debian.org|mirrors.tuna.tsinghua.edu.cn|g" /etc/apt/sources.list.d/debian.sources && \
+    sed -i "s|deb.debian.org|${DEBIAN_MIRROR}|g" /etc/apt/sources.list.d/debian.sources && \
     \
     apt-get update && \
     apt-get install --no-install-recommends -y apt-transport-https ca-certificates && \

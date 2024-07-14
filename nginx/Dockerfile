@@ -1,10 +1,7 @@
 FROM nginx:stable-alpine-slim
 LABEL maintainer="YangJian <youken9980@163.com>"
 
-# dl-cdn.alpinelinux.org
-# mirrors.sjtug.sjtu.edu.cn
-# mirrors.tuna.tsinghua.edu.cn
-# mirrors.aliyun.com
+ARG ALPINE_MIRROR="dl-cdn.alpinelinux.org"
 
 ENV TZ="Asia/Shanghai"
 ENV LANG="en_US.UTF-8"
@@ -12,7 +9,6 @@ ENV LANGUAGE="en_US.UTF-8"
 ENV LC_ALL="en_US.UTF-8"
 
 RUN set -eux && \
-    ALPINE_MIRROR="mirrors.tuna.tsinghua.edu.cn" && \
     \
     sed -i "s|dl-cdn.alpinelinux.org|${ALPINE_MIRROR}|g" /etc/apk/repositories && \
     apk --update --no-cache add tzdata ca-certificates axel && \

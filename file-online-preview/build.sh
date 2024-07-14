@@ -1,8 +1,30 @@
 #!/bin/bash
+set -eux
+
+source ../.env.docker
+rm -rf ${APP_HOME_HOST}
+
+# https://gitee.com/kekingcn/file-online-preview.git
+# https://github.com/kekingcn/kkFileView.git
+GIT_URL="${GITHUB_MIRROR}//kekingcn/kkFileView.git"
+PROJ_SRC="${APP_HOME_CONTAINER}/proj-src"
+KKFILEVIEW_HOME="${APP_HOME_CONTAINER}/kkFileView"
+
+dockerRunBuild " \
+    git clone --depth=1 ${GIT_URL} ${PROJ_SRC} && \
+    cd ${PROJ_SRC} && \
+    mvn -Dmaven.test.skip=true -U -T 8C clean compile package && \
+    \
+    PROJ_VERSION=\$(xpath -q -e '//project/version/text()' ${PROJ_SRC}/pom.xml) && \
+    cp ${PROJ_SRC}/server/target/kkFileView-\${PROJ_VERSION}.tar.gz /kkFileView.tar.gz && \
+    mkdir -p ${KKFILEVIEW_HOME} && \
+    tar -zxvf /kkFileView.tar.gz -C ${KKFILEVIEW_HOME} --strip-components=1 --no-same-owner && \
+    mv ${KKFILEVIEW_HOME}/bin/kkFileView-\${PROJ_VERSION}.jar ${KKFILEVIEW_HOME}/bin/kkFileView.jar
+"
 
 docker build \
-    --add-host "maven.aliyun.com:59.110.251.11" \
-    --add-host "releases.aspose.com:18.160.78.38" \
-    --add-host "repository.aspose.com:18.160.18.26" \
     -f Dockerfile \
-    -t youken9980/file-online-preview:latest .
+    -t youken9980/file-online-preview:latest \
+    .
+
+rm -rf ${APP_HOME_HOST}

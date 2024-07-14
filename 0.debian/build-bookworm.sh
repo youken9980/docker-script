@@ -1,3 +1,9 @@
 #!/bin/bash
 
-docker build -f Dockerfile-bookworm -t youken9980/debian:bookworm .
+source ../.env.docker
+
+docker build \
+    --build-arg "DEBIAN_MIRROR=${DEBIAN_MIRROR}" \
+    -f Dockerfile-bookworm \
+    -t youken9980/debian:bookworm \
+    .

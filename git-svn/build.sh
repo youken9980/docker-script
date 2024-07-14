@@ -1,3 +1,8 @@
 #!/bin/bash
 
-docker build -f Dockerfile -t youken9980/git-svn:latest .
+source ../.env.docker
+
+docker build \
+    -f Dockerfile \
+    -t youken9980/git-svn:latest \
+    .

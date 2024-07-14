@@ -1,11 +1,13 @@
 FROM mysql:5-debian
 LABEL maintainer="YangJian <youken9980@163.com>"
 
+ARG DEBIAN_MIRROR="mirrors.tuna.tsinghua.edu.cn"
+ARG KEYSERVER="keyserver.ubuntu.com"
+
 ENV SHELL="/bin/bash"
 ENV TZ="Asia/Shanghai"
 
 RUN set -eux && \
-    DEBIAN_MIRROR="mirrors.tuna.tsinghua.edu.cn" && \
     \
     mv /usr/share/zoneinfo/PRC /PRC && \
     rm -rf /usr/share/zoneinfo && \
@@ -23,18 +25,22 @@ RUN set -eux && \
     \
     cp /etc/apt/sources.list /etc/apt/sources.list.bak && \
     sed -i "s|deb.debian.org|${DEBIAN_MIRROR}|g" /etc/apt/sources.list && \
-    \
-    apt-key adv --keyserver keyserver.ubuntu.com --recv B7B3B788A8D3785C && \
-    cp /etc/apt/sources.list.d/mysql.list /etc/apt/sources.list.d/mysql.list.bak && \
-    sed -i 's|\[ signed-by=/etc/apt/keyrings/mysql.gpg \]||g' /etc/apt/sources.list.d/mysql.list && \
+    mv /etc/apt/sources.list.d/mysql.list /etc/apt/sources.list.d/mysql.list.bak && \
     \
     apt-get update && \
     apt-get install --no-install-recommends -y apt-transport-https ca-certificates pv && \
     sed -i "s|http://|https://|g" /etc/apt/sources.list && \
     apt-get update && \
     \
+    cp /etc/apt/sources.list.d/mysql.list.bak /etc/apt/sources.list.d/mysql.list && \
+    \
     rm -rf /var/lib/apt/lists/*
 
 STOPSIGNAL SIGTERM
 
 CMD ["/bin/bash"]
+
+# \
+# apt-key adv --keyserver ${KEYSERVER} --recv B7B3B788A8D3785C && \
+# cp /etc/apt/sources.list.d/mysql.list /etc/apt/sources.list.d/mysql.list.bak && \
+# sed -i 's|\[ signed-by=/etc/apt/keyrings/mysql.gpg \]||g' /etc/apt/sources.list.d/mysql.list && \

@@ -1,6 +1,9 @@
 #!/bin/bash
 
-docker build -f Dockerfile-temurin8 \
+source ../.env.docker
+
+docker build \
+    --build-arg "GITHUB_MIRROR=${GITHUB_MIRROR}" \
+    -f Dockerfile-temurin8 \
     -t youken9980/build-tools-temurin8:latest \
-    -t youken9980/build-tools-temurin8:repository \
     .

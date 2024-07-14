@@ -3,7 +3,6 @@ LABEL maintainer="YangJian <youken9980@163.com>"
 
 ENV LANG="en_US.UTF-8"
 ENV TZ="Asia/Shanghai"
-VOLUME /tmp
 
 RUN sed -i "/# System wide functions and aliases/a\alias ll='ls -la'" /etc/bashrc && \
     rm -rf /etc/yum.repos.d && mkdir -p /etc/yum.repos.d && \

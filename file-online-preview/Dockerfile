@@ -1,29 +1,3 @@
-FROM youken9980/build-tools-temurin8:repository as temp
-
-ENV GIT_URL="https://gitee.com/kekingcn/file-online-preview.git"
-ENV PROJ_SRC="/proj-src"
-ENV KKFILEVIEW_HOME="/kkFileView"
-
-RUN git clone --depth=1 ${GIT_URL} ${PROJ_SRC}
-
-# https://releases.aspose.com/java/repo/com/aspose/aspose-cad/23.7/aspose-cad-23.7.pom
-# https://releases.aspose.com/java/repo/com/aspose/aspose-cad/23.7/aspose-cad-23.7.jar
-# https://releases.aspose.com/java/repo/com/aspose/aspose-cad/23.7/aspose-cad-23.7-javadoc.jar
-RUN ASPOSE_VERSION="$(xpath -q -e '//project/properties/aspose-cad.version/text()' ${PROJ_SRC}/pom.xml)" && \
-    mkdir -p ${MAVEN_REPO}/com/aspose/aspose-cad/${ASPOSE_VERSION} && \
-    cd ${MAVEN_REPO}/com/aspose/aspose-cad/${ASPOSE_VERSION} && \
-    axel -n 8 https://releases.aspose.com/java/repo/com/aspose/aspose-cad/${ASPOSE_VERSION}/aspose-cad-${ASPOSE_VERSION}.pom && \
-    axel -n 8 https://releases.aspose.com/java/repo/com/aspose/aspose-cad/${ASPOSE_VERSION}/aspose-cad-${ASPOSE_VERSION}.jar
-
-WORKDIR ${PROJ_SRC}
-RUN mvn -Dmaven.test.skip=true -U -T 4C clean compile package
-RUN PROJ_VERSION="$(xpath -q -e '//project/version/text()' ${PROJ_SRC}/pom.xml)" && \
-    cp ${PROJ_SRC}/server/target/kkFileView-${PROJ_VERSION}.tar.gz /kkFileView.tar.gz && \
-    mkdir -p ${KKFILEVIEW_HOME} && \
-    tar -zxvf /kkFileView.tar.gz -C ${KKFILEVIEW_HOME} --strip-components=1 --no-same-owner && \
-    mv ${KKFILEVIEW_HOME}/bin/kkFileView-${PROJ_VERSION}.jar ${KKFILEVIEW_HOME}/bin/kkFileView.jar
-
-
 FROM youken9980/temurin:21-jre-jammy
 LABEL maintainer="YangJian <youken9980@163.com>"
 
@@ -47,7 +21,7 @@ RUN set -eux && \
     mkfontdir && \
     fc-cache -fv && \
     \
-    axel -n 64 -o /tmp/libreoffice_deb.tar.gz https://www.mirrorservice.org/sites/download.documentfoundation.org/tdf/libreoffice/stable/${LIBREOFFICE_VERSION}/deb/x86_64/LibreOffice_${LIBREOFFICE_VERSION}_Linux_x86-64_deb.tar.gz && \
+    axel -n 32 -o /tmp/libreoffice_deb.tar.gz https://www.mirrorservice.org/sites/download.documentfoundation.org/tdf/libreoffice/stable/${LIBREOFFICE_VERSION}/deb/x86_64/LibreOffice_${LIBREOFFICE_VERSION}_Linux_x86-64_deb.tar.gz && \
     mkdir -p /tmp/libreoffice && \
     tar -zxvf /tmp/libreoffice_deb.tar.gz -C /tmp/libreoffice --strip-components=1 --no-same-owner && \
     cd /tmp/libreoffice/DEBS && \
@@ -57,7 +31,7 @@ RUN set -eux && \
            /var/cache/* \
            /tmp/*
 
-COPY --chown=root:root --from=temp ${KKFILEVIEW_HOME} ${KKFILEVIEW_HOME}
+COPY --chown=root:root app/${KKFILEVIEW_HOME} ${KKFILEVIEW_HOME}
 
 EXPOSE 8012
 
@@ -82,7 +56,7 @@ CMD ["java", "-Duser.timezone=GMT+8", "-Dfile.encoding=UTF-8", "-Dsun.jnu.encodi
 #     mkfontscale && \
 #     mkfontdir && \
 #     \
-#     wget -O /tmp/openoffice.tar.gz ${OPENOFFICE_DOWNLOAD_URL} && \
+#     axel -n 32 -o /tmp/openoffice.tar.gz ${OPENOFFICE_DOWNLOAD_URL} && \
 #     tar -zxvf /tmp/openoffice.tar.gz -C /tmp --strip-components=1 --no-same-owner && \
 #     dpkg -i /tmp/DEBS/*.deb /tmp/DEBS/desktop-integration/*.deb && \
 #     \
