@@ -1,6 +1,8 @@
 FROM node:14-alpine
 LABEL maintainer="YangJian <youken9980@163.com>"
 
+ARG ALPINE_MIRROR="dl-cdn.alpinelinux.org"
+
 ENV TZ="Asia/Shanghai"
 ENV LANG="en_US.UTF-8"
 ENV LANGUAGE="en_US.UTF-8"
@@ -10,7 +12,6 @@ ENV NPM_CACHE_DIR="/usr/local/repository/npm"
 ENV YARN_CACHE_DIR="/usr/local/repository/yarn"
 
 RUN set -eux && \
-    ALPINE_MIRROR="mirrors.sjtug.sjtu.edu.cn" && \
     \
     sed -i "s|dl-cdn.alpinelinux.org|${ALPINE_MIRROR}|g" /etc/apk/repositories && \
     apk --update --no-cache add tzdata ca-certificates git subversion axel tree rsync && \
@@ -34,7 +35,7 @@ RUN set -eux && \
     npm config set electron_mirror=https://mirrors.huaweicloud.com/electron && \
     npm config set python_mirror=https://mirrors.huaweicloud.com/python && \
     npm config set cache ${NPM_CACHE_DIR} && \
-    npm cache clean -f && \
+    npm cache clean --force && \
     \
     yarn config set registry https://mirrors.huaweicloud.com/repository/npm && \
     yarn config set disturl https://mirrors.huaweicloud.com/nodejs && \
@@ -45,6 +46,8 @@ RUN set -eux && \
     yarn config set electron_mirror https://mirrors.huaweicloud.com/electron && \
     yarn config set python_mirror https://mirrors.huaweicloud.com/python && \
     yarn config set cache-folder ${YARN_CACHE_DIR} && \
+    yarn config set yarn-offline-mirror ${YARN_CACHE_DIR} && \
+    yarn config set yarn-offline-mirror-pruning true && \
     yarn cache clean
 
 VOLUME ["/app","/usr/local/repository/npm","/usr/local/repository/yarn"]
