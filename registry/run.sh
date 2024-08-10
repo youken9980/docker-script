@@ -28,18 +28,18 @@ function dockerLogsUntil() {
 
 imageTag="youken9980/registry:2"
 containerName="dockeregistry"
-serverPort="5000"
+serverPort="15000"
 network="mynet"
 startSuccessTag="listening[[:space:]]on[[:space:]]"
 
 htpasswd -nbB "admin" "nimdanimda" | tee $(pwd)/htpasswd
 dockerRm "name=${containerName}"
-docker run -d -p 5000:${serverPort} --restart always \
+docker run -d -p 15000:${serverPort} --restart always \
     -e "REGISTRY_AUTH=htpasswd" \
     -e "REGISTRY_AUTH_HTPASSWD_REALM=basic-realm" \
     -e "REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd" \
-    -e "REGISTRY_HTTP_ADDR=:5000" \
-    -e "REGISTRY_HTTP_HOST=http://dockeregistry.localhost:5000" \
+    -e "REGISTRY_HTTP_ADDR=:15000" \
+    -e "REGISTRY_HTTP_HOST=http://dockeregistry.localhost:15000" \
     -e "REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY=/data" \
     -v ~/dockerVolume/registry/data:/data \
     -v $(pwd)/htpasswd:/auth/htpasswd \
