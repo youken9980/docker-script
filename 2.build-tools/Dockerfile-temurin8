@@ -1,9 +1,11 @@
 FROM youken9980/temurin:8-jdk-alpine as maven
 
 RUN apk --update --no-cache add zip
+# https://dlcdn.apache.org/maven/maven-3/3.9.8/binaries/apache-maven-3.9.8-bin.tar.gz
+ARG APACHE_MIRROR="https://dlcdn.apache.org"
 
 ENV MAVEN_VERSION="3.9.8"
-ENV MAVEN_DOWNLOAD_URL="https://mirrors.bfsu.edu.cn/apache/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz"
+ENV MAVEN_DOWNLOAD_URL="${APACHE_MIRROR}/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz"
 ENV MAVEN_HOME="/usr/local/maven"
 ENV MAVEN_REPO="/usr/local/repository/maven"
 

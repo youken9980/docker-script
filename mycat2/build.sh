@@ -10,7 +10,7 @@ PROJ_SRC="${APP_HOME_CONTAINER}/proj-src"
 dockerRunBuild " \
     git clone --depth=1 ${GIT_URL} ${PROJ_SRC} && \
     cd ${PROJ_SRC} && \
-    mvn -Dmaven.test.skip=true -U -T 8C clean compile package -pl mycat2 -am && \
+    mvn -Dmaven.test.skip=true -T 16 clean compile package -pl mycat2 -am && \
     mv ${PROJ_SRC}/mycat2/src/main/resources ${APP_HOME_CONTAINER}/mycat && \
     \
     PROJ_VERSION=\$(xpath -q -e '//project/version/text()' ${PROJ_SRC}/pom.xml) && \

@@ -1,7 +1,7 @@
 FROM ubuntu:jammy
 LABEL maintainer="YangJian <youken9980@163.com>"
 
-ARG UBUNTU_MIRROR="mirrors.bfsu.edu.cn"
+ARG UBUNTU_MIRROR="archive.ubuntu.com"
 
 ENV SHELL="/bin/bash"
 ENV TZ="Asia/Shanghai"
@@ -22,19 +22,8 @@ RUN set -eux && \
     echo "zh_CN.UTF-8 UTF-8" >> /etc/locale.gen && \
     locale-gen en_US.UTF-8 && \
     \
-    mv /etc/apt/sources.list /etc/apt/sources.list.bak && \
-    echo "# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释" >> /etc/apt/sources.list && \
-    echo "deb https://${UBUNTU_MIRROR}/ubuntu/ jammy main restricted universe multiverse" >> /etc/apt/sources.list && \
-    echo "# deb-src https://${UBUNTU_MIRROR}/ubuntu/ jammy main restricted universe multiverse" >> /etc/apt/sources.list && \
-    echo "deb https://${UBUNTU_MIRROR}/ubuntu/ jammy-updates main restricted universe multiverse" >> /etc/apt/sources.list && \
-    echo "# deb-src https://${UBUNTU_MIRROR}/ubuntu/ jammy-updates main restricted universe multiverse" >> /etc/apt/sources.list && \
-    echo "deb https://${UBUNTU_MIRROR}/ubuntu/ jammy-backports main restricted universe multiverse" >> /etc/apt/sources.list && \
-    echo "# deb-src https://${UBUNTU_MIRROR}/ubuntu/ jammy-backports main restricted universe multiverse" >> /etc/apt/sources.list && \
-    echo "deb https://${UBUNTU_MIRROR}/ubuntu/ jammy-security main restricted universe multiverse" >> /etc/apt/sources.list && \
-    echo "# deb-src https://${UBUNTU_MIRROR}/ubuntu/ jammy-security main restricted universe multiverse" >> /etc/apt/sources.list && \
-    echo "# 预发布软件源，不建议启用" >> /etc/apt/sources.list && \
-    echo "# deb https://${UBUNTU_MIRROR}/ubuntu/ jammy-proposed main restricted universe multiverse" >> /etc/apt/sources.list && \
-    echo "# deb-src https://${UBUNTU_MIRROR}/ubuntu/ jammy-proposed main restricted universe multiverse" >> /etc/apt/sources.list && \
+    cp /etc/apt/sources.list /etc/apt/sources.list.bak && \
+    sed -i "s|archive.ubuntu.com|${UBUNTU_MIRROR}|g" /etc/apt/sources.list && \
     \
     rm -rf /var/lib/apt/lists/* \
            /var/cache/* \

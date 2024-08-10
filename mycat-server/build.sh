@@ -10,7 +10,7 @@ PROJ_SRC="${APP_HOME_CONTAINER}/proj-src"
 dockerRunBuild " \
     git clone --depth=1 ${GIT_URL} ${PROJ_SRC} && \
     cd ${PROJ_SRC} && \
-    mvn -Dmaven.test.skip=true -U -T 8C clean compile package && \
+    mvn -Dmaven.test.skip=true -T 16 clean compile package && \
     \
     PROJ_VERSION=\$(xpath -q -e '//project/version/text()' ${PROJ_SRC}/pom.xml) && \
     mv ${PROJ_SRC}/target/Mycat-server-\${PROJ_VERSION}-*-linux.tar.gz ${APP_HOME_CONTAINER}/mycat.tar.gz && \

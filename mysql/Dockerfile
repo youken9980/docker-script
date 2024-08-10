@@ -1,7 +1,7 @@
 FROM mysql:5-debian
 LABEL maintainer="YangJian <youken9980@163.com>"
 
-ARG DEBIAN_MIRROR="mirrors.tuna.tsinghua.edu.cn"
+ARG DEBIAN_MIRROR="deb.debian.org"
 ARG KEYSERVER="keyserver.ubuntu.com"
 
 ENV SHELL="/bin/bash"

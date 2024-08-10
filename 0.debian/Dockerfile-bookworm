@@ -1,7 +1,7 @@
 FROM debian:bookworm
 LABEL maintainer="YangJian <youken9980@163.com>"
 
-ARG DEBIAN_MIRROR="mirrors.tuna.tsinghua.edu.cn"
+ARG DEBIAN_MIRROR="deb.debian.org"
 
 ENV SHELL="/bin/bash"
 ENV TZ="Asia/Shanghai"

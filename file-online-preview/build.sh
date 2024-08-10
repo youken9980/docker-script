@@ -13,7 +13,7 @@ KKFILEVIEW_HOME="${APP_HOME_CONTAINER}/kkFileView"
 dockerRunBuild " \
     git clone --depth=1 ${GIT_URL} ${PROJ_SRC} && \
     cd ${PROJ_SRC} && \
-    mvn -Dmaven.test.skip=true -U -T 8C clean compile package && \
+    mvn -Dmaven.test.skip=true -T 16 clean compile package && \
     \
     PROJ_VERSION=\$(xpath -q -e '//project/version/text()' ${PROJ_SRC}/pom.xml) && \
     cp ${PROJ_SRC}/server/target/kkFileView-\${PROJ_VERSION}.tar.gz /kkFileView.tar.gz && \
