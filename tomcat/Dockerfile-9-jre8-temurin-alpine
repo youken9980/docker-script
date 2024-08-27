@@ -15,7 +15,7 @@ RUN set -eux && \
     \
     tomcatMajor="9" && \
     tomcatVersion="${tomcatMajor}.0.93" && \
-    aprVersion="1.7.4" && \
+    aprVersion="1.7.5" && \
     aprUtilVersion="1.6.3" && \
     aprIconvVersion="1.2.2" && \
     tempDir="$(mktemp -d)" && \

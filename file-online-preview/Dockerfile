@@ -1,11 +1,13 @@
 FROM youken9980/temurin:21-jre-jammy
 LABEL maintainer="YangJian <youken9980@163.com>"
 
-ENV LIBREOFFICE_VERSION="7.6.7"
-ENV KK_OFFICE_HOME="/opt/libreoffice7.6"
+ENV LIBREOFFICE_MAJOR="24.2"
+ENV LIBREOFFICE_VERSION="${LIBREOFFICE_MAJOR}.5"
+ENV KK_OFFICE_HOME="/opt/libreoffice${LIBREOFFICE_MAJOR}"
 ENV KKFILEVIEW_HOME="/kkFileView"
 
 RUN set -eux && \
+    \
     apt-get update && \
     apt-get install -y --reinstall ca-certificates && \
     apt-get clean && apt-get update && \

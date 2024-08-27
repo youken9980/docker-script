@@ -13,7 +13,8 @@ dockerRunBuild " \
     mvn -Dmaven.test.skip=true -T 16 clean compile package && \
     \
     PROJ_VERSION=\$(xpath -q -e '//project/version/text()' ${PROJ_SRC}/pom.xml) && \
-    cp ${PROJ_SRC}/target/JrebelBrainsLicenseServerforJava-\${PROJ_VERSION}-jar-with-dependencies.jar ${APP_HOME_CONTAINER}/service.jar
+    cp ${PROJ_SRC}/target/JrebelBrainsLicenseServerforJava-\${PROJ_VERSION}-jar-with-dependencies.jar ${APP_HOME_CONTAINER}/service.jar && \
+    rm -rf ${PROJ_SRC}
 "
 
 docker build \

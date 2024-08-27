@@ -14,7 +14,8 @@ dockerRunBuild " \
     mv ${PROJ_SRC}/mycat2/src/main/resources ${APP_HOME_CONTAINER}/mycat && \
     \
     PROJ_VERSION=\$(xpath -q -e '//project/version/text()' ${PROJ_SRC}/pom.xml) && \
-    mv ${PROJ_SRC}/mycat2/target/mycat2-\${PROJ_VERSION}-jar-with-dependencies.jar ${APP_HOME_CONTAINER}/mycat/mycat2.jar
+    mv ${PROJ_SRC}/mycat2/target/mycat2-\${PROJ_VERSION}-jar-with-dependencies.jar ${APP_HOME_CONTAINER}/mycat/mycat2.jar && \
+    rm -rf ${PROJ_SRC}
 "
 
 docker build \

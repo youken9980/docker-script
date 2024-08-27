@@ -19,7 +19,8 @@ dockerRunBuild " \
     cp ${PROJ_SRC}/server/target/kkFileView-\${PROJ_VERSION}.tar.gz /kkFileView.tar.gz && \
     mkdir -p ${KKFILEVIEW_HOME} && \
     tar -zxvf /kkFileView.tar.gz -C ${KKFILEVIEW_HOME} --strip-components=1 --no-same-owner && \
-    mv ${KKFILEVIEW_HOME}/bin/kkFileView-\${PROJ_VERSION}.jar ${KKFILEVIEW_HOME}/bin/kkFileView.jar
+    mv ${KKFILEVIEW_HOME}/bin/kkFileView-\${PROJ_VERSION}.jar ${KKFILEVIEW_HOME}/bin/kkFileView.jar && \
+    rm -rf ${PROJ_SRC}
 "
 
 docker build \
