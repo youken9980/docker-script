@@ -1,4 +1,4 @@
-FROM golang:1.12-alpine as temp
+FROM golang:1.12-alpine AS temp
 
 ARG NGROK_DOMAIN="ngrok.com"
 ARG ALPINE_MIRROR="dl-cdn.alpinelinux.org"

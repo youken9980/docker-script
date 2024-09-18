@@ -1,19 +1,19 @@
-FROM youken9980/alpine:3 as source-han-serif
+FROM youken9980/alpine:3 AS source-han-serif
 ARG GITHUB_MIRROR="https://github.com"
 # Source Han Serif | 思源宋体 | 思源宋體 | 思源宋體 香港 | 源ノ明朝 | 본명조
 RUN wget -O /SourceHanSerif.ttc ${GITHUB_MIRROR}/adobe-fonts/source-han-serif/releases/download/1.001R/SourceHanSerif.ttc
 
-# FROM youken9980/alpine:3 as source-han-sans
+# FROM youken9980/alpine:3 AS source-han-sans
 # ARG GITHUB_MIRROR="https://github.com"
 # Source Han Sans | 思源黑体 | 思源黑體 | 思源黑體 香港 | 源ノ角ゴシック | 본고딕
 # RUN axel -n 8 -o /SourceHanSans.ttc ${GITHUB_MIRROR}/adobe-fonts/source-han-sans/releases/download/2.003R/SourceHanSans.ttc
 
-# FROM youken9980/alpine:3 as source-han-mono
+# FROM youken9980/alpine:3 AS source-han-mono
 # ARG GITHUB_MIRROR="https://github.com"
 # Source Han Mono | 思源等宽 | 思源等寬 | 思源等寬 香港 | 源ノ等幅 | 본모노
 # RUN axel -n 8 -o /SourceHanMono.ttc ${GITHUB_MIRROR}/adobe-fonts/source-han-mono/releases/download/1.002/SourceHanMono.ttc
 
-FROM youken9980/alpine:3 as novnc
+FROM youken9980/alpine:3 AS novnc
 ARG GITHUB_MIRROR="https://github.com"
 RUN NOVNC_HOME="/noVNC" && \
     axel -n 8 -o novnc.tar.gz ${GITHUB_MIRROR}/novnc/noVNC/archive/v1.4.0.tar.gz && \
