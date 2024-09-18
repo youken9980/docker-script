@@ -1,4 +1,4 @@
-FROM youken9980/temurin:8-jdk-alpine as maven
+FROM youken9980/temurin:8-jdk-alpine AS maven
 
 RUN apk --update --no-cache add zip
 # https://dlcdn.apache.org/maven/maven-3/3.9.8/binaries/apache-maven-3.9.8-bin.tar.gz
@@ -23,7 +23,7 @@ RUN sed -i '/  <!-- localRepository/i\  <localRepository>${MAVEN_REPO}</localRep
     sed -i '/    <!-- mirror/i\    </mirror>' ${MAVEN_HOME}/conf/settings.xml
 
 
-FROM youken9980/temurin:8-jdk-alpine as gradle
+FROM youken9980/temurin:8-jdk-alpine AS gradle
 
 ARG GITHUB_MIRROR="https://github.com"
 
