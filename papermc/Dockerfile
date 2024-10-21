@@ -1,10 +1,10 @@
 FROM youken9980/temurin:21-jre-jammy
 LABEL maintainer="YangJian <youken9980@163.com>"
 
-# https://api.papermc.io/v2/projects/paper/versions/1.20.6/builds/147/downloads/paper-1.20.6-147.jar
+# https://api.papermc.io/v2/projects/paper/versions/1.21.1/builds/127/downloads/paper-1.21.1-127.jar
 RUN set -eux && \
-    PAPERMC_VERSION="1.20.6" && \
-    PAPERMC_BUILD="147" && \
+    PAPERMC_VERSION="1.21.1" && \
+    PAPERMC_BUILD="127" && \
     \
     mkdir -p /papermc && cd /papermc && \
     wget -O papermc.jar https://papermc.io/api/v2/projects/paper/versions/${PAPERMC_VERSION}/builds/${PAPERMC_BUILD}/downloads/paper-${PAPERMC_VERSION}-${PAPERMC_BUILD}.jar && \

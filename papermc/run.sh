@@ -1,6 +1,6 @@
 #!/bin/bash
 
-imageTag="youken9980/papermc:1.20.6-147"
+imageTag="youken9980/papermc:1.21.1-127"
 containerName="papermc"
 network="mynet"
 
