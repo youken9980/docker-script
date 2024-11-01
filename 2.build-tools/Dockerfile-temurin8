@@ -1,10 +1,10 @@
 FROM youken9980/temurin:8-jdk-alpine AS maven
 
 RUN apk --update --no-cache add zip
-# https://dlcdn.apache.org/maven/maven-3/3.9.8/binaries/apache-maven-3.9.8-bin.tar.gz
+# https://dlcdn.apache.org/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.tar.gz
 ARG APACHE_MIRROR="https://dlcdn.apache.org"
 
-ENV MAVEN_VERSION="3.9.8"
+ENV MAVEN_VERSION="3.9.9"
 ENV MAVEN_DOWNLOAD_URL="${APACHE_MIRROR}/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz"
 ENV MAVEN_HOME="/usr/local/maven"
 ENV MAVEN_REPO="/usr/local/repository/maven"
@@ -29,12 +29,12 @@ ARG GITHUB_MIRROR="https://github.com"
 
 RUN apk --update --no-cache add zip
 
-# https://services.gradle.org/distributions/gradle-8.8-bin.zip
-# https://github.com/gradle/gradle-distributions/releases/download/v8.8.0/gradle-8.8-bin.zip
+# https://services.gradle.org/distributions/gradle-8.10.2-bin.zip
+# https://github.com/gradle/gradle-distributions/releases/download/v8.10.2/gradle-8.10.2-bin.zip
 
-ENV GRADLE_VERSION="8.8"
+ENV GRADLE_VERSION="8.10.2"
 # ENV GRADLE_DOWNLOAD_URL="https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip"
-ENV GRADLE_DOWNLOAD_URL="${GITHUB_MIRROR}/gradle/gradle-distributions/releases/download/v${GRADLE_VERSION}.0/gradle-${GRADLE_VERSION}-bin.zip"
+ENV GRADLE_DOWNLOAD_URL="${GITHUB_MIRROR}/gradle/gradle-distributions/releases/download/v${GRADLE_VERSION}/gradle-${GRADLE_VERSION}-bin.zip"
 ENV GRADLE_HOME="/usr/local/gradle"
 
 RUN axel -n 8 -o gradle.zip ${GRADLE_DOWNLOAD_URL} && \
